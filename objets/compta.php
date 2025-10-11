@@ -124,7 +124,7 @@ class Compta
 
         if ( !empty( $periode ) ) {
 
-            $this->objdb->exec( "update from `Compta_years` set `state_compte` = 0 where `periode` = :periode;", [ :periode => $periode ] );
+            $this->objdb->exec( "update `Compta_years` set `state_compte` = 0 where `periode` = :periode;", [ ':periode' => $periode ] );
 
             return true;
         

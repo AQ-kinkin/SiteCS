@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<style>
+    
+    form {
+        background-color: #1167c9;
+        width: 450px;
+        height: auto;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+    }
+
+</style>
+
+<form action="upload-lots.php" method="post" enctype="multipart/form-data" >
+  <p><span>Select an Excel file to upload for lots import :</span><br/><input type="file" name="fileToUpload" id="fileToUpload"/></p>
+  <span>&nbsp;</span><input style="float: right;" type="submit" value="Import Excel File" name="submit"/>
+</form>
+
+</body>
+</html>

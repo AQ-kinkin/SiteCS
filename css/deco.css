@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+	/*height: 100vh;*/
+	/* overflow: hidden; */
+	background: linear-gradient(135deg, 
+		#f0f9ff 0%, 
+		#e0f2fe 30%, 
+		#bae6fd 60%, 
+		#7dd3fc 100%
+	);
+	height:100%;
+	/* position: relative; */
+}
+
+body {
+	display: flex;
+    height: 100vh; /* vue entière */
+}
+
+.sidebar1 { /* le contenue du menu est defit dans sidebare1.css
+    width: 240px;
+    /* background-color: #f0f0f0; */
+    background-color: #82a8ee;
+    display: flex;
+    /* align-items: center; */
+	align-items: flex-start;
+    /* justify-content: center; */
+	padding-top: 10px;
+    padding-left: 10px;
+}
+
+.container {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	/* outline: 2px solid red; */
+	height: 80px;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+footer {
+	/* outline: 2px dashed red; */
+	height: 80px;
+	font-size:12px;
+	padding: 10px 0;
+	/* background-color: #CCC49F; */
+	/*position: relative;*/  /* donne hasLayout à IE6 de façon à permettre un effacement correct */
+	/*clear: both; */ /* cette propriété d'effacement force le .container à comprendre où se terminent les colonnes et à les contenir */
+	display: flex;
+  	align-items: center;        /* Centre verticalement */
+  	justify-content: center;    /* Centre horizontalement */
+}
+
+footer table {
+  min-width: 700px;
+  max-width: 900px;
+  width: 100%;
+}
+
+footer table td {
+  text-align: center;      /* Centre horizontalement */
+  vertical-align: middle;  /* Centre verticalement */
+}
+
+.personalisation {
+  /* text-decoration: none; */
+  /* color: #333; */
+	font-size:14px;
+	font-weight: bold;
+}
+
+.content {
+	flex: 1;
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	font-size: 16px;
+	padding: 10px;
+	overflow-y: auto;
+}
+/* Formas geométricas flutuantes */
+/* .geometric-shapes {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.shape {
+	position: absolute;
+	opacity: 0.6;
+	animation: floatSmooth 12s ease-in-out infinite;
+} */

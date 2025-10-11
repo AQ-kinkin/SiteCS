@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+/* Le container sidebare est définit dans deco.css */
+.sidebar1 ul{
+margin: 5px;
+padding: 0;
+/* list-style-type: none; */
+width: 180px; /* Width of Menu Items */
+/* border-bottom: 1px solid #ccc; */
+/* border-bottom: 1px solid #666; */
+}
+	
+.sidebar1 ul li{
+    position: relative;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+

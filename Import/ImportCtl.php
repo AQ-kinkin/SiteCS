@@ -41,6 +41,11 @@
             $this->objDB = $ObjDB;
         }
 
+        public function __destruct()
+		{
+			$this->objDB = null;
+		}
+
         public function check_Excel_import($worksheet)
         {
             $answer = array();

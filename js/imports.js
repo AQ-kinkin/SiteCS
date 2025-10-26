@@ -340,7 +340,7 @@ function gestion_submit_form(e) {
 
     // *****************************
 
-   console.log("entry gestion_submit_form 2"); 
+   console.log("entry gestion_submit_form 2 -------"); 
 
     const form = e.target;
     const data = new FormData(form);

@@ -18,7 +18,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo "<p><h1>form_num : REQUEST_METHOD</h1></p>";
-        if ( isset($_POST) && isset($_POST["form_num"]) && !empty($_POST["form_num"]) ) {
+        if ( isset($_POST) && isset($_POST["form_num"]) && $_POST["form_num"] !== '' ) {
 
             $num_form = intval( $_POST["form_num"] );
             echo "<p><h1>num_form : $num_form</h1></p>";

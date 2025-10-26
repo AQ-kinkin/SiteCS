@@ -32,8 +32,6 @@
 
         if ( isset($_POST) && isset($_POST["form_num"]) && !empty($_POST["form_num"]) ) {
 
-       
-
             $num_form = intval( $_POST["form_num"] );
 
             $objimport = new Compta_Imports($objsite->getDB(), true);

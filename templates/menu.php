@@ -25,7 +25,7 @@
                     echo "<li><a href=\"index.php?page=Compta&item=Imports\">Importation</a></li>\n";
 
                     // echo "<li><a href=\"index.php?page=Compta&item=ImportsCtls\">Importation Contrôle</a></li>\n";
-                    echo "<li><a href=\"index.php?page=Compta&item=rapports\">Rapports</a></li>\n";
+                    echo "<li><a href=\"index.php?page=Compta&item=Rapports\">Rapports</a></li>\n";
  
                     echo "<li><a href=\"index.php?page=Compta&Menu=Lots\">Lots</a></li>\n";
 

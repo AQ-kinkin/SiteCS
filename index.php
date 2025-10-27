@@ -44,11 +44,16 @@
                                 $PathIncludeCss = "css/imports.css";
                                 $PathIncludePage = $pathHome . '/compta/imports_selection.php';
                                 break;
-                            case "ImportsCtls":
+                            case "Rapports":
                                 $PathIncludeJs = "js/imports.js";
                                 $PathIncludeCss = "css/imports.css";
-                                $PathIncludePage = $pathHome . '/compta/imports_control.php';
+                                $PathIncludePage = $pathHome . '/compta/rapports_selection.php';
                                 break;
+                            // case "ImportsCtls":
+                            //     $PathIncludeJs = "js/imports.js";
+                            //     $PathIncludeCss = "css/imports.css";
+                            //     $PathIncludePage = $pathHome . '/compta/imports_control.php';
+                            //     break;
                             default:
                                 $PathIncludeCss = 'css/error.css';
                                 $PathIncludePage = $pathHome . '/templates/error.html';

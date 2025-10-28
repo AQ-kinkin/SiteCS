@@ -7,7 +7,6 @@ require( '/home/csresip/www/objets/compta.php');
 class Compta_Validations extends Compta
 {
     private $reopen;
-    private $logsPath;
     private bool $log;
     private array $SousCategorie = [];
 
@@ -22,111 +21,46 @@ class Compta_Validations extends Compta
         }
     }
 
-    public function getKeySelection():string
-    {
-
-        $html_button_Lst = "";
-
-
-
-        $this->setKeyComptable();
-
-
-
-        foreach ($_SESSION['ArrayKeyComptable'] as $data) {
-
-            $html_button_Lst .= "<button title=\"" . $data['namekey'] . "\" onclick=\"showKey('" . $data['typekey'] .  "', '" . $data['namekey'] .  "')\">" . $data['shortname'] . "</button>\n";
-
-        }
-
-
-
-        return $html_button_Lst;
-
-    }
-
-
-
     public function run_action($formulaire):string
-
     {
-
         $response = '';
-
         $this->reopen=-1;
-
-
 
         // $this->InfoLog('run_action :: formulaire ' . print_r($formulaire,true ) );
 
-        
-
         if ( !isset($formulaire['action'] ) || empty($formulaire['action']) )
-
         {
-
             // $this->InfoLog('run_action :: formulaire is empty' . print_r($formulaire,true ) );
-
             http_response_code(500);
-
             return 'data not transmitted.';
-
         }
-
-        
 
         switch ($formulaire['action']) {
-
             case 'keylst':
-
                 $this->setselectedyear();
-
                 break;
-
             case 'show':
-
                 $response = $this->showlistfacture();
-
                 break;
-
             case 'update':
-
                 $this->UpdateDB();
-
                 $response = $this->showlistfacture();
-
                 break;
-
             case 'reopen':
-
                 $this->reopen = $_POST['id_line'] ?? -1;
-
                 // $this->InfoLog('run_action :: reopen : id = ' . $this->reopen . " ---- \t\t" . print_r($formulaire, true) );
-
                 $response = $this->showlistfacture();
-
                 break;
-
             default:
-
                 http_response_code(400);
-
                 $response = "Action non reconnue. ['action' => " . $formulaire['action'] . "]";
-
                 break;
-
         }
 
-
-
         return $response;
-
     }
 
-    
-
     private function getKeyValidation($index, $info_validation = null): string
-
     {
 
         $this->setKeyValidation();
@@ -322,351 +256,177 @@ class Compta_Validations extends Compta
 
 
     private function showformfacture($ligne, $base_id_facture_div): string
-
     {
-
         // Sectio Pièce jointe : (afficher différemment si elle à été affecté ou non)
-
         $html_show_attachement = "<div>" . PHP_EOL;
-
         if ( $ligne['voucher_id'] !== null &&  $ligne['id_line'] != $this->reopen )
-
         {
-
             //     // $this->InfoLog('showformfacture :: id_voucher différent de null et id_line différent de reopen.');
-
             //     $html_show_attachement .= "<label>Pièce jointe :</label>" . PHP_EOL;
-
             //     $html_show_attachement .= "<a href=\"" . htmlspecialchars($ligne['url']) . "\" target=\"_blank\">" . htmlspecialchars($ligne['NumPiece']) . "</a>" . PHP_EOL;
-
             //     $html_show_attachement .= "\t<input type=\"hidden\" name=\"url_facture\" value=\"" . htmlspecialchars($ligne['url']) . "\">\n";
-
             // }
-
             // {
-
             //     // $this->InfoLog('showformfacture :: id_voucher différent de null.');
-
             //     $html_show_attachement .= "<label>URL facture :" . $ligne['url'] . "</label>" . PHP_EOL;
-
             //     $html_show_attachement = "\t<input type=\"hidden\" name=\"url_facture\" value=\"" . $ligne['url'] . "\">\n";
-
         }
-
         else
-
         {
-
             $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
-
             $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" placeholder=\"http::--- (s'il n'y a pas de facture)\" required>" . PHP_EOL;
-
         }
 
         $html_show_attachement .= "</div>" . PHP_EOL;
 
-
-
         // $this->InfoLog('showformfacture :: ligne ' . print_r($ligne, true) );
-
         $id_facture_div = $base_id_facture_div . "_" . $ligne['id_line'];
-
         $html = "<form class=\"formfacture\" id=\"" . $id_facture_div . "\" >" . PHP_EOL;
-
         $html .= "\t<input type=\"hidden\" name=\"id_line\" value=\"" . htmlspecialchars($ligne['id_line']) . "\">" . PHP_EOL;
-
         $html .= "\t<input type=\"hidden\" name=\"name_attach\" value=\"" . htmlspecialchars($ligne['NumPiece']) . "\">\n";
 
-        
-
         if ( $ligne['validation_id'] !== null )
-
         {
-
             $info_validation = $this->get_in_validation($ligne['validation_id']);
-
             // $this->InfoLog('showformfacture :: info_validation : ' . var_export($info_validation,true) );
-
             if ( $ligne['id_line'] != $this->reopen )
-
             {
-
                 $html .= "<div class=\"validated\"><table><tr>";
-
                 $html .= "<td width=\"75\" class=\"validated_l1\"><button type=\"submit\" name=\"reopen\">Changer</button></td>";
-
                 $html .= "<td width=\"180\" class=\"validated_l1\">" . $info_validation['state'] . "</td>";
-
                 $html .= "<td class=\"validated_l1\"><span>" . $info_validation['commentaire'] . "</span></td>";
 
                 switch($info_validation['num_state']) {
-
                     // case '000': Rien à faire, aucune info supémentaire à afficher
-
                     case '001': // Rejeter : affichage cause du rejet
-
                     case '002': // A verifier : affichage cause de la vérifiquation
-
                         $html .= "</tr><tr>";
-
                         $html .= "<td width=\"75\" class=\"validated_l2\">Raison :</td>";
-
                         if ( isset($info_validation['info']) ) {
-
                             $html .= "<td colspan=\"2\" class=\"validated_l2\">" . $info_validation['info']->{'cause'} . "</td>";
-
                         } else {
-
                             $html .= "<td colspan=\"2\" class=\"validated_l2\"></td>";
-
                         }
-
                         break;
-
                     case '004': // A Déplacer
-
                         $html .= "</tr><tr>";
-
                         $html .= "<td width=\"75\" class=\"validated_l2\">---</td>";
-
                         if ( isset($info_validation['info']) ) {
-
                             $html .= "<td width=\"180\" class=\"validated_l2\">" . $this->find_label_key_Comptable($info_validation['info']->{'destination'}) . "</td>";
-
                             $html .= "<td class=\"validated_l2\">" . $info_validation['info']->{'regle'} . "</td>";
-
                         } else {
-
                             $html .= "<td colspan=\"2\" class=\"validated_l2\"></td>";
-
                         }
-
                         break;
-
                     case '003': // Changement de catégorie
-
                     case '005': // Erreur répartition
-
                     case '006': // Changement de catégorie
-
                         // $this->InfoLog('showformfacture :: switch case: 005 - Erreur répartition');
-
                         if ( isset($info_validation['info']) ) {
-
                             if (is_array($info_validation['info'])) {
-
                                 foreach ( $info_validation['info'] as $data_json ) {
-
                                     $html .= "</tr><tr><td colspan=\"3\" class=\"validated_l2\">" . json_encode($data_json) . "</td>";
-
                                 }
-
                             } else {
-
                                 $html .= "</tr><tr><td colspan=\"3\" class=\"validated_l2\">" . json_encode($info_validation['info']) . "</td>";
-
                             }
-
                         } else {
-
                             $html .= "</tr><tr><td colspan=\"3\" class=\"validated_l2\"></td>";
-
                         }
-
                         break;
-
                     }
-
-                
-
                 $html .= "</tr></table></div>" . PHP_EOL;
-
             }
-
             else
-
             {
-
                 $html .= "<div style=\"display: flex; align-items: flex-start; gap: 40px;\">" . PHP_EOL;
-
                 $html .= "<span><label>Statut :</label>" . PHP_EOL;
-
                 $html .= $this->getKeyValidation($ligne['id_line'], $info_validation) . "</span>" . PHP_EOL;
-
                 $html .= "<span style=\"margin-left:40px\"><label for=\"commentaire" . $ligne['id_line'] . "\">Commentaire :</label><textarea id=\"commentaire" . $ligne['id_line'] . "\" name=\"commentaire\" rows=\"1\" cols=\"113\">" . $info_validation['commentaire'] . "</textarea></span>" . PHP_EOL;
-
                 $html .= "</div>" . PHP_EOL;
-
-                    
-
                 $html .= $html_show_attachement;
-
-
-
                 $html .= $this->showDetailsPb($ligne['id_line'], $info_validation);
-
-
-
                 $html .= "<div><button type=\"submit\" name=\"update\">Valider/Update</button></div>" . PHP_EOL;
-
             }
-
         }
-
         else
-
         {
-
             $html .= "<div style=\"display: flex; align-items: flex-start; gap: 40px;\">" . PHP_EOL;
-
-            $html .= "<span><label>Statut :</label>" . PHP_EOL;
-
             $html .= $this->getKeyValidation($ligne['id_line']) . "</span>" . PHP_EOL;
-
             $html .= "<span style=\"margin-left:40px\"><label for=\"commentaire" . $ligne['id_line'] . "\">Commentaire :</label><textarea id=\"commentaire" . $ligne['id_line'] . "\" name=\"commentaire\" rows=\"1\" cols=\"113\" placeholder=\"Ce commentaire n'est pas visible par LLgestion -- uniquement visible pas les membre du CS\"></textarea></span>" . PHP_EOL;
-
             $html .= "</div>" . PHP_EOL;
-
-                
-
             $html .= $html_show_attachement;
-
-
-
             $html .= $this->showDetailsPb($ligne['id_line']);
-
-
-
             $html .= "<div><button type=\"submit\" name=\"update\">Valider</button></div>" . PHP_EOL;
-
         }
-
         $html .= "</form>" . PHP_EOL;
-
-
-
         return $html;
-
     }
 
 
 
-    private function PrepareLog(): void {
-
+    private function PrepareLog(): void
+    {
         $this->logsPath = '/home/csresip/www/logs/' . date('YMDH');
-
         // $this->logsPath = '/home/csresip/www/logs/' . date('YmdH');
-
         // $this->logsPath = '/home/csresip/www/logs/' . date('YmdHi');
 
-        
-
         // Créer le dossier s’il n'existe pas
-
         $dossier = dirname($this->logsPath);
-
         if (!is_dir($dossier)) {
-
             mkdir($dossier, 0775, true);
-
         }
 
-
-
         // Format du message (date + contenu)
-
         $date = date('Y-m-d H:i:s');
-
         $ligne = "[$date] [Sart] ---------------------------------------------\n";
 
-
-
         // Écriture dans le fichier (append)
-
         file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
-
     }
 
-
-
-    private function InfoLog($message): void {
-
-        
-
+    private function InfoLog($message): void
+    {
         // Format du message (date + contenu)
-
         $date = date('Y-m-d H:i:s');
-
         $ligne = "[$date] [Info] $message\n";
 
-
-
         // Écriture dans le fichier (append)
-
         file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
-
     }
 
 
 
     private function get_infos_key(): void
-
     {
-
         // $this->InfoLog('get_infos_key :: ArrayKeyComptable ' . print_r($_SESSION['ArrayKeyComptable'], true) );
-
         // $this->InfoLog('get_infos_key :: key ' . $_POST['cle']);
-
         // $this->InfoLog('get_infos_key :: key_id ' . $this->find_id_key($_POST['cle']) );
 
-
-
         $sql = "SELECT id_line, key_id, num_account, label_account , validation_id, voucher_id, LabelFact, NumPiece, NameFournisseur, DateOpe, Tva, Charges, MontantTTC, state_id, infos, commentaire "; 
-
         $sql .= "FROM `" . $this->getNameTableLines($_SESSION['selectedyear']) . "` ";
-
         $sql .= "INNER JOIN `" . $this->getNameTableInfos($_SESSION['selectedyear']) . "` ON info_id = id_info ";
-
         $sql .= "LEFT JOIN `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` ON validation_id = id_validation ";
-
         $sql .= "LEFT JOIN `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` ON voucher_id = id_voucher ";
-
         $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']) . ";"; 
-
         // $this->InfoLog('get_infos_key :: SQL => ' . $sql);
 
-
-
         $this->objdb->query($sql);
-
         if ($this->objdb->execute())
-
         {
-
             while ( $row = $this->objdb->fetch())
-
             {
-
                 // $this->InfoLog('get_infos_key :: fetch ' . print_r($row, true) );
-
                 $num_account = $row['num_account'];
-
                 if ( isset( $this->SousCategorie[$num_account] ) ) {
-
                     $this->SousCategorie[$num_account]['lignes'][] = $row;
-
                 } else {
-
                     $this->SousCategorie[$num_account]['libelle'] = $row['label_account'];
-
                     $this->SousCategorie[$num_account]['lignes'][] = $row;
-
                 }
-
             }
 
             // $this->InfoLog('get_infos_key :: SousCategorie ' . print_r($this->SousCategorie, true) );
-
         }
 
     }

@@ -95,7 +95,20 @@ class Compta
         return false;
     }
 
-    protected function setKeyComptable(): void
+    public function getKeySelection():string
+    {
+        $html_button_Lst = "";
+
+        $this->setKeyComptable();
+
+        foreach ($_SESSION['ArrayKeyComptable'] as $data) {
+            $html_button_Lst .= "<button title=\"" . $data['namekey'] . "\" onclick=\"showKey('" . $data['typekey'] .  "', '" . $data['namekey'] .  "')\">" . $data['shortname'] . "</button>\n";
+        }
+
+        return $html_button_Lst;
+    }
+
+    public function setKeyComptable(): void
     {
         if ( !isset($_SESSION['ArrayKeyComptable']) )
         {

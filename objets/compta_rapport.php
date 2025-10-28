@@ -17,7 +17,7 @@ class Compta_Rapport extends Compta
     // ****************************************************************************
     //  fonction qui affiche le formulaire de sélection de l'année
     // ****************************************************************************
-    protected function displayYearSelectionForm()
+    public function displayYearSelectionForm()
     {
         echo '<form method="POST" action="">';
         echo $this->getYearSelection();

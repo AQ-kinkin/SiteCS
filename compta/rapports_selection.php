@@ -3,9 +3,9 @@ require_once __DIR__ . '/../objets/gestion_site.php';
 if ( !isset($objsite) || !$objsite->IsAsPriv(Site::DROIT_CS) ) {
     Header('Location:/');
 }
-require_once __DIR__ . '/../objets/compta_imports.php';
+require_once __DIR__ . '/../objets/compta_rapport.php';
 
-$objimport = new Compta_Imports($objsite->getDB(), true);
+$objimport = new Compta_Rappor($objsite->getDB(), true);
 
 // Affichage du formulaire de sélection de l'année (déjà présent dans votre code)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

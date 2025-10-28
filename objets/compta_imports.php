@@ -10,35 +10,35 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 
-/* -----------------------------------------------------------------------------------
+// /* -----------------------------------------------------------------------------------
 
-# Calss de gedtion des log
+// # Calss de gedtion des log
 
-------------------------------------------------------------------------------------*/
+// ------------------------------------------------------------------------------------*/
 
-trait Logs {
-    private $logsPath;
+// trait Logs {
+//     private $logsPath;
 
-    protected function PrepareLog(string $identifiant): void {
-        $this->logsPath = '/home/csresip/www/logs/' . $identifiant . "_ " . date('YmdH');
+//     protected function PrepareLog(string $identifiant): void {
+//         $this->logsPath = '/home/csresip/www/logs/' . $identifiant . "_ " . date('YmdH');
 
-        // Créer le dossier s’il n'existe pas
-        $dossier = dirname($this->logsPath);
-        if (!is_dir($dossier)) {
-            mkdir($dossier, 0775, true);
-        }
-    }
+//         // Créer le dossier s’il n'existe pas
+//         $dossier = dirname($this->logsPath);
+//         if (!is_dir($dossier)) {
+//             mkdir($dossier, 0775, true);
+//         }
+//     }
 
-    protected function write_info($message): void
-    {
-        // Format du message (date + contenu)
-        $date = date('Y-m-d H:i:s');
-        $ligne = "[$date] [Info] $message\n";
+//     protected function write_info($message): void
+//     {
+//         // Format du message (date + contenu)
+//         $date = date('Y-m-d H:i:s');
+//         $ligne = "[$date] [Info] $message\n";
 
-        // Écriture dans le fichier (append)
-        file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
-    }
-}
+//         // Écriture dans le fichier (append)
+//         file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
+//     }
+// }
 
 
 class Compta_Imports extends Compta

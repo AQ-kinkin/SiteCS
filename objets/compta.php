@@ -133,7 +133,62 @@ class Compta
     }
     // ****************************************************************************
 
-    
+    // ****************************************************************************
+    //  getYearSelection  : génère le select pour la sélection de l'année
+    // ****************************************************************************
+    public function getYearSelection():string
+    {
+        $html_select = "<span><label>Select la période :</label><select name=\"periode\" id=\"periode\" onchange=\"updateYear()\">" . PHP_EOL;
+        $annee = (int)0;
+
+        if (!isset($_SESSION['selectedyear']) )
+        {
+            $annee_en_cours = (int)date('Y');
+        }
+        else
+        {
+            $annee_en_cours = (int)explode("_", $_SESSION['selectedyear'])[1];
+        }
+
+        if (!isset($_SESSION['selectionyearlst']) )
+        {
+            $this->objdb->query("SELECT periode FROM `Compta_years`");
+            if ( $this->objdb->execute() )
+            {
+                while( $row = $this->objdb->fetch() )
+                {
+                    $_SESSION['selectionyearlst'][] = $row['periode'];
+                }
+            }
+            else
+            {
+                $_SESSION['selectionyearlst'] = [];
+            }
+        }
+
+        foreach( $_SESSION['selectionyearlst'] as $data )
+        {
+            $annee = (int)explode("_", $data)[1];
+
+            if ( $annee == $annee_en_cours )
+            {
+                $text_selected = 'selected="selected">';
+                $_SESSION['selectedyear'] = $data; // On stocke la période sélectionnée dans la session
+            }
+            else
+            {
+                $text_selected = '>';
+            }
+
+            $html_select .= "\t<option value=\"" . $data . '" ' . $text_selected . $data . "</option>" . PHP_EOL;
+        }
+
+        // $html_select .= "\t<option value=\"2025_2026\">2025_2026</option>" . PHP_EOL; // DEBUG Test
+        $html_select .= "</select></span>" . PHP_EOL;
+
+        return $html_select;
+    }
+    // ****************************************************************************
 }
 
 ?>

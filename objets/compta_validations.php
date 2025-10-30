@@ -2,8 +2,6 @@
 
 require( '/home/csresip/www/objets/compta.php');
 
-
-
 class Compta_Validations extends Compta
 {
     private $reopen;
@@ -14,11 +12,7 @@ class Compta_Validations extends Compta
     {
         $this->objdb = $refdb;  
         $this->log = $trace;  
-        if ( $trace )
-        {
-            // Prépare le log
-            $this->PrepareLog();
-        }
+        if ( $trace ) { $this->PrepareLog('Validation'); }
     }
 
     public function run_action($formulaire):string
@@ -365,25 +359,25 @@ class Compta_Validations extends Compta
 
 
 
-    private function PrepareLog(): void
-    {
-        $this->logsPath = '/home/csresip/www/logs/' . date('YMDH');
-        // $this->logsPath = '/home/csresip/www/logs/' . date('YmdH');
-        // $this->logsPath = '/home/csresip/www/logs/' . date('YmdHi');
+    // private function PrepareLog(): void
+    // {
+    //     $this->logsPath = '/home/csresip/www/logs/' . date('YMDH');
+    //     // $this->logsPath = '/home/csresip/www/logs/' . date('YmdH');
+    //     // $this->logsPath = '/home/csresip/www/logs/' . date('YmdHi');
 
-        // Créer le dossier s’il n'existe pas
-        $dossier = dirname($this->logsPath);
-        if (!is_dir($dossier)) {
-            mkdir($dossier, 0775, true);
-        }
+    //     // Créer le dossier s’il n'existe pas
+    //     $dossier = dirname($this->logsPath);
+    //     if (!is_dir($dossier)) {
+    //         mkdir($dossier, 0775, true);
+    //     }
 
-        // Format du message (date + contenu)
-        $date = date('Y-m-d H:i:s');
-        $ligne = "[$date] [Sart] ---------------------------------------------\n";
+    //     // Format du message (date + contenu)
+    //     $date = date('Y-m-d H:i:s');
+    //     $ligne = "[$date] [Sart] ---------------------------------------------\n";
 
-        // Écriture dans le fichier (append)
-        file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
-    }
+    //     // Écriture dans le fichier (append)
+    //     file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
+    // }
 
     private function InfoLog($message): void
     {
@@ -392,7 +386,7 @@ class Compta_Validations extends Compta
         $ligne = "[$date] [Info] $message\n";
 
         // Écriture dans le fichier (append)
-        file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
+        $this->write_info($ligne);
     }
 
 
@@ -444,9 +438,6 @@ class Compta_Validations extends Compta
     {
 
         $this->setKeyValidation();
-
-
-
         $numkey = '';
 
         foreach ($_SESSION['ArrayValidation'] as $data) {

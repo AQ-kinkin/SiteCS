@@ -376,7 +376,7 @@ class Rapport_line_changed_repartition extends Rapport_line_in_error
     protected function extracted_json_infos(array $obj_json): string
     {
         $output = "\t\t\t" . print_r($obj_json, true);
-
+ 
         return $output;
     }
 }
@@ -397,8 +397,16 @@ class Rapport_line_changed_category extends Rapport_line_in_error
     
     protected function extracted_json_infos(array $obj_json): string
     {
-        $output = "\t\t\t" . print_r($obj_json, true);
-
+        if (isset($obj_json['categorie'])) {
+            $output = "Categorie : " . $obj_json['categorie'];
+        } else {
+            $output = "Aucune catégorie spécifiée.";
+        }
+        if ( isset( $obj_json[ 'cause' ] ) ) {
+            $output .= "\t| Demande de changement d'affectation car : " . $obj_json['cause'];
+        } else {
+            $output .= "\t| Aucune raison spécifiée.";
+        }
         return $output;
     }
 }

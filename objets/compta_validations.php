@@ -1,6 +1,6 @@
 <?php
 
-require( '/home/csresip/www/objets/compta.php');
+require('/home/csresip/www/objets/compta.php');
 
 class Compta_Validations extends Compta
 {
@@ -10,20 +10,21 @@ class Compta_Validations extends Compta
 
     public function __construct(Database $refdb, bool $trace = true)
     {
-        $this->objdb = $refdb;  
-        $this->log = $trace;  
-        if ( $trace ) { $this->PrepareLog('Validation'); }
+        $this->objdb = $refdb;
+        $this->log = $trace;
+        if ($trace) {
+            $this->PrepareLog('Validation');
+        }
     }
 
-    public function run_action($formulaire):string
+    public function run_action($formulaire): string
     {
         $response = '';
-        $this->reopen=-1;
+        $this->reopen = -1;
 
         // $this->InfoLog('run_action :: formulaire ' . print_r($formulaire,true ) );
 
-        if ( !isset($formulaire['action'] ) || empty($formulaire['action']) )
-        {
+        if (!isset($formulaire['action']) || empty($formulaire['action'])) {
             // $this->InfoLog('run_action :: formulaire is empty' . print_r($formulaire,true ) );
             http_response_code(500);
             return 'data not transmitted.';
@@ -63,24 +64,15 @@ class Compta_Validations extends Compta
 
         $list_elements_select = "<select name=\"statut\" id=\"id_statut_" . $index . "\" onchange=\"toggleBySelect(this,'" . $index . "')\">" . PHP_EOL;
 
-        foreach($_SESSION['ArrayValidation'] as $selectInfo) {
+        foreach ($_SESSION['ArrayValidation'] as $selectInfo) {
 
-            if ( $info_validation !== null )
+            if ($info_validation !== null) {
 
-            {
+                $list_elements_select .= "<option value=\"" . $selectInfo['numkey'] . "\" " . (($info_validation['num_state'] == $selectInfo['numkey']) ? 'selected="selected"' : '') . '>' . $selectInfo['namekey'] . "</option>" . PHP_EOL;
+            } else {
 
-                $list_elements_select .= "<option value=\"" . $selectInfo['numkey'] . "\" " . (($info_validation['num_state'] == $selectInfo['numkey'])?'selected="selected"':'') . '>' . $selectInfo['namekey'] . "</option>" . PHP_EOL;
-
+                $list_elements_select .= "<option value=\"" . $selectInfo['numkey'] . "\" " . ($selectInfo['default'] ? 'selected="selected"' : '') . '>' . $selectInfo['namekey'] . "</option>" . PHP_EOL;
             }
-
-            else
-
-            {
-
-                $list_elements_select .= "<option value=\"" . $selectInfo['numkey'] . "\" " . ($selectInfo['default']?'selected="selected"':'') . '>' . $selectInfo['namekey'] . "</option>" . PHP_EOL;
-
-            }
-
         }
 
         $list_elements_select .= "</select>";
@@ -88,7 +80,6 @@ class Compta_Validations extends Compta
 
 
         return $list_elements_select;
-
     }
 
 
@@ -117,49 +108,40 @@ class Compta_Validations extends Compta
 
         // $this->InfoLog('showlistfacture :: Post ' . print_r($_POST, true) );
 
-        
 
-        if ( !isset($_SESSION['selectedyear']) || empty($_SESSION['selectedyear']) )
 
-        {
+        if (!isset($_SESSION['selectedyear']) || empty($_SESSION['selectedyear'])) {
 
             // $this->InfoLog('showlistfacture :: Aucune période sélectionnée.');
 
             http_response_code(400);
 
             return 'showlistfacture :: Aucune période sélectionnée.';
-
         }
 
 
 
-        if ( !isset($_POST['cle']) || empty($_POST['cle']) )
-
-        {
+        if (!isset($_POST['cle']) || empty($_POST['cle'])) {
 
             // $this->InfoLog('showlistfacture :: Aucune clé sélectionnée.');
 
             http_response_code(400);
 
             return 'showlistfacture :: Aucune clé sélectionnée.';
-
         }
 
 
 
-        if ( !isset($_POST['titre']) || empty($_POST['titre']) )
-
-        {
+        if (!isset($_POST['titre']) || empty($_POST['titre'])) {
 
             // $this->InfoLog('showlistfacture :: Aucune titre sélectionnée.');
 
             http_response_code(400);
 
             return 'showlistfacture :: Aucune titre sélectionnée.';
-
         }
 
-        
+
 
         $html_data .= "<div class=\"titreSC\">" . $_POST['titre'] . "</div>" . PHP_EOL;
 
@@ -169,23 +151,14 @@ class Compta_Validations extends Compta
 
         $this->get_infos_key();
 
-        if ( empty($this->SousCategorie) )
-
-        {
+        if (empty($this->SousCategorie)) {
 
             $html_data .= "<div class=\"SCvide\">Pas de factures présente dans cette clé de répartition ...</div>" . PHP_EOL;
-
-        }
-
-        else
-
-        {
+        } else {
 
             // $this->InfoLog('showlistfacture :: SousCategorie already set.');
 
-            foreach ($this->SousCategorie as $cat => $data)
-
-            {
+            foreach ($this->SousCategorie as $cat => $data) {
 
                 $id_category_div = "_" . $_POST['cle'] . "_" . $cat;
 
@@ -193,18 +166,14 @@ class Compta_Validations extends Compta
 
                 $html_data .= "<div class=\"factures\" id=\"" . $id_category_div . "\">\n";
 
-                foreach ($data['lignes'] as $ligne)
-
-                {
+                foreach ($data['lignes'] as $ligne) {
 
                     $html_data .= $this->showfacture($ligne, $id_category_div);
-
                 }
 
                 $html_data .= "</div> <!-- Fin div : Factures -->\n"; // fin div Factures
 
             }
-
         }
 
         $html_data .= "</div>" . PHP_EOL; // fin div entries
@@ -212,66 +181,67 @@ class Compta_Validations extends Compta
 
 
         return $html_data;
-
     }
 
 
 
     private function showfacture($ligne, $base_id_facture_div): string
-
     {
+        $this->InfoLog( "showfacture :: Affichage de la facture " . print_r($ligne, true));
 
         $html = "<div class=\"facture\">\n";
-
         $html .= "\t<span><label>Pièce comptable :</label> " . htmlspecialchars($ligne['NumPiece']) . "</span>\n";
-
         $html .= "\t<span><label>Fournisseur :</label> " . htmlspecialchars($ligne['NameFournisseur']) . "</span>\n";
-
         $html .= "\t<span><label>Date :</label> " . htmlspecialchars($ligne['DateOpe']) . "</span>\n";
-
         $html .= "\t<span><label>TVA :</label> " . htmlspecialchars($ligne['Tva']) . " €</span>\n";
-
         $html .= "\t<span><label>Charge :</label> " . htmlspecialchars($ligne['Charges']) . " €</span>\n";
-
         $html .= "\t<div><label>Libellé :</label> " . htmlspecialchars($ligne['LabelFact']) . "</div>\n";
+        
+        $lien_attachement = "";
+        $html_show_attachement = "";
+        
+        // Si une pièce jointe existe
+        if ( !empty($ligne['voucher_id']) ) {
+            $url_tooltip = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : 'URL non disponible';
+            $lien_attachement .= " <span class=\"pj-icon\" id=\"pj_icon_" . $ligne['id_line'] . "\" title=\"" . $url_tooltip . "\">&#x1F517;</span>";
+            
+            // Affichage en lecture avec lien (masquable)
+            $html_show_attachement .= "<div id=\"pj_display_" . $ligne['id_line'] . "\">" . PHP_EOL;
+            $html_show_attachement .= "<label>Pièce jointe :</label>" . PHP_EOL;
+            $html_show_attachement .= "<a href=\"" . htmlspecialchars($ligne['url']) . "\" target=\"_blank\">" . htmlspecialchars($ligne['nom']) . "</a>" . PHP_EOL;
+            $html_show_attachement .= "</div>" . PHP_EOL;
+            
+            // Champ d'édition (masqué par défaut)
+            $html_show_attachement .= "<div id=\"pj_edit_" . $ligne['id_line'] . "\" style=\"display:none;\">" . PHP_EOL;
+            $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
+            $val = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : '';
+            $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" value=\"$val\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
+            $html_show_attachement .= "</div>" . PHP_EOL;
+            
+            // Champs cachés
+            $html_show_attachement .= "\t<input type=\"hidden\" name=\"voucher_id\" value=\"" . htmlspecialchars($ligne['voucher_id']) . "\">\n";
+        } 
+        // Aucune pièce jointe : afficher directement le champ
+        else {
+            $html_show_attachement .= "<div>" . PHP_EOL;
+            $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
+            $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
+            $html_show_attachement .= "</div>" . PHP_EOL;
+        }
 
-        $html .= "\t<div><label>Somme :</label> <span class=\"somme " . (($ligne['MontantTTC'] >= 0) ? 'positif' : 'negatif') . "\">" . htmlspecialchars($ligne['MontantTTC']) . " €</span></div>\n";
-
-        $html .= $this->showformfacture($ligne, $base_id_facture_div);
-
+        $html .= "\t<div><label>Somme :</label> <span class=\"somme " . (($ligne['MontantTTC'] >= 0) ? 'positif' : 'negatif') . "\">" . htmlspecialchars($ligne['MontantTTC']) . " €</span>" . $lien_attachement . "</div>" . PHP_EOL;
+        $html .= $this->showformfacture($ligne, $base_id_facture_div, $html_show_attachement);
         $html .= "</div>\n"; // Fin div facture 
 
-
-
         return $html;
-
     }
 
 
 
-    private function showformfacture($ligne, $base_id_facture_div): string
+    private function showformfacture($ligne, $base_id_facture_div, $html_show_attachement): string
     {
-        // Sectio Pièce jointe : (afficher différemment si elle à été affecté ou non)
-        $html_show_attachement = "<div>" . PHP_EOL;
-        if ( $ligne['voucher_id'] !== null &&  $ligne['id_line'] != $this->reopen )
-        {
-            //     // $this->InfoLog('showformfacture :: id_voucher différent de null et id_line différent de reopen.');
-            //     $html_show_attachement .= "<label>Pièce jointe :</label>" . PHP_EOL;
-            //     $html_show_attachement .= "<a href=\"" . htmlspecialchars($ligne['url']) . "\" target=\"_blank\">" . htmlspecialchars($ligne['NumPiece']) . "</a>" . PHP_EOL;
-            //     $html_show_attachement .= "\t<input type=\"hidden\" name=\"url_facture\" value=\"" . htmlspecialchars($ligne['url']) . "\">\n";
-            // }
-            // {
-            //     // $this->InfoLog('showformfacture :: id_voucher différent de null.');
-            //     $html_show_attachement .= "<label>URL facture :" . $ligne['url'] . "</label>" . PHP_EOL;
-            //     $html_show_attachement = "\t<input type=\"hidden\" name=\"url_facture\" value=\"" . $ligne['url'] . "\">\n";
-        }
-        else
-        {
-            $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
-            $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" placeholder=\"http::--- (s'il n'y a pas de facture)\" required>" . PHP_EOL;
-        }
-
-        $html_show_attachement .= "</div>" . PHP_EOL;
+        // La gestion de l'affichage des pièces jointes est maintenant dans showfacture()
+        // Le HTML est passé en paramètre via $html_show_attachement
 
         // $this->InfoLog('showformfacture :: ligne ' . print_r($ligne, true) );
         $id_facture_div = $base_id_facture_div . "_" . $ligne['id_line'];
@@ -279,24 +249,23 @@ class Compta_Validations extends Compta
         $html .= "\t<input type=\"hidden\" name=\"id_line\" value=\"" . htmlspecialchars($ligne['id_line']) . "\">" . PHP_EOL;
         $html .= "\t<input type=\"hidden\" name=\"name_attach\" value=\"" . htmlspecialchars($ligne['NumPiece']) . "\">\n";
 
-        if ( $ligne['validation_id'] !== null )
-        {
+        if ($ligne['validation_id'] !== null) {
             $info_validation = $this->get_in_validation($ligne['validation_id']);
             // $this->InfoLog('showformfacture :: info_validation : ' . var_export($info_validation,true) );
-            if ( $ligne['id_line'] != $this->reopen )
-            {
+            if ($ligne['id_line'] != $this->reopen) {
+                $html .= "\t<input type=\"hidden\" name=\"id_validation\" value=\"" . htmlspecialchars($ligne['validation_id']) . "\">" . PHP_EOL;
                 $html .= "<div class=\"validated\"><table><tr>";
                 $html .= "<td width=\"75\" class=\"validated_l1\"><button type=\"submit\" name=\"reopen\">Changer</button></td>";
                 $html .= "<td width=\"180\" class=\"validated_l1\">" . $info_validation['state'] . "</td>";
                 $html .= "<td class=\"validated_l1\"><span>" . $info_validation['commentaire'] . "</span></td>";
 
-                switch($info_validation['num_state']) {
+                switch ($info_validation['num_state']) {
                     // case '000': Rien à faire, aucune info supémentaire à afficher
                     case '001': // Rejeter : affichage cause du rejet
                     case '002': // A verifier : affichage cause de la vérifiquation
                         $html .= "</tr><tr>";
                         $html .= "<td width=\"75\" class=\"validated_l2\">Raison :</td>";
-                        if ( isset($info_validation['info']) ) {
+                        if (isset($info_validation['info'])) {
                             $html .= "<td colspan=\"2\" class=\"validated_l2\">" . $info_validation['info']->{'cause'} . "</td>";
                         } else {
                             $html .= "<td colspan=\"2\" class=\"validated_l2\"></td>";
@@ -305,7 +274,7 @@ class Compta_Validations extends Compta
                     case '004': // A Déplacer
                         $html .= "</tr><tr>";
                         $html .= "<td width=\"75\" class=\"validated_l2\">---</td>";
-                        if ( isset($info_validation['info']) ) {
+                        if (isset($info_validation['info'])) {
                             $html .= "<td width=\"180\" class=\"validated_l2\">" . $this->find_label_key_Comptable($info_validation['info']->{'destination'}) . "</td>";
                             $html .= "<td class=\"validated_l2\">" . $info_validation['info']->{'regle'} . "</td>";
                         } else {
@@ -316,9 +285,9 @@ class Compta_Validations extends Compta
                     case '005': // Erreur répartition
                     case '006': // Changement de catégorie
                         // $this->InfoLog('showformfacture :: switch case: 005 - Erreur répartition');
-                        if ( isset($info_validation['info']) ) {
+                        if (isset($info_validation['info'])) {
                             if (is_array($info_validation['info'])) {
-                                foreach ( $info_validation['info'] as $data_json ) {
+                                foreach ($info_validation['info'] as $data_json) {
                                     $html .= "</tr><tr><td colspan=\"3\" class=\"validated_l2\">" . json_encode($data_json) . "</td>";
                                 }
                             } else {
@@ -328,11 +297,10 @@ class Compta_Validations extends Compta
                             $html .= "</tr><tr><td colspan=\"3\" class=\"validated_l2\"></td>";
                         }
                         break;
-                    }
+                }
                 $html .= "</tr></table></div>" . PHP_EOL;
-            }
-            else
-            {
+            } else {
+                $html .= "\t<input type=\"hidden\" name=\"id_validation\" value=\"" . htmlspecialchars($ligne['validation_id']) . "\">" . PHP_EOL;
                 $html .= "<div style=\"display: flex; align-items: flex-start; gap: 40px;\">" . PHP_EOL;
                 $html .= "<span><label>Statut :</label>" . PHP_EOL;
                 $html .= $this->getKeyValidation($ligne['id_line'], $info_validation) . "</span>" . PHP_EOL;
@@ -340,18 +308,24 @@ class Compta_Validations extends Compta
                 $html .= "</div>" . PHP_EOL;
                 $html .= $html_show_attachement;
                 $html .= $this->showDetailsPb($ligne['id_line'], $info_validation);
-                $html .= "<div><button type=\"submit\" name=\"update\">Valider/Update</button></div>" . PHP_EOL;
+                $html .= "<div>";
+                if (!empty($ligne['voucher_id'])) {
+                    $html .= "<button type=\"button\" id=\"btn_change_pj_" . $ligne['id_line'] . "\" onclick=\"togglePJEdit('" . $ligne['id_line'] . "')\">Changer PJ</button> ";
+                }
+                $html .= "<button type=\"submit\" name=\"update\">Valider/Update</button></div>" . PHP_EOL;
             }
-        }
-        else
-        {
+        } else {
             $html .= "<div style=\"display: flex; align-items: flex-start; gap: 40px;\">" . PHP_EOL;
             $html .= $this->getKeyValidation($ligne['id_line']) . "</span>" . PHP_EOL;
             $html .= "<span style=\"margin-left:40px\"><label for=\"commentaire" . $ligne['id_line'] . "\">Commentaire :</label><textarea id=\"commentaire" . $ligne['id_line'] . "\" name=\"commentaire\" rows=\"1\" cols=\"113\" placeholder=\"Ce commentaire n'est pas visible par LLgestion -- uniquement visible pas les membre du CS\"></textarea></span>" . PHP_EOL;
             $html .= "</div>" . PHP_EOL;
             $html .= $html_show_attachement;
             $html .= $this->showDetailsPb($ligne['id_line']);
-            $html .= "<div><button type=\"submit\" name=\"update\">Valider</button></div>" . PHP_EOL;
+            $html .= "<div>";
+            if (!empty($ligne['voucher_id'])) {
+                $html .= "<button type=\"button\" id=\"btn_change_pj_" . $ligne['id_line'] . "\" onclick=\"togglePJEdit('" . $ligne['id_line'] . "')\">Changer PJ</button> ";
+            }
+            $html .= "<button type=\"submit\" name=\"update\">Valider</button></div>" . PHP_EOL;
         }
         $html .= "</form>" . PHP_EOL;
         return $html;
@@ -397,22 +371,20 @@ class Compta_Validations extends Compta
         // $this->InfoLog('get_infos_key :: key ' . $_POST['cle']);
         // $this->InfoLog('get_infos_key :: key_id ' . $this->find_id_key($_POST['cle']) );
 
-        $sql = "SELECT id_line, key_id, num_account, label_account , validation_id, voucher_id, LabelFact, NumPiece, NameFournisseur, DateOpe, Tva, Charges, MontantTTC, state_id, infos, commentaire "; 
+        $sql = "SELECT id_line, key_id, num_account, label_account , validation_id, voucher_id, nom, url, LabelFact, NumPiece, NameFournisseur, DateOpe, Tva, Charges, MontantTTC, state_id, infos, commentaire ";
         $sql .= "FROM `" . $this->getNameTableLines($_SESSION['selectedyear']) . "` ";
         $sql .= "INNER JOIN `" . $this->getNameTableInfos($_SESSION['selectedyear']) . "` ON info_id = id_info ";
         $sql .= "LEFT JOIN `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` ON validation_id = id_validation ";
         $sql .= "LEFT JOIN `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` ON voucher_id = id_voucher ";
-        $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']) . ";"; 
-        // $this->InfoLog('get_infos_key :: SQL => ' . $sql);
+        $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']) . ";";
+        $this->InfoLog('get_infos_key :: SQL => ' . $sql);
 
         $this->objdb->query($sql);
-        if ($this->objdb->execute())
-        {
-            while ( $row = $this->objdb->fetch())
-            {
+        if ($this->objdb->execute()) {
+            while ($row = $this->objdb->fetch()) {
                 // $this->InfoLog('get_infos_key :: fetch ' . print_r($row, true) );
                 $num_account = $row['num_account'];
-                if ( isset( $this->SousCategorie[$num_account] ) ) {
+                if (isset($this->SousCategorie[$num_account])) {
                     $this->SousCategorie[$num_account]['lignes'][] = $row;
                 } else {
                     $this->SousCategorie[$num_account]['libelle'] = $row['label_account'];
@@ -422,7 +394,6 @@ class Compta_Validations extends Compta
 
             // $this->InfoLog('get_infos_key :: SousCategorie ' . print_r($this->SousCategorie, true) );
         }
-
     }
 
 
@@ -447,13 +418,10 @@ class Compta_Validations extends Compta
                 $numkey = $data['numkey'];
 
                 break;
-
             }
-
         }
 
         return $numkey;
-
     }
 
 
@@ -477,16 +445,13 @@ class Compta_Validations extends Compta
                 $id_val = $data['id_state'];
 
                 break;
-
             }
-
         }
 
         return $id_val;
-
     }
 
-    
+
 
     private function find_label_validation($id): string
 
@@ -513,15 +478,12 @@ class Compta_Validations extends Compta
                 $str_val = $data['namekey'];
 
                 break;
-
             }
-
         }
 
         // $this->InfoLog('find_label_validation :: str_val ' . $str_val );
 
         return $str_val;
-
     }
 
     // ****************************************************************************
@@ -559,18 +521,15 @@ class Compta_Validations extends Compta
                 $str_val = $data['shortname'];
 
                 break;
-
             }
-
         }
 
         // $this->InfoLog('find_label_key_Comptable :: str_val ' . $str_val );
 
         return $str_val;
-
     }
 
-    
+
 
     private function showDetailsPb($id_line, $info_validation = null): string
 
@@ -594,23 +553,23 @@ class Compta_Validations extends Compta
 
 
 
-        if ( $info_validation != null ) {
+        if ($info_validation != null) {
 
-            $this->InfoLog('showDetailsPb :: info_validation : ' . var_export($info_validation,true) );
+            $this->InfoLog('showDetailsPb :: info_validation : ' . var_export($info_validation, true));
 
-            switch ( $info_validation['num_state'] ) {
+            switch ($info_validation['num_state']) {
 
                 case '003':
 
                     $reafectation_textarea = htmlspecialchars(json_encode($info_validation['info'], JSON_PRETTY_PRINT));
 
-                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $reafectation_textarea );
+                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $reafectation_textarea);
 
                     break;
 
                 case '004':
 
-                    $this->InfoLog('showDetailsPb :: info_validation : 004' );
+                    $this->InfoLog('showDetailsPb :: info_validation : 004');
 
                     $regle_textarea = $info_validation['info']->regle;
 
@@ -620,7 +579,7 @@ class Compta_Validations extends Compta
 
                     $repart_textarea = htmlspecialchars(json_encode($info_validation['info'], JSON_PRETTY_PRINT));
 
-                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $repart_textarea );
+                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $repart_textarea);
 
                     break;
 
@@ -628,16 +587,14 @@ class Compta_Validations extends Compta
 
                     $change_cat_textarea = htmlspecialchars(json_encode($info_validation['info'], JSON_PRETTY_PRINT));
 
-                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $change_cat_textarea );
+                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $change_cat_textarea);
 
                     break;
 
                 default:
 
-                    $this->InfoLog('showDetailsPb :: default : ' . $info_validation['num_state'] );
-
+                    $this->InfoLog('showDetailsPb :: default : ' . $info_validation['num_state']);
             }
-
         }
 
 
@@ -646,7 +603,7 @@ class Compta_Validations extends Compta
 
         $pb_elements_form .= "<div id=\"id_cause_" . $id_line . "\" class=\"hidden\">" . PHP_EOL;
 
-       
+
 
         $pb_elements_form .= "<label for=\"id_textarea_" . $id_line . "\">Cause :</label>" . PHP_EOL;
 
@@ -713,32 +670,27 @@ class Compta_Validations extends Compta
 
 
         return $pb_elements_form;
-
     }
 
 
 
     private function UpdateDB(): void
-
     {
 
-        $this->InfoLog('UpdateDB :: Post ' . print_r($_POST, true) );
+        $this->InfoLog('UpdateDB :: Post ' . print_r($_POST, true));
 
 
 
-        if ( !isset($_POST['id_line']) || empty($_POST['id_line']) )
-
-        {
+        if (!isset($_POST['id_line']) || empty($_POST['id_line'])) {
 
             // $this->InfoLog('UpdateDB :: Aucune ligne sélectionnée.');
 
             http_response_code(400);
 
             return;
-
         }
 
-        
+
 
         $id_attachment = $this->add_attachement();
 
@@ -752,9 +704,7 @@ class Compta_Validations extends Compta
 
         $this->objdb->beginTransaction();
 
-        switch($id_state)
-
-        {
+        switch ($id_state) {
 
             case 1: // OK
 
@@ -764,7 +714,7 @@ class Compta_Validations extends Compta
 
             case 3: // a verifier
 
-                $this->InfoLog("UpdateDB :: a verifier  ou Rejeté : " . $_POST['cause_textarea'] );
+                $this->InfoLog("UpdateDB :: a verifier  ou Rejeté : " . $_POST['cause_textarea']);
 
                 $obj_json = new stdClass();
 
@@ -776,14 +726,13 @@ class Compta_Validations extends Compta
 
             case 4: // A réafecter
 
-                $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['reafectation_textarea'] );
+                $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['reafectation_textarea']);
 
                 $obj_json = json_decode($_POST['reafectation_textarea']);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
 
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
-
                 }
 
                 $str_json = json_encode($obj_json);
@@ -791,7 +740,6 @@ class Compta_Validations extends Compta
                 if ($str_json === false) {
 
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
-
                 }
 
                 break;
@@ -810,14 +758,13 @@ class Compta_Validations extends Compta
 
             case 6: // A répartir
 
-                $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['repart_textarea'] );
+                $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['repart_textarea']);
 
                 $obj_json = json_decode($_POST['repart_textarea']);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
 
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
-
                 }
 
                 $str_json = json_encode($obj_json);
@@ -825,21 +772,19 @@ class Compta_Validations extends Compta
                 if ($str_json === false) {
 
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
-
                 }
 
                 break;
 
             case 7: // Changement de cathégorie
 
-                $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['change_cat_textarea'] );
+                $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['change_cat_textarea']);
 
                 $obj_json = json_decode($_POST['change_cat_textarea']);
 
                 if (json_last_error() !== JSON_ERROR_NONE) {
 
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
-
                 }
 
                 $str_json = json_encode($obj_json);
@@ -847,30 +792,24 @@ class Compta_Validations extends Compta
                 if ($str_json === false) {
 
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
-
                 }
 
                 break;
 
-            default:    
+            default:
 
                 $id_validdation = 0;
 
-                $this->InfoLog("UpdateDB :: default case not found : " . $_POST['statut'] . "\t---\t Post : " . print_r($_POST, true) );
-
+                $this->InfoLog("UpdateDB :: default case not found : " . $_POST['statut'] . "\t---\t Post : " . print_r($_POST, true));
         }
 
-        
 
-        if ( isset($_POST['id_validation']) && $_POST['id_validation'] > 0 )
 
-        {
+        if (isset($_POST['id_validation']) && $_POST['id_validation'] > 0) {
 
-            if ( $id_validdation < 0 )
+            if ($id_validdation < 0) {
 
-            {
-
-                if ( 
+                if (
 
                     $id_validdation = $this->set_validation(
 
@@ -878,33 +817,22 @@ class Compta_Validations extends Compta
 
                         "UPDATE `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` SET `state_id`=:id_val, `infos`=:json_str, `commentaire`=:comment WHERE id_validation = :id_validation;",
 
-                        [ ':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire'], ':id_validation' => $_POST['id_validation'] ]
+                        [':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire'], ':id_validation' => $_POST['id_validation']]
 
-                        ) == 0 
+                    ) == 0
 
-                    )
-
-                {
+                ) {
 
                     // gestion de l'erreur...
 
                     // $this->InfoLog("UpdateDB :: gestion de l'erreur : " . $_POST['statut'] . "\t---\t Post : " . print_r($_POST, true) );
 
                     $this->objdb->cancelTransaction();
-
                 }
-
             }
+        } else {
 
-        }
-
-        else
-
-        {
-
-            if ( $id_validdation < 0 )
-
-            {
+            if ($id_validdation < 0) {
 
                 $id_validdation = 0;
 
@@ -914,114 +842,84 @@ class Compta_Validations extends Compta
 
                     "INSERT INTO `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "`(`state_id`, `infos`, `commentaire`) VALUES ( :id_val, :json_str, :comment );",
 
-                    [ ':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire'] ]
+                    [':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire']]
 
                 );
 
                 // $this->InfoLog('UpdateDB :: return set_validation ' . $id_validdation . ' - :id_val ' . $id_state . ' - :json_str ' . $str_json . ' - :comment ' . $_POST['commentaire']);
 
-                if ( $id_validdation > 0 ) 
+                if ($id_validdation > 0) {
 
-                {
-
-                    $this->add_validation_in_lines($id_validdation,$id_attachment);
-
-                }
-
-                else
-
-                {
+                    $this->add_validation_in_lines($id_validdation, $id_attachment);
+                } else {
 
                     $this->objdb->cancelTransaction();
-
                 }
+            } else {
 
-            }
-
-            else
-
-            {
-
-                $this->add_validation_in_lines(0,$id_attachment);
+                $this->add_validation_in_lines(0, $id_attachment);
 
                 $id_validdation = 1;
-
             }
-
         }
 
-        if ( $id_validdation > 0 ) {
+        if ($id_validdation > 0) {
 
             $this->InfoLog('UpdateDB :: endTransaction send');
 
             $this->objdb->endTransaction();
-
         }
-
-        
-
     }
 
 
 
     private function add_attachement(): int
-
     {
-
+        $this->InfoLog('add_attachement :: Post ' . print_r($_POST, true));
         $id_attachment = -1;
 
-
-
-        if ( isset($_POST['url_facture'])  && $_POST['url_facture'] !== 'http://---' )
-
-        {
-
-            // $this->InfoLog('Add PJ :: Post ' . $_POST['url_facture'] ?? '' . ' --- ' . $_POST['name_attach'] ?? '');
-
-            // 1 : check of the attachement already exists
-
-            $sql = "SELECT * FROM `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` WHERE url = \"" . $_POST['url_facture'] . "\";";
-
-            // $this->InfoLog("SQL 1 : " . $sql);
-
-            $answer = $this->objdb->execonerow($sql);
-
-            if ( empty($answer) )
-
-            {
-
-                $sql = "INSERT INTO `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` (nom,url) values (\"" . '' . "\" ,\"" . $_POST['url_facture'] . "\");";
-
-                // $this->InfoLog("SQL 2 : " . $sql);
-
-                $this->objdb->exec($sql);
-
-                $id_attachment = $this->objdb->lastInsertId();
-
-                // $this->InfoLog('Add PJ :: id_attachment ' . $id_attachment);
-
+        if (isset($_POST['url_facture'])  && $_POST['url_facture'] !== 'http://---' && !empty($_POST['url_facture'])) {
+            
+            // Cas 1 : Mise à jour d'une pièce jointe existante
+            if (isset($_POST['voucher_id']) && !empty($_POST['voucher_id'])) {
+                $id_attachment = $_POST['voucher_id'];
+                // Vérifier si l'URL a changé
+                $params = [':id' => $id_attachment];
+                $sql = "SELECT url FROM `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` WHERE id_voucher = :id;";
+                $this->InfoLog("SQL 0 (check existing) : " . $sql . ' -- params: ' . print_r($params, true));
+                $answer = $this->objdb->execonerow($sql, $params);
+                
+                if (!empty($answer) && $answer['url'] !== $_POST['url_facture']) {
+                    // L'URL a changé, mettre à jour
+                    $params = [':url' => $_POST['url_facture'], ':name' => $_POST['name_attach'], ':id' => $id_attachment];
+                    $sql = "UPDATE `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` SET url = :url, nom = :name WHERE id_voucher = :id;";
+                    $this->InfoLog("SQL 0b (update) : " . $sql . ' -- params: ' . print_r($params, true));
+                    $this->objdb->exec($sql, $params);
+                }
             }
-
-            else
-
-            {
-
-                $id_attachment = $answer['id_voucher'];
-
-                // $this->InfoLog('Add PJ :: id_attachment already exists ' . $id_attachment);
-
+            // Cas 2 : Ajout d'une nouvelle pièce jointe
+            else {
+                // 1 : check if the attachment already exists
+                $params = [':url' => $_POST['url_facture']];
+                $sql = "SELECT * FROM `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` WHERE url = :url;";
+                $this->InfoLog("SQL 1 : " . $sql . ' -- params: ' . print_r($params, true));
+                $answer = $this->objdb->execonerow($sql, $params);
+                
+                if (empty($answer)) {
+                    $params[':name'] = $_POST['name_attach'];
+                    $sql = "INSERT INTO `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` (nom,url) values ( :name , :url );";
+                    $this->InfoLog("SQL 2 : " . $sql . ' -- params: ' . print_r($params, true));
+                    $this->objdb->exec($sql, $params);
+                    $id_attachment = $this->objdb->lastInsertId();
+                    $this->InfoLog('Add PJ :: id_attachment (new) ' . $id_attachment);
+                } else {
+                    $id_attachment = $answer['id_voucher'];
+                    $this->InfoLog('Add PJ :: id_attachment already exists ' . $id_attachment);
+                }
             }
-
-            // 2 : check of the name of the attachement already exists
-
-            // $this->objdb->query("INSERT INTO `Compta_Attachement` (`id_line`, `name_attach`, `url_facture`) VALUES (:id_line, :name_attach, :url_facture);");
-
         }
 
-    
-
         return $id_attachment;
-
     }
 
 
@@ -1030,48 +928,45 @@ class Compta_Validations extends Compta
 
     {
 
-        if ( $this->log == true ) {
+        if ($this->log == true) {
 
-            $str_mode='not found';
+            $str_mode = 'not found';
 
             switch ($mode) {
 
-                case Compta::MODE_UPDATE :
+                case Compta::MODE_UPDATE:
 
-                        $str_mode='Compta::MODE_UPDATE';
+                    $str_mode = 'Compta::MODE_UPDATE';
 
                     break;
 
-            case Compta::MODE_INSERT :
+                case Compta::MODE_INSERT:
 
-                        $str_mode='Compta::MODE_INSERT';
+                    $str_mode = 'Compta::MODE_INSERT';
 
-                    break;}
+                    break;
+            }
 
-            $this->InfoLog('set_validation :: mode: ' . $str_mode );
-
+            $this->InfoLog('set_validation :: mode: ' . $str_mode);
         }
 
         $this->objdb->query($sql);
 
         $this->InfoLog('set_validation :: query : ' . $sql);
 
-        $this->InfoLog('set_validation :: params : ' . print_r($params,true) );
+        $this->InfoLog('set_validation :: params : ' . print_r($params, true));
 
         if ($this->objdb->execute($params)) {
 
-            if ($mode == Compta::MODE_INSERT ) return $this->objdb->lastInsertId();
+            if ($mode == Compta::MODE_INSERT) return $this->objdb->lastInsertId();
 
             else return 0;
-
         } else {
 
             // $this->InfoLog('add_validation :: Error executing query: ' . $this->objdb->error());
 
             return -1;
-
         }
-
     }
 
 
@@ -1086,36 +981,25 @@ class Compta_Validations extends Compta
 
         $this->InfoLog('add_validation_in_lines :: id_validdation ' . $id_validdation . ' - id_attachment ' . $id_attachment);
 
-        if ( $id_validdation > 0 || $id_attachment > 0 ) {
+        if ($id_validdation > 0 || $id_attachment > 0) {
 
             $sql = "UPDATE `" . $this->getNameTableLines($_SESSION['selectedyear']) . "` SET ";
 
 
 
-            if ( $id_validdation > 0 )
-
-            {
+            if ($id_validdation > 0) {
 
                 $sql .= "`validation_id`=" . $id_validdation . ",";
-
             }
 
-            
 
-            if ( $id_attachment > 0 )
 
-            {
+            if ($id_attachment > 0) {
 
                 $sql .= "`voucher_id`=" . $id_attachment;
-
-            }
-
-            else
-
-            {
+            } else {
 
                 $sql = chop($sql, ",");
-
             }
 
 
@@ -1127,13 +1011,11 @@ class Compta_Validations extends Compta
             $this->objdb->exec($sql);
 
             $answer = true;
-
         }
 
 
 
         return $answer;
-
     }
 
 
@@ -1146,9 +1028,7 @@ class Compta_Validations extends Compta
 
         $answer = $this->objdb->execonerow("SELECT * FROM `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` WHERE id_validation = " . $id_validation . ";");
 
-        if ( !empty($answer) )
-
-        {
+        if (!empty($answer)) {
 
             // $this->InfoLog('get_in_validation :: result requête : ' . print_r($answer,true) );
 
@@ -1163,34 +1043,24 @@ class Compta_Validations extends Compta
                 'commentaire' => $answer['commentaire'] ?? '',
 
             ];
-
-        }
-
-        else
-
-        {
+        } else {
 
             return [];
-
         }
 
-        
+
 
         return $info;
-
     }
 
 
 
     private function get_json_validation_info($json_info): object|array
-
     {
 
         $info = null;
 
-        if ( !empty($json_info) )
-
-        {
+        if (!empty($json_info)) {
 
             // $this->InfoLog('get_json_validation_info :: json_info ' . var_export($json_info, true) );
 
@@ -1199,14 +1069,13 @@ class Compta_Validations extends Compta
             if (json_last_error() !== JSON_ERROR_NONE) {
 
                 throw new Exception('JSON invalide : ' . json_last_error_msg());
-
             }
 
             // $this->InfoLog('get_json_validation_info :: obj_json ' . var_export($obj_json, true) );
 
 
 
-            if ( isset($obj_json) ) {
+            if (isset($obj_json)) {
 
                 $info = $obj_json;
 
@@ -1217,7 +1086,6 @@ class Compta_Validations extends Compta
 
 
             // switch($id)
-
             // {
 
             //     case 1: // OK
@@ -1254,14 +1122,8 @@ class Compta_Validations extends Compta
 
         // $info .= "</span>";
 
-        
+
 
         return $info;
-
     }
-
-
-
 }
-
-?>

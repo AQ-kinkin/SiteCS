@@ -8,7 +8,7 @@ require_once __DIR__ . '/../objets/compta_rapport.php';
 $objrapport = new Compta_Rapport($objsite->getDB(), true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $objrapport->create_rapport($_POST['periode']);
+    echo "<pre>" . $objrapport->create_rapport($_POST['periode']) . "</pre>" . PHP_EOL;
 } else {
     $objrapport->displayYearSelectionForm();
 }

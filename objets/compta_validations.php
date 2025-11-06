@@ -187,7 +187,7 @@ class Compta_Validations extends Compta
 
     private function showfacture($ligne, $base_id_facture_div): string
     {
-        $this->InfoLog( "showfacture :: Affichage de la facture " . print_r($ligne, true));
+        $this->InfoLog("showfacture :: Affichage de la facture " . print_r($ligne, true));
 
         $html = "<div class=\"facture\">\n";
         $html .= "\t<span><label>Pièce comptable :</label> " . htmlspecialchars($ligne['NumPiece']) . "</span>\n";
@@ -196,31 +196,31 @@ class Compta_Validations extends Compta
         $html .= "\t<span><label>TVA :</label> " . htmlspecialchars($ligne['Tva']) . " €</span>\n";
         $html .= "\t<span><label>Charge :</label> " . htmlspecialchars($ligne['Charges']) . " €</span>\n";
         $html .= "\t<div><label>Libellé :</label> " . htmlspecialchars($ligne['LabelFact']) . "</div>\n";
-        
+
         $lien_attachement = "";
         $html_show_attachement = "";
-        
+
         // Si une pièce jointe existe
-        if ( !empty($ligne['voucher_id']) ) {
+        if (!empty($ligne['voucher_id'])) {
             $url_tooltip = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : 'URL non disponible';
             $lien_attachement .= " <span class=\"pj-icon\" id=\"pj_icon_" . $ligne['id_line'] . "\" title=\"" . $url_tooltip . "\">&#x1F517;</span>";
-            
+
             // Affichage en lecture avec lien (masquable)
             $html_show_attachement .= "<div id=\"pj_display_" . $ligne['id_line'] . "\">" . PHP_EOL;
             $html_show_attachement .= "<label>Pièce jointe :</label>" . PHP_EOL;
             $html_show_attachement .= "<a href=\"" . htmlspecialchars($ligne['url']) . "\" target=\"_blank\">" . htmlspecialchars($ligne['nom']) . "</a>" . PHP_EOL;
             $html_show_attachement .= "</div>" . PHP_EOL;
-            
+
             // Champ d'édition (masqué par défaut)
             $html_show_attachement .= "<div id=\"pj_edit_" . $ligne['id_line'] . "\" style=\"display:none;\">" . PHP_EOL;
             $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
             $val = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : '';
             $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" value=\"$val\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
             $html_show_attachement .= "</div>" . PHP_EOL;
-            
+
             // Champs cachés
             $html_show_attachement .= "\t<input type=\"hidden\" name=\"voucher_id\" value=\"" . htmlspecialchars($ligne['voucher_id']) . "\">\n";
-        } 
+        }
         // Aucune pièce jointe : afficher directement le champ
         else {
             $html_show_attachement .= "<div>" . PHP_EOL;
@@ -879,7 +879,7 @@ class Compta_Validations extends Compta
         $id_attachment = -1;
 
         if (isset($_POST['url_facture'])  && $_POST['url_facture'] !== 'http://---' && !empty($_POST['url_facture'])) {
-            
+
             // Cas 1 : Mise à jour d'une pièce jointe existante
             if (isset($_POST['voucher_id']) && !empty($_POST['voucher_id'])) {
                 $id_attachment = $_POST['voucher_id'];
@@ -888,7 +888,7 @@ class Compta_Validations extends Compta
                 $sql = "SELECT url FROM `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` WHERE id_voucher = :id;";
                 $this->InfoLog("SQL 0 (check existing) : " . $sql . ' -- params: ' . print_r($params, true));
                 $answer = $this->objdb->execonerow($sql, $params);
-                
+
                 if (!empty($answer) && $answer['url'] !== $_POST['url_facture']) {
                     // L'URL a changé, mettre à jour
                     $params = [':url' => $_POST['url_facture'], ':name' => $_POST['name_attach'], ':id' => $id_attachment];
@@ -904,7 +904,7 @@ class Compta_Validations extends Compta
                 $sql = "SELECT * FROM `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` WHERE url = :url;";
                 $this->InfoLog("SQL 1 : " . $sql . ' -- params: ' . print_r($params, true));
                 $answer = $this->objdb->execonerow($sql, $params);
-                
+
                 if (empty($answer)) {
                     $params[':name'] = $_POST['name_attach'];
                     $sql = "INSERT INTO `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` (nom,url) values ( :name , :url );";

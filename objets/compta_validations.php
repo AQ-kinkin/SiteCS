@@ -39,12 +39,12 @@ class Compta_Validations extends Compta
                 break;
             case 'update':
                 $this->UpdateDB();
-                $response = $this->showlistfacture();
+                $response = $this->showsinglefacture();
                 break;
             case 'reopen':
                 $this->reopen = $_POST['id_line'] ?? -1;
                 // $this->InfoLog('run_action :: reopen : id = ' . $this->reopen . " ---- \t\t" . print_r($formulaire, true) );
-                $response = $this->showlistfacture();
+                $response = $this->showsinglefacture();
                 break;
             default:
                 http_response_code(400);
@@ -149,7 +149,7 @@ class Compta_Validations extends Compta
 
 
 
-        $this->get_infos_key();
+        $this->get_infos_keys();
 
         if (empty($this->SousCategorie)) {
 
@@ -183,13 +183,38 @@ class Compta_Validations extends Compta
         return $html_data;
     }
 
+    private function showsinglefacture(): string
+    {
+        // Retourne uniquement le HTML d'une seule facture après update
+        if (!isset($_POST['id_line']) || empty($_POST['id_line'])) {
+            http_response_code(400);
+            return 'showsinglefacture :: id_line manquant.';
+        }
+
+        $id_line = $_POST['id_line'];
+        $this->InfoLog('showsinglefacture :: id_line = ' . $id_line);
+
+        // Récupérer les infos de cette facture via get_infos_key (avec cache)
+        $ligne = $this->get_infos_key($id_line);
+        
+        if (empty($ligne)) {
+            http_response_code(404);
+            return 'showsinglefacture :: facture non trouvée.';
+        }
+
+        // Construire l'ID de base pour la div (comme dans showlistfacture)
+        $base_id_facture_div = "_" . $ligne['key_id'] . "_" . $ligne['num_account'];
+        
+        return $this->showfacture($ligne, $base_id_facture_div);
+    }
+
 
 
     private function showfacture($ligne, $base_id_facture_div): string
     {
         $this->InfoLog("showfacture :: Affichage de la facture " . print_r($ligne, true));
 
-        $html = "<div class=\"facture\">\n";
+        $html = "<div class=\"facture\" id=\"facture_" . $ligne['id_line'] . "\">\n";
         $html .= "\t<span><label>Pièce comptable :</label> " . htmlspecialchars($ligne['NumPiece']) . "</span>\n";
         $html .= "\t<span><label>Fournisseur :</label> " . htmlspecialchars($ligne['NameFournisseur']) . "</span>\n";
         $html .= "\t<span><label>Date :</label> " . htmlspecialchars($ligne['DateOpe']) . "</span>\n";
@@ -365,11 +390,11 @@ class Compta_Validations extends Compta
 
 
 
-    private function get_infos_key(): void
+    private function get_infos_keys(): void
     {
-        // $this->InfoLog('get_infos_key :: ArrayKeyComptable ' . print_r($_SESSION['ArrayKeyComptable'], true) );
-        // $this->InfoLog('get_infos_key :: key ' . $_POST['cle']);
-        // $this->InfoLog('get_infos_key :: key_id ' . $this->find_id_key($_POST['cle']) );
+        // $this->InfoLog('get_infos_keys :: ArrayKeyComptable ' . print_r($_SESSION['ArrayKeyComptable'], true) );
+        // $this->InfoLog('get_infos_keys :: key ' . $_POST['cle']);
+        // $this->InfoLog('get_infos_keys :: key_id ' . $this->find_id_key($_POST['cle']) );
 
         $sql = "SELECT id_line, key_id, num_account, label_account , validation_id, voucher_id, nom, url, LabelFact, NumPiece, NameFournisseur, DateOpe, Tva, Charges, MontantTTC, state_id, infos, commentaire ";
         $sql .= "FROM `" . $this->getNameTableLines($_SESSION['selectedyear']) . "` ";
@@ -377,12 +402,12 @@ class Compta_Validations extends Compta
         $sql .= "LEFT JOIN `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` ON validation_id = id_validation ";
         $sql .= "LEFT JOIN `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` ON voucher_id = id_voucher ";
         $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']) . ";";
-        $this->InfoLog('get_infos_key :: SQL => ' . $sql);
+        $this->InfoLog('get_infos_keys :: SQL => ' . $sql);
 
         $this->objdb->query($sql);
         if ($this->objdb->execute()) {
             while ($row = $this->objdb->fetch()) {
-                // $this->InfoLog('get_infos_key :: fetch ' . print_r($row, true) );
+                // $this->InfoLog('get_infos_keys :: fetch ' . print_r($row, true) );
                 $num_account = $row['num_account'];
                 if (isset($this->SousCategorie[$num_account])) {
                     $this->SousCategorie[$num_account]['lignes'][] = $row;
@@ -392,8 +417,38 @@ class Compta_Validations extends Compta
                 }
             }
 
-            // $this->InfoLog('get_infos_key :: SousCategorie ' . print_r($this->SousCategorie, true) );
+            // $this->InfoLog('get_infos_keys :: SousCategorie ' . print_r($this->SousCategorie, true) );
         }
+    }
+
+    private function get_infos_key($id_line): array
+    {
+        // Récupère les infos d'UNE SEULE facture par requête SQL
+        // La requête SQL est mise en cache dans la session pour éviter de la reconstruire
+        $this->InfoLog('get_infos_key :: Chargement facture ' . $id_line);
+        
+        $cache_key = 'sql_get_facture_' . $_SESSION['selectedyear'];
+        
+        if (!isset($_SESSION[$cache_key])) {
+            $sql = "SELECT id_line, key_id, num_account, label_account , validation_id, voucher_id, nom, url, LabelFact, NumPiece, NameFournisseur, DateOpe, Tva, Charges, MontantTTC, state_id, infos, commentaire ";
+            $sql .= "FROM `" . $this->getNameTableLines($_SESSION['selectedyear']) . "` ";
+            $sql .= "INNER JOIN `" . $this->getNameTableInfos($_SESSION['selectedyear']) . "` ON info_id = id_info ";
+            $sql .= "LEFT JOIN `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` ON validation_id = id_validation ";
+            $sql .= "LEFT JOIN `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` ON voucher_id = id_voucher ";
+            $sql .= "WHERE `id_line` = :id_line LIMIT 1;";
+            
+            $_SESSION[$cache_key] = $sql;
+            $this->InfoLog('get_infos_key :: Requête SQL mise en cache');
+        } else {
+            $sql = $_SESSION[$cache_key];
+            $this->InfoLog('get_infos_key :: Requête SQL récupérée depuis le cache');
+        }
+        
+        $this->InfoLog('get_infos_key :: SQL => ' . $sql);
+        
+        $ligne = $this->objdb->execonerow($sql, [':id_line' => $id_line]);
+        
+        return $ligne ?? [];
     }
 
 

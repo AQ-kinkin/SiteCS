@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../objets/gestion_site.php';
-if ( !isset($objsite) || !$objsite->IsAsPriv(Site::DROIT_CS) ) {
-    Header('Location:/');
-}
+
+$objsite->requireAuth(Site::DROIT_CS);
+
 require_once __DIR__ . '/../objets/compta_rapport.php';
 
 $objrapport = new Compta_Rapport($objsite->getDB(), true);

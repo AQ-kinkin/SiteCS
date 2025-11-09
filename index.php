@@ -4,14 +4,20 @@
 	require_once( $pathHome . '/objets/database.class.php');
     require_once( $pathHome . '/objets/gestion_site.php');
 
-    $PathIncludeCss = 'css/connection.css';
+    $PathIncludeCss = 'css/authentication.css';
     $PathIncludeJs = '';
     $PathIncludePage = $pathHome . '/templates/connection.html';
 
     $objsite = new Site;
     $objsite->open();
 
-    if (isset($_SESSION['user_id']))
+    // Gérer la déconnexion même sans session active
+    if (isset($_GET['page']) && $_GET['page'] === 'Disconnect') {
+        $objsite->close();
+        $PathIncludeCss = 'css/authentication.css';
+        $PathIncludePage = $pathHome . '/templates/disconnection.html';
+    }
+    elseif (isset($_SESSION['user_id']))
     {
         if( isset($_GET['page']) )
         {
@@ -65,11 +71,6 @@
                         $PathIncludeCss = 'css/error.css';
                         $PathIncludePage = $pathHome . '/templates/error.html';
                     }
-                    break;
-                case "Disconnect":
-                    $objsite->close();
-                    $PathIncludeCss = 'css/disconnection.css';
-                    $PathIncludePage = $pathHome . '/templates/disconnection.html';
                     break;
                 default:
                     $PathIncludeCss = 'css/error.css';

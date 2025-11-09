@@ -80,15 +80,10 @@ class Site
 
 
     public function close()
-
     {
 
-        // echo "<H1>Site->close()</H1>";
-
         session_unset();
-
         session_destroy();
-
         unset($this->session);
 
         $this->init();
@@ -97,51 +92,57 @@ class Site
 
 
     public function IsAsPriv(int $niv_req): bool
-
     {
-
         if (isset($_SESSION['user_type'])) {
-
             return ((int)$_SESSION['user_type'] >= $niv_req);
         }
-
-
 
         return false;
     }
 
-
-
-    private function write($id, $data): bool
+    /**
+     * Vérifie si l'utilisateur est connecté, sinon redirige vers déconnexion
+     * @param int $niv_req Niveau de privilège requis
+     * @param bool $is_ajax Si true, retourne une erreur HTTP 401 au lieu de rediriger
+     */
+    public function requireAuth(int $niv_req = self::DROIT_CS, bool $is_ajax = false): void
     {
-        $file = "$this->savePath/sess_$id";
-        #echo "<H1>(write)'$file'</H1>";
-        return file_put_contents($file, $data) !== false;
+        // Vérifier si la session existe
+        $session_active = (session_status() === PHP_SESSION_ACTIVE);
+        $user_connected = isset($_SESSION['user_id']) && isset($_SESSION['user_type']);
+        
+        if (!$session_active || !$user_connected) {
+            // Session expirée ou utilisateur non connecté
+            if ($is_ajax) {
+                http_response_code(401);
+                echo json_encode(['error' => 'Session expirée', 'redirect' => '/?page=Disconnect&reason=expired']);
+                exit;
+            } else {
+                header('Location: /?page=Disconnect&reason=expired');
+                exit;
+            }
+        }
+        
+        // Vérifier les privilèges
+        if (!$this->IsAsPriv($niv_req)) {
+            if ($is_ajax) {
+                http_response_code(403);
+                echo json_encode(['error' => 'Droits insuffisants']);
+                exit;
+            } else {
+                header('Location: /?page=Disconnect&reason=unauthorized');
+                exit;
+            }
+        }
     }
 
 
-
     public function connection($ident, $passwd)
-
     {
-
         $answer = $this->session->connection($ident, $passwd);
-
-
 
         return $answer;
     }
 
-
-
-    // public function LoadImports():Compta_Imports
-
-    // {
-
-    //     if ( !isset($this->objImports) ) $this->objImports = new Compta_Imports();
-
-    //     return $this->objImports; 
-
-    // }
 
 }

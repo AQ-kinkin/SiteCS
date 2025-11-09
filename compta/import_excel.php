@@ -7,11 +7,9 @@
     $objsite = new Site;
     $objsite->open();
 
-    if ( !isset($objsite) || !$objsite->IsAsPriv(Site::DROIT_CS) ) {
-        http_response_code(400);
-        echo "appelant non connecté ou non autorisé.";
-        exit;
-    }
+    // Vérification de l'authentification (mode AJAX)
+    $objsite->requireAuth(Site::DROIT_CS, true);
+    
     require_once __DIR__ . '/../objets/compta_imports.php';
 
     echo "<p><h1>import_excel : REQUEST_METHOD</h1></p>";

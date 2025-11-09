@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../objets/gestion_site.php';
 // require __DIR__ . '/../vendor/autoload.php';
-if ( !isset($objsite) || !$objsite->IsAsPriv(Site::DROIT_CS) ) {
-    Header('Location:/');
-}
+
+$objsite->requireAuth(Site::DROIT_CS);
+
 require_once __DIR__ . '/../objets/compta_imports.php';
 
 $objimport = new Compta_Imports($objsite->getDB(), true);

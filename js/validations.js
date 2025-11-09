@@ -468,6 +468,34 @@ function showKey(cle, titre, callingform = null, buttonname = null)
 
             if (!response.ok) {
 
+                // Si session expirée (401), rediriger vers page de déconnexion
+
+                if (response.status === 401) {
+
+                    try {
+
+                        const data = JSON.parse(text);
+
+                        if (data.redirect) {
+
+                            window.location.href = data.redirect;
+
+                        }
+
+                    } catch (e) {
+
+                        // Si pas de JSON, redirection par défaut
+
+                        window.location.href = '/?page=Disconnect&reason=expired';
+
+                    }
+
+                    // Retourner une promesse rejetée pour stopper la chaîne
+
+                    return Promise.reject('Session expirée - redirection en cours');
+
+                }
+
                 throw new Error("Erreur HTTP : " + response.status + " — " + text);
 
             }
@@ -479,6 +507,8 @@ function showKey(cle, titre, callingform = null, buttonname = null)
     })
 
     .then(html => {
+
+        if (!html) return; // Ne rien faire si pas de contenu
 
         div_contenu_key.innerHTML = html;
 
@@ -550,6 +580,16 @@ function showKey(cle, titre, callingform = null, buttonname = null)
 
     .catch(error => {
 
+        // Ne pas afficher d'erreur si c'est une redirection de session
+
+        if (error && error.toString().includes('Session expirée')) {
+
+            console.log("Redirection vers page de déconnexion...");
+
+            return;
+
+        }
+
         div_contenu_key.innerHTML = "<p>Erreur lors du chargement des données.<br/>" + error + "</p>";
 
         console.error("Erreur fetch : ", error);
@@ -606,15 +646,51 @@ function updateYear()
 
         .then(response => {
 
-            if (!response.ok) throw new Error("Erreur HTTP");
+            return response.text().then(text => {
 
-            return response.text();
+                if (!response.ok) {
 
-            }
+                    // Si session expirée (401), rediriger vers page de déconnexion
+
+                    if (response.status === 401) {
+
+                        try {
+
+                            const data = JSON.parse(text);
+
+                            if (data.redirect) {
+
+                                window.location.href = data.redirect;
+
+                            }
+
+                        } catch (e) {
+
+                            window.location.href = '/?page=Disconnect&reason=expired';
+
+                        }
+
+                        // Retourner une promesse rejetée pour stopper la chaîne
+
+                        return Promise.reject('Session expirée - redirection en cours');
+
+                    }
+
+                    throw new Error("Erreur HTTP : " + response.status);
+
+                }
+
+                return text;
+
+            });
+
+        }
 
         )
 
         .then(html => {
+
+            if (!html) return; // Ne rien faire si pas de contenu
 
             div_contenu_key.innerHTML = html;
 
@@ -623,6 +699,16 @@ function updateYear()
         )
 
         .catch(error => {
+
+            // Ne pas afficher d'erreur si c'est une redirection de session
+
+            if (error && error.toString().includes('Session expirée')) {
+
+                console.log("Redirection vers page de déconnexion...");
+
+                return;
+
+            }
 
             div_contenu_key.innerHTML = "<p>Erreur lors du chargement des données.</p>";
 

@@ -1,6 +1,24 @@
-<!-- Container de Login -->
+<!-- Container de Déconnexion -->
 <div class="disconnection-container">
     <div class="disconnection-box">
-        <h2 class="disconnection-title">Au revoir et à bientôt</h2>
+        <div class="auth-icon" id="icon">👋</div>
+        <h2 class="disconnection-title" id="title">Au revoir et à bientôt</h2>
+        <p class="disconnection-message" id="message">Merci de votre visite !</p>
+        <a href="/" class="reconnect-btn" id="reconnect-btn" style="display:none;">Se reconnecter</a>
+        <div class="auth-info" id="info" style="display:none;">
+            💡 <strong>Astuce :</strong> Restez actif sur le site pour éviter les déconnexions automatiques.
+        </div>
     </div>
 </div>
+
+<script>
+// Vérifier si c'est une session expirée
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('reason') === 'expired') {
+    document.getElementById('icon').textContent = '⏰';
+    document.getElementById('title').textContent = 'Session expirée';
+    document.getElementById('message').textContent = 'Votre session a expiré en raison d\'une inactivité prolongée. Pour des raisons de sécurité, vous avez été déconnecté automatiquement.';
+    document.getElementById('reconnect-btn').style.display = 'inline-block';
+    document.getElementById('info').style.display = 'block';
+}
+</script>

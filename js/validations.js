@@ -366,11 +366,9 @@ function toggleBySelect(theSelect, IndexStr) {
 
 
 
-function showKey(cle, titre, callingform = null, buttonname = null)
+function showKey(cle, titre)
 
 {
-
-    let id_line = null;
 
     console.log("Entry in showkey : " + cle + " - " + titre );
 
@@ -380,21 +378,15 @@ function showKey(cle, titre, callingform = null, buttonname = null)
 
         div_contenu_key = document.getElementById("validations-key");
 
-        // console.log("Entry in getElementById : ", div_contenu_key);
-
     }
 
 
 
     if (div_contenu_key != null) {
 
-        // console.log("Entry with div_contenu_key not null");
-
         div_contenu_key.innerHTML = "<h1>Chargement en cours...</h1>";
 
         div_contenu_key.style.display = "flex";
-
-        // console.log("Valeur : ", cle);
 
     }
 
@@ -406,49 +398,7 @@ function showKey(cle, titre, callingform = null, buttonname = null)
 
     bodyParams.append("titre", titre);
 
-
-
-    if ( callingform != null ) {
-
-        const formdata = new FormData(callingform);
-
-        console.log("Valeurs : ", formdata);
-
-        if ( buttonname != null ) {
-
-            console.log("Valeur name button : ", buttonname);
-
-            bodyParams.append("action", buttonname);
-
-            if ( buttonname === 'reopen' ) {
-
-                id_line = formdata.get('id_line');
-
-                console.log("Valeur id_ligne : ", id_line);
-
-            }
-
-        } else {
-
-            bodyParams.append("action", "update");
-
-        }
-
-        for (let [key, value] of formdata.entries()) {
-
-            bodyParams.append(key, value);
-
-        }
-
-    }
-
-    else
-
-    {
-
-        bodyParams.append("action", "show");
-
-    }
+    bodyParams.append("action", "show");
 
 
 
@@ -518,63 +468,17 @@ function showKey(cle, titre, callingform = null, buttonname = null)
 
         div_contenu_key.querySelectorAll('.formfacture').forEach(form => {
 
-            // if (!form.dataset.ajaxified) {
+            form.addEventListener('submit', event => {
 
-                // form.dataset.ajaxified = "true"; // Marque comme traité
+                event.preventDefault();
 
-                form.addEventListener('submit', event => {
+                // Mettre à jour uniquement cette facture
 
-                    event.preventDefault();
+                updateFacture(cle, titre, form, event.submitter ? event.submitter.name : null);
 
-                    if (event.submitter) {
-
-                        showKey(cle, titre, form, event.submitter.name);
-
-                    } else {
-
-                        showKey(cle, titre, form);
-
-                    }
-
-                });
-
-            // }
-
-            
+            });
 
         });
-
-
-
-        if ( id_line != null ) {
-
-            const theSelect = document.getElementById("id_statut_" + id_line);
-
-            toggleBySelect(theSelect, id_line); 
-
-        }
-
-        
-
-        if ( callingform != null ) {
-
-            toggleVisibility(callingform.parentElement.parentElement.id);
-
-            callingform.focus();
-
-            // callingform.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            setTimeout(() => {
-
-                // callingform.scrollIntoView({ behavior: 'instant', block: 'nearest' });
-
-                scrollFormIntoView(callingform);
-
-            }, 100);
-
-        }
-
-
 
     })
 
@@ -597,6 +501,142 @@ function showKey(cle, titre, callingform = null, buttonname = null)
     });
 
     console.log("Fin showkey");
+
+}
+
+
+
+function updateFacture(cle, titre, form, buttonname = null)
+
+{
+
+    console.log("Entry in updateFacture");
+
+    
+
+    const formdata = new FormData(form);
+
+    const id_line = formdata.get('id_line');
+
+    
+
+    if (!id_line) {
+
+        console.error("updateFacture :: id_line manquant");
+
+        return;
+
+    }
+
+    
+
+    let bodyParams = new URLSearchParams();
+
+    bodyParams.append("cle", cle);
+
+    bodyParams.append("titre", titre);
+
+    
+
+    // Déterminer l'action selon le bouton cliqué
+
+    if (buttonname === 'reopen') {
+
+        bodyParams.append("action", "reopen");
+
+    } else {
+
+        bodyParams.append("action", "update");
+
+    }
+
+    
+
+    // Ajouter toutes les données du formulaire
+
+    for (let [key, value] of formdata.entries()) {
+
+        bodyParams.append(key, value);
+
+    }
+
+    
+
+    fetch('compta/load_info_validation.php', {
+
+        method: 'POST',
+
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+
+        body: bodyParams.toString()
+
+    })
+
+    .then(response => {
+
+        return response.text().then(text => {
+
+            if (!response.ok) {
+
+                throw new Error("Erreur HTTP : " + response.status + " — " + text);
+
+            }
+
+            return text;
+
+        });
+
+    })
+
+    .then(html => {
+
+        // Remplacer uniquement la div de cette facture
+
+        const factureDiv = document.getElementById("facture_" + id_line);
+
+        if (factureDiv) {
+
+            factureDiv.outerHTML = html;
+
+            console.log("Facture " + id_line + " mise à jour");
+
+            
+
+            // Réattacher le listener au nouveau formulaire
+
+            const newForm = document.getElementById(form.id);
+
+            if (newForm) {
+
+                newForm.addEventListener('submit', event => {
+
+                    event.preventDefault();
+
+                    updateFacture(cle, titre, newForm, event.submitter ? event.submitter.name : null);
+
+                });
+
+            }
+
+        } else {
+
+            console.error("Div facture_" + id_line + " non trouvée");
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error("Erreur fetch updateFacture : ", error);
+
+        alert("Erreur lors de la mise à jour de la facture : " + error);
+
+    });
+
+    
+
+    console.log("Fin updateFacture");
 
 }
 

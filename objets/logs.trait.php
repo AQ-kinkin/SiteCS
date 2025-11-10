@@ -7,8 +7,15 @@
 trait Logs {
     private $logsPath;
 
-    protected function PrepareLog(string $identifiant): void {
-        $this->logsPath = '/home/csresip/www/logs/' . $identifiant . "_ " . date('YmdH');
+    protected function PrepareLog(string $identifiant, ?string $consigne = null): void {
+        // Déterminer le format de date selon la consigne
+        $dateFormat = match($consigne) {
+            'i' => 'YmdHi',  // Année Mois Jour Heure Minute
+            'd' => 'Ymd',    // Année Mois Jour
+            default => 'YmdH' // Année Mois Jour Heure (par défaut)
+        };
+        
+        $this->logsPath = '/home/csresip/www/logs/' . $identifiant . "_ " . date($dateFormat);
 
         // Créer le dossier s'il n'existe pas
         $dossier = dirname($this->logsPath);

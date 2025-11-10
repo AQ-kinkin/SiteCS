@@ -221,41 +221,8 @@ class Compta_Validations extends Compta
         $html .= "\t<span><label>TVA :</label> " . htmlspecialchars($ligne['Tva']) . " €</span>\n";
         $html .= "\t<span><label>Charge :</label> " . htmlspecialchars($ligne['Charges']) . " €</span>\n";
         $html .= "\t<div><label>Libellé :</label> " . htmlspecialchars($ligne['LabelFact']) . "</div>\n";
-
-        $lien_attachement = "";
-        $html_show_attachement = "";
-
-        // Si une pièce jointe existe
-        if (!empty($ligne['voucher_id'])) {
-            $url_tooltip = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : 'URL non disponible';
-            $lien_attachement .= " <span class=\"pj-icon\" id=\"pj_icon_" . $ligne['id_line'] . "\" title=\"" . $url_tooltip . "\">&#x1F517;</span>";
-
-            // Affichage en lecture avec lien (masquable)
-            $html_show_attachement .= "<div id=\"pj_display_" . $ligne['id_line'] . "\">" . PHP_EOL;
-            $html_show_attachement .= "<label>Pièce jointe :</label>" . PHP_EOL;
-            $html_show_attachement .= "<a href=\"" . htmlspecialchars($ligne['url']) . "\" target=\"_blank\">" . htmlspecialchars($ligne['nom']) . "</a>" . PHP_EOL;
-            $html_show_attachement .= "</div>" . PHP_EOL;
-
-            // Champ d'édition (masqué par défaut)
-            $html_show_attachement .= "<div id=\"pj_edit_" . $ligne['id_line'] . "\" style=\"display:none;\">" . PHP_EOL;
-            $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
-            $val = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : '';
-            $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" value=\"$val\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
-            $html_show_attachement .= "</div>" . PHP_EOL;
-
-            // Champs cachés
-            $html_show_attachement .= "\t<input type=\"hidden\" name=\"voucher_id\" value=\"" . htmlspecialchars($ligne['voucher_id']) . "\">\n";
-        }
-        // Aucune pièce jointe : afficher directement le champ
-        else {
-            $html_show_attachement .= "<div>" . PHP_EOL;
-            $html_show_attachement .= "<label for=\"url_facture" . $ligne['id_line'] . "\">URL facture :</label>" . PHP_EOL;
-            $html_show_attachement .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $ligne['id_line'] . "\" name=\"url_facture\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
-            $html_show_attachement .= "</div>" . PHP_EOL;
-        }
-
-        $html .= "\t<div><label>Somme :</label> <span class=\"somme " . (($ligne['MontantTTC'] >= 0) ? 'positif' : 'negatif') . "\">" . htmlspecialchars($ligne['MontantTTC']) . " €</span>" . $lien_attachement . "</div>" . PHP_EOL;
-        $html .= $this->showformfacture($ligne, $base_id_facture_div, $html_show_attachement);
+        $html .= "\t<div><label>Somme :</label> <span class=\"somme " . (($ligne['MontantTTC'] >= 0) ? 'positif' : 'negatif') . "\">" . htmlspecialchars($ligne['MontantTTC']) . " €</span></div>" . PHP_EOL;
+        $html .= $this->showformfacture($ligne, $base_id_facture_div);
         $html .= "</div>\n"; // Fin div facture 
 
         return $html;
@@ -263,11 +230,8 @@ class Compta_Validations extends Compta
 
 
 
-    private function showformfacture($ligne, $base_id_facture_div, $html_show_attachement): string
+    private function showformfacture($ligne, $base_id_facture_div): string
     {
-        // La gestion de l'affichage des pièces jointes est maintenant dans showfacture()
-        // Le HTML est passé en paramètre via $html_show_attachement
-
         // $this->InfoLog('showformfacture :: ligne ' . print_r($ligne, true) );
         $id_facture_div = $base_id_facture_div . "_" . $ligne['id_line'];
         $html = "<form class=\"formfacture\" id=\"" . $id_facture_div . "\" >" . PHP_EOL;
@@ -331,12 +295,9 @@ class Compta_Validations extends Compta
                 $html .= $this->getKeyValidation($ligne['id_line'], $info_validation) . "</span>" . PHP_EOL;
                 $html .= "<span style=\"margin-left:40px\"><label for=\"commentaire" . $ligne['id_line'] . "\">Commentaire :</label><textarea id=\"commentaire" . $ligne['id_line'] . "\" name=\"commentaire\" rows=\"1\" cols=\"113\">" . $info_validation['commentaire'] . "</textarea></span>" . PHP_EOL;
                 $html .= "</div>" . PHP_EOL;
-                $html .= $html_show_attachement;
+                $html .= $this->generateURLField($ligne);
                 $html .= $this->showDetailsPb($ligne['id_line'], $info_validation);
                 $html .= "<div>";
-                if (!empty($ligne['voucher_id'])) {
-                    $html .= "<button type=\"button\" id=\"btn_change_pj_" . $ligne['id_line'] . "\" onclick=\"togglePJEdit('" . $ligne['id_line'] . "')\">Changer PJ</button> ";
-                }
                 $html .= "<button type=\"submit\" name=\"update\">Valider/Update</button></div>" . PHP_EOL;
             }
         } else {
@@ -344,12 +305,9 @@ class Compta_Validations extends Compta
             $html .= $this->getKeyValidation($ligne['id_line']) . "</span>" . PHP_EOL;
             $html .= "<span style=\"margin-left:40px\"><label for=\"commentaire" . $ligne['id_line'] . "\">Commentaire :</label><textarea id=\"commentaire" . $ligne['id_line'] . "\" name=\"commentaire\" rows=\"1\" cols=\"113\" placeholder=\"Ce commentaire n'est pas visible par LLgestion -- uniquement visible pas les membre du CS\"></textarea></span>" . PHP_EOL;
             $html .= "</div>" . PHP_EOL;
-            $html .= $html_show_attachement;
+            $html .= $this->generateURLField($ligne);
             $html .= $this->showDetailsPb($ligne['id_line']);
             $html .= "<div>";
-            if (!empty($ligne['voucher_id'])) {
-                $html .= "<button type=\"button\" id=\"btn_change_pj_" . $ligne['id_line'] . "\" onclick=\"togglePJEdit('" . $ligne['id_line'] . "')\">Changer PJ</button> ";
-            }
             $html .= "<button type=\"submit\" name=\"update\">Valider</button></div>" . PHP_EOL;
         }
         $html .= "</form>" . PHP_EOL;
@@ -585,6 +543,45 @@ class Compta_Validations extends Compta
     }
 
 
+
+    private function generateURLField($ligne): string
+    {
+        $id_line = $ligne['id_line'];
+        $html = "";
+        
+        // Si une pièce jointe existe
+        if (!empty($ligne['voucher_id'])) {
+            $url = !empty($ligne['url']) ? htmlspecialchars($ligne['url']) : '';
+            
+            $html .= "<div>" . PHP_EOL;
+            $html .= "<label for=\"url_facture" . $id_line . "\">" . PHP_EOL;
+            $html .= "<span class=\"edit-icon\" onclick=\"toggleURLEdit('" . $id_line . "')\">✏️</span> URL facture :" . PHP_EOL;
+            $html .= "</label>" . PHP_EOL;
+            
+            // Affichage par défaut : lien cliquable
+            $html .= "<div id=\"url_display_" . $id_line . "\">" . PHP_EOL;
+            $html .= "<a href=\"" . $url . "\" target=\"_blank\" class=\"pj-link\">" . $url . "</a>" . PHP_EOL;
+            $html .= "</div>" . PHP_EOL;
+            
+            // Édition (masqué par défaut)
+            $html .= "<div id=\"url_edit_" . $id_line . "\" style=\"display:none;\">" . PHP_EOL;
+            $html .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $id_line . "\" name=\"url_facture\" value=\"" . $url . "\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
+            $html .= "</div>" . PHP_EOL;
+            
+            // Champ caché pour l'ID du voucher
+            $html .= "<input type=\"hidden\" name=\"voucher_id\" value=\"" . htmlspecialchars($ligne['voucher_id']) . "\">" . PHP_EOL;
+            $html .= "</div>" . PHP_EOL;
+        }
+        // Aucune pièce jointe : afficher directement le champ input
+        else {
+            $html .= "<div>" . PHP_EOL;
+            $html .= "<label for=\"url_facture" . $id_line . "\">URL facture :</label>" . PHP_EOL;
+            $html .= "<input class=\"url_facture\" type=\"url\" id=\"url_facture" . $id_line . "\" name=\"url_facture\" placeholder=\"http::--- (s'il n'y a pas de facture)\">" . PHP_EOL;
+            $html .= "</div>" . PHP_EOL;
+        }
+        
+        return $html;
+    }
 
     private function showDetailsPb($id_line, $info_validation = null): string
 

@@ -28,6 +28,9 @@ require_once($pathHome . '/objets/mysql.sessions.php');
 $start_time = microtime(true);
 $start_date = date('Y-m-d H:i:s');
 
+// Démarrer la capture de l'output
+ob_start();
+
 echo "=" . str_repeat("=", 70) . "\n";
 echo "NETTOYAGE DES SESSIONS EXPIRÉES\n";
 echo "=" . str_repeat("=", 70) . "\n";
@@ -88,6 +91,14 @@ try {
     echo "Statut : ✓ SUCCÈS\n";
     echo "=" . str_repeat("=", 70) . "\n";
     
+    // Capturer l'output et l'écrire dans un fichier de log
+    $output = ob_get_clean();
+    $log_file = '/home/csresip/www/logs/cleanup_execution.log';
+    file_put_contents($log_file, $output . "\n\n", FILE_APPEND | LOCK_EX);
+    
+    // Afficher aussi dans la console (pour email CRON si configuré)
+    echo $output;
+    
     // Code de sortie succès
     exit(0);
     
@@ -106,6 +117,14 @@ try {
     echo "Fichier : " . $e->getFile() . "\n";
     echo "Ligne : " . $e->getLine() . "\n";
     echo "=" . str_repeat("=", 70) . "\n";
+    
+    // Capturer l'output et l'écrire dans un fichier de log
+    $output = ob_get_clean();
+    $log_file = '/home/csresip/www/logs/cleanup_execution.log';
+    file_put_contents($log_file, $output . "\n\n", FILE_APPEND | LOCK_EX);
+    
+    // Afficher aussi dans la console (pour email CRON si configuré)
+    echo $output;
     
     // Écrire dans les logs PHP
     error_log("Cleanup sessions error: " . $e->getMessage());

@@ -796,29 +796,17 @@ function scrollFormIntoView(formElement) {
 }
 
 // Fonction pour basculer entre l'affichage et l'édition de la pièce jointe
-function togglePJEdit(idLine) {
-    // Masquer l'icône trombone
-    const icon = document.getElementById('pj_icon_' + idLine);
-    if (icon) {
-        icon.style.display = 'none';
-    }
-    
-    // Masquer l'affichage en lecture
-    const display = document.getElementById('pj_display_' + idLine);
+function toggleURLEdit(idLine) {
+    // Masquer l'affichage du lien
+    const display = document.getElementById('url_display_' + idLine);
     if (display) {
         display.style.display = 'none';
     }
     
     // Afficher le champ d'édition
-    const edit = document.getElementById('pj_edit_' + idLine);
+    const edit = document.getElementById('url_edit_' + idLine);
     if (edit) {
         edit.style.display = 'block';
-    }
-    
-    // Masquer le bouton "Changer PJ"
-    const btn = document.getElementById('btn_change_pj_' + idLine);
-    if (btn) {
-        btn.style.display = 'none';
     }
 }
 

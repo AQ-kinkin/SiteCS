@@ -731,198 +731,134 @@ class Compta_Validations extends Compta
 
     private function UpdateDB(): void
     {
-
         $this->InfoLog('UpdateDB :: Post ' . print_r($_POST, true));
 
-
-
         if (!isset($_POST['id_line']) || empty($_POST['id_line'])) {
-
             // $this->InfoLog('UpdateDB :: Aucune ligne sélectionnée.');
-
             http_response_code(400);
-
             return;
         }
 
-
-
         $id_attachment = $this->add_attachement();
-
         $id_validdation = -1;
-
         $id_state = $this->find_id_validation($_POST['statut']);
-
         // $this->InfoLog("UpdateDB :: result find_id_validation : " . $id_state );
 
-
-
         $this->objdb->beginTransaction();
-
+        
         switch ($id_state) {
-
             case 1: // OK
-
                 $str_json = '{}';
-
+                break;
+            
             case 2: // Rejeté
-
             case 3: // a verifier
-
                 $this->InfoLog("UpdateDB :: a verifier  ou Rejeté : " . $_POST['cause_textarea']);
-
                 $obj_json = new stdClass();
-
                 $obj_json->cause = $_POST['cause_textarea'];
-
                 $str_json = json_encode($obj_json);
-
                 break;
 
             case 4: // A réafecter
-
                 $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['reafectation_textarea']);
-
                 $obj_json = json_decode($_POST['reafectation_textarea']);
-
                 if (json_last_error() !== JSON_ERROR_NONE) {
-
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
                 }
-
                 $str_json = json_encode($obj_json);
-
                 if ($str_json === false) {
-
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
                 }
-
                 break;
-
+            
             case 5: // A déplacer
-
                 $obj_json = new stdClass();
-
                 $obj_json->destination = $_POST['destination'];
-
                 $obj_json->regle = $_POST['regle_textarea'];
-
                 $str_json = json_encode($obj_json);
-
                 break;
-
+            
             case 6: // A répartir
-
                 $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['repart_textarea']);
-
                 $obj_json = json_decode($_POST['repart_textarea']);
-
                 if (json_last_error() !== JSON_ERROR_NONE) {
-
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
                 }
-
                 $str_json = json_encode($obj_json);
-
                 if ($str_json === false) {
-
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
                 }
-
                 break;
-
+            
             case 7: // Changement de cathégorie
-
                 $this->InfoLog("UpdateDB :: entry in réafect : " . $_POST['change_cat_textarea']);
-
                 $obj_json = json_decode($_POST['change_cat_textarea']);
-
                 if (json_last_error() !== JSON_ERROR_NONE) {
-
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
                 }
-
                 $str_json = json_encode($obj_json);
-
                 if ($str_json === false) {
-
                     throw new Exception('Erreur JSON : ' . json_last_error_msg());
                 }
-
                 break;
-
+            
             default:
-
                 $id_validdation = 0;
-
                 $this->InfoLog("UpdateDB :: default case not found : " . $_POST['statut'] . "\t---\t Post : " . print_r($_POST, true));
         }
 
 
 
         if (isset($_POST['id_validation']) && $_POST['id_validation'] > 0) {
-
             if ($id_validdation < 0) {
-
-                if (
-
-                    $id_validdation = $this->set_validation(
-
-                        Compta::MODE_UPDATE,
-
-                        "UPDATE `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` SET `state_id`=:id_val, `infos`=:json_str, `commentaire`=:comment WHERE id_validation = :id_validation;",
-
-                        [':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire'], ':id_validation' => $_POST['id_validation']]
-
-                    ) == 0
-
-                ) {
-
+                $id_validdation = $this->set_validation(
+                    Compta::MODE_UPDATE,
+                    "UPDATE `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` SET `state_id`=:id_val, `infos`=:json_str, `commentaire`=:comment WHERE id_validation = :id_validation;",
+                    [':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire'], ':id_validation' => $_POST['id_validation']]
+                );
+                
+                if ($id_validdation < 0) {
                     // gestion de l'erreur...
-
-                    // $this->InfoLog("UpdateDB :: gestion de l'erreur : " . $_POST['statut'] . "\t---\t Post : " . print_r($_POST, true) );
-
+                    $this->InfoLog("UpdateDB :1: AVANT cancelTransaction (UPDATE failed) - id_validdation = " . $id_validdation);
                     $this->objdb->cancelTransaction();
+                    $this->InfoLog("UpdateDB :1: APRES cancelTransaction (UPDATE failed)");
+                } else {
+                    // UPDATE réussi (retourne 0), mais validation_id existe déjà dans lines, pas besoin d'update
+                    // Mettre à jour seulement le voucher_id si nécessaire
+                    if ($id_attachment > 0) {
+                        $this->add_validation_in_lines(0, $id_attachment);
+                    }
+                    $id_validdation = 1; // Forcer à 1 pour indiquer le succès
                 }
             }
         } else {
-
             if ($id_validdation < 0) {
-
                 $id_validdation = 0;
-
                 $id_validdation = $this->set_validation(
-
                     Compta::MODE_INSERT,
-
                     "INSERT INTO `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "`(`state_id`, `infos`, `commentaire`) VALUES ( :id_val, :json_str, :comment );",
-
                     [':id_val' => $id_state, ':json_str' => $str_json, ':comment' => $_POST['commentaire']]
-
                 );
-
-                // $this->InfoLog('UpdateDB :: return set_validation ' . $id_validdation . ' - :id_val ' . $id_state . ' - :json_str ' . $str_json . ' - :comment ' . $_POST['commentaire']);
-
+                $this->InfoLog('UpdateDB :: return set_validation ' . $id_validdation . ' - :id_val ' . $id_state . ' - :json_str ' . $str_json . ' - :comment ' . $_POST['commentaire']);
+                
                 if ($id_validdation > 0) {
-
                     $this->add_validation_in_lines($id_validdation, $id_attachment);
                 } else {
-
+                    $this->InfoLog("UpdateDB :2: AVANT cancelTransaction (INSERT failed) - id_validdation = " . $id_validdation);
                     $this->objdb->cancelTransaction();
+                    $this->InfoLog("UpdateDB :2: APRES cancelTransaction (INSERT failed)");
                 }
             } else {
-
                 $this->add_validation_in_lines(0, $id_attachment);
-
                 $id_validdation = 1;
             }
         }
-
+        
         if ($id_validdation > 0) {
-
-            $this->InfoLog('UpdateDB :: endTransaction send');
-
+            $this->InfoLog('UpdateDB :: endTransaction send - id_validdation = ' . $id_validdation);
             $this->objdb->endTransaction();
+        } else {
+            $this->InfoLog('UpdateDB :: PAS de endTransaction - id_validdation = ' . $id_validdation);
         }
     }
 

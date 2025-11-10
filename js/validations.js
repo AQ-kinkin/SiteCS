@@ -1,51 +1,6 @@
 var div_contenu_key = null;
-
 var div_contenu_year = null;
-
 var div_form_validation = [];
-
-
-
-// console.log("Début du chargement de la page...");
-
-// const startTime = performance.now();
-
-// console.log("Début du chargement : " + performance.timeOrigin.toFixed(2) + " ms");
-
-// document.addEventListener("DOMContentLoaded", () => {
-
-//   const domReady = performance.now();
-
-//   console.log("DOM prêt après " + (domReady - startTime).toFixed(2) + " ms");
-
-// });
-
-// window.addEventListener("load", () => {
-
-//   const fullLoad = performance.now();
-
-//   console.log("Page complètement chargée après " + (fullLoad - startTime).toFixed(2) + " ms");
-
-// });
-
-// window.addEventListener("load", () => {
-
-//   const perf = performance.getEntriesByType("navigation")[0];
-
-//   console.table({
-
-//     "Temps total": perf.duration.toFixed(2) + " ms",
-
-//     "DOMInteractive": perf.domInteractive.toFixed(2) + " ms",
-
-//     "DOMContentLoaded": perf.domContentLoadedEventEnd.toFixed(2) + " ms",
-
-//     "LoadEventEnd": perf.loadEventEnd.toFixed(2) + " ms"
-
-//   });
-
-// });
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -81,7 +36,6 @@ function toggleVisibility(id) {
 }
 
 
-
 function clear_unhiden_element(elems) {
 
     elems.forEach(function(elem) {
@@ -95,7 +49,6 @@ function clear_unhiden_element(elems) {
 }
 
 
-
 function hiden_element(elems, elem) {
 
      elem.style.display = 'block';
@@ -103,7 +56,6 @@ function hiden_element(elems, elem) {
      elems.push(elem);
 
 }
-
 
 
 function toggleBySelect(theSelect, IndexStr) {
@@ -117,9 +69,7 @@ function toggleBySelect(theSelect, IndexStr) {
         console.log("pas de valeur electionné");
 
     }
-
     else
-
     {
 
         console.log("Valeur : ", IndexStr);
@@ -507,28 +457,17 @@ function showKey(cle, titre)
 
 
 function updateFacture(cle, titre, form, buttonname = null)
-
 {
-
     console.log("Entry in updateFacture");
 
-    
-
     const formdata = new FormData(form);
-
     const id_line = formdata.get('id_line');
-
-    
 
     if (!id_line) {
 
         console.error("updateFacture :: id_line manquant");
-
         return;
-
     }
-
-    
 
     let bodyParams = new URLSearchParams();
 
@@ -578,6 +517,34 @@ function updateFacture(cle, titre, form, buttonname = null)
 
             if (!response.ok) {
 
+                // Si session expirée (401), rediriger vers page de déconnexion
+
+                if (response.status === 401) {
+
+                    try {
+
+                        const data = JSON.parse(text);
+
+                        if (data.redirect) {
+
+                            window.location.href = data.redirect;
+
+                        }
+
+                    } catch (e) {
+
+                        // Si pas de JSON, redirection par défaut
+
+                        window.location.href = '/?page=Disconnect&reason=expired';
+
+                    }
+
+                    // Retourner une promesse rejetée pour stopper la chaîne
+
+                    return Promise.reject('Session expirée - redirection en cours');
+
+                }
+
                 throw new Error("Erreur HTTP : " + response.status + " — " + text);
 
             }
@@ -589,6 +556,10 @@ function updateFacture(cle, titre, form, buttonname = null)
     })
 
     .then(html => {
+
+        if (!html) return; // Ne rien faire si pas de contenu
+
+        
 
         // Remplacer uniquement la div de cette facture
 
@@ -602,19 +573,27 @@ function updateFacture(cle, titre, form, buttonname = null)
 
             
 
-            // Réattacher le listener au nouveau formulaire
+            // Réattacher le listener au nouveau formulaire dans le nouveau HTML
 
-            const newForm = document.getElementById(form.id);
+            const newFactureDiv = document.getElementById("facture_" + id_line);
 
-            if (newForm) {
+            if (newFactureDiv) {
 
-                newForm.addEventListener('submit', event => {
+                const newForm = newFactureDiv.querySelector('.formfacture');
 
-                    event.preventDefault();
+                if (newForm) {
 
-                    updateFacture(cle, titre, newForm, event.submitter ? event.submitter.name : null);
+                    newForm.addEventListener('submit', event => {
 
-                });
+                        event.preventDefault();
+
+                        updateFacture(cle, titre, newForm, event.submitter ? event.submitter.name : null);
+
+                    });
+
+                    console.log("Listener réattaché au formulaire facture_" + id_line);
+
+                }
 
             }
 
@@ -627,6 +606,16 @@ function updateFacture(cle, titre, form, buttonname = null)
     })
 
     .catch(error => {
+
+        // Ne pas afficher d'erreur si c'est une redirection de session
+
+        if (error && error.toString().includes('Session expirée')) {
+
+            console.log("Redirection vers page de déconnexion...");
+
+            return;
+
+        }
 
         console.error("Erreur fetch updateFacture : ", error);
 

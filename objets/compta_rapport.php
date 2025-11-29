@@ -170,6 +170,9 @@ class Rapport_key_of_repartition
                 case '001':
                     $this->affectations[ $line['num_account'] ]->add( new Rapport_line_rejeted($line) );
                     break;
+                case '002':
+                    $this->affectations[ $line['num_account'] ]->add( new Rapport_line_verified($line) );
+                    break;
                 case '003':
                     $this->affectations[ $line['num_account'] ]->add( new Rapport_line_reafected($line) );
                     break;
@@ -306,6 +309,32 @@ class Rapport_line_rejeted extends Rapport_line_in_error
     }
 }
 
+class Rapport_line_verified extends Rapport_line_in_error
+{
+    public function __construct(array $lines_in_error)
+    {
+        parent::__construct($lines_in_error);
+    }
+    
+    // public function to_string(): string
+    // {
+    //     $output = "\t\t - [" . $this->LabelFact . " | " . $this->NumPiece . " | " . $this->NameFournisseur . " | " . $this->DateOpe . " |  " . $this->Tva . " | " . $this->Charges . " | " . $this->MontantTTC . "]\n" . $this->extracted_infos();
+
+    //     return $output;
+    // }
+ 
+    protected function extracted_json_infos(array $obj_json): string
+    {
+        if (isset($obj_json['cause'])) {
+            $output = "Demande de vérification : " . $obj_json['cause'];
+        } else {
+            $output = "Le conseil syndical vérifie cette ligne.";
+        }
+
+        return $output;
+    }
+}
+
 class Rapport_line_reafected extends Rapport_line_in_error
 {
     public function __construct(array $lines_in_error)
@@ -322,9 +351,21 @@ class Rapport_line_reafected extends Rapport_line_in_error
  
     protected function extracted_json_infos(array $obj_json): string
     {
-        $output = "\t\t\t" . print_r($obj_json, true);
+        $output = "Demande de réaffectation :";
 
-        return $output;
+        if (empty($obj_json)) {
+            $output .= "\tAucune réaffectation trouvée.\n";
+        } else {
+            $output .= "\n";
+            foreach ($obj_json as $item) {
+                $output .= "\t\t\t\tLot de destination :\t" . ($item['lot'] ?? '')
+                    . "\t--\tSomme :\t" . ($item['Somme'] ?? '')
+                //  . "\t--\tRaison/Label :\t" . ($item['cause'] ?? '')
+                    . "\n";
+            }
+        }
+ 
+        return $output;   
     }
 }
 
@@ -344,10 +385,11 @@ class Rapport_line_moved extends Rapport_line_in_error
  
     protected function extracted_json_infos(array $obj_json): string
     {
+        $output = "Demande de déplacement :: ";
         if (isset($obj_json['destination'])) {
-            $output = "Destination : " . $obj_json['destination'];
+            $output .= "Destination : " . $obj_json['destination'];
         } else {
-            $output = "Aucune destination spécifiée.";
+            $output .= "Aucune destination spécifiée.";
         }
         if (isset($obj_json['regle'])) {
             $output .= "\t| Règle : " . $obj_json['regle'];
@@ -375,7 +417,19 @@ class Rapport_line_changed_repartition extends Rapport_line_in_error
  
     protected function extracted_json_infos(array $obj_json): string
     {
-        $output = "\t\t\t" . print_r($obj_json, true);
+        $output = "Demande de réaffectation :";
+
+        if (empty($obj_json)) {
+            $output .= "\tAucune réaffectation trouvée.\n";
+        } else {
+            $output .= "\n";
+            foreach ($obj_json as $item) {
+                $output .= "\t\t\t\tclé de répartition :\t" . ($item['accounting_key'] ?? '')
+                    . "\t--\tSomme :\t" . ($item['Somme'] ?? '')
+                    . "\t--\tRaison/Label :\t" . ($item['cause'] ?? '')
+                    . "\n";
+            }
+        }
  
         return $output;
     }
@@ -397,13 +451,14 @@ class Rapport_line_changed_category extends Rapport_line_in_error
     
     protected function extracted_json_infos(array $obj_json): string
     {
+        $output = "Demande de changement de categorie : ";
         if (isset($obj_json['categorie'])) {
-            $output = "Categorie : " . $obj_json['categorie'];
+            $output .= "Nouvelle categorie : " . $obj_json['categorie'];
         } else {
-            $output = "Aucune catégorie spécifiée.";
+            $output .= "Aucune catégorie spécifiée.";
         }
         if ( isset( $obj_json[ 'cause' ] ) ) {
-            $output .= "\t| Demande de changement d'affectation car : " . $obj_json['cause'];
+            $output .= "\t| Raison : " . $obj_json['cause'];
         } else {
             $output .= "\t| Aucune raison spécifiée.";
         }

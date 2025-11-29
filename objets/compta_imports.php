@@ -88,7 +88,9 @@ class Compta_Imports extends Compta
     {
         $this->objdb = $refdb;
         $this->log = $trace;
-        if ( $trace ) { $this->PrepareLog('Import'); }
+        if ( $trace ) { 
+            $this->PrepareLog('Import', 'd'); // Log par jour (Ymd)
+        }
         $this->obj_sync_import = new Syncho_import($this->objdb,true);
     }  
 
@@ -164,6 +166,10 @@ class Compta_Imports extends Compta
 
     private function show_form_moved(): string
     {
+
+        $this->StepLog("AFFICHAGE FORMULAIRE CONFLITS - Période " . $this->Periode);
+
+        
 
         // return "\t\t<h2 class=\"imports-box-title\">" . $this->Periode . "</h2>" . PHP_EOL;
 
@@ -921,6 +927,106 @@ class Compta_Imports extends Compta
 
 
 
+    private function cleanup_obsolete_data(string $periode): bool
+
+    {
+
+        $this->StepLog("NETTOYAGE DONNEES OBSOLETES - Période " . $periode);
+
+        
+
+        try {
+
+            // 1. Supprimer les lignes avec import IS NULL (lignes supprimées du nouvel Excel)
+
+            $sql1 = "DELETE FROM `" . $this->getNameTableLines($periode) . "` WHERE `import` IS NULL";
+
+            $this->SqlLog($sql1);
+
+            $result1 = $this->objdb->exec($sql1);
+
+            $this->InfoLog("Lignes supprimées (import IS NULL) : " . $result1);
+
+            
+
+            // 2. Supprimer les infos orphelines (dont aucune ligne n'existe plus)
+
+            $sql2 = "DELETE i FROM `" . $this->getNameTableInfos($periode) . "` i 
+
+                     WHERE NOT EXISTS (
+
+                         SELECT 1 FROM `" . $this->getNameTableLines($periode) . "` l 
+
+                         WHERE l.info_id = i.id_info
+
+                     )";
+
+            $this->SqlLog($sql2);
+
+            $result2 = $this->objdb->exec($sql2);
+
+            $this->InfoLog("Infos supprimées (orphelines) : " . $result2);
+
+            
+
+            // 3. Supprimer les validations orphelines
+
+            $sql3 = "DELETE v FROM `" . $this->getNameTableValidations($periode) . "` v 
+
+                     WHERE NOT EXISTS (
+
+                         SELECT 1 FROM `" . $this->getNameTableLines($periode) . "` l 
+
+                         WHERE l.validation_id = v.id_validation
+
+                     )";
+
+            $this->SqlLog($sql3);
+
+            $result3 = $this->objdb->exec($sql3);
+
+            $this->InfoLog("Validations supprimées (orphelines) : " . $result3);
+
+            
+
+            // 4. Supprimer les vouchers orphelins
+
+            $sql4 = "DELETE vo FROM `" . $this->getNameTableVouchers($periode) . "` vo 
+
+                     WHERE NOT EXISTS (
+
+                         SELECT 1 FROM `" . $this->getNameTableLines($periode) . "` l 
+
+                         WHERE l.voucher_id = vo.id_voucher
+
+                     )";
+
+            $this->SqlLog($sql4);
+
+            $result4 = $this->objdb->exec($sql4);
+
+            $this->InfoLog("Vouchers supprimés (orphelins) : " . $result4);
+
+            
+
+            $this->InfoLog("Nettoyage terminé avec succès");
+
+            return true;
+
+            
+
+        } catch (\Throwable $e) {
+
+            $this->InfoLog("ERREUR lors du nettoyage : " . $e->getMessage());
+
+            return false;
+
+        }
+
+    }
+
+
+
     private function clear_import(): string
 
     {
@@ -938,6 +1044,20 @@ class Compta_Imports extends Compta
 
 
         $this->Periode = $this->obj_sync_import->get_periode();
+
+
+
+        // Nettoyage des données obsolètes AVANT de finaliser
+
+        if ( !$this->cleanup_obsolete_data($this->Periode) )
+
+        {
+
+            $answer = "\t\t<div class=\"imports-message\">ERREUR lors du nettoyage des données obsolètes.</div>" . PHP_EOL;
+
+            return $answer;
+
+        }
 
 
 
@@ -969,6 +1089,10 @@ class Compta_Imports extends Compta
 
     {
 
+        $this->StepLog("DEBUT IMPORT - Upload et validation fichier Excel");
+
+        
+
         $answer = [];
 
 
@@ -976,6 +1100,9 @@ class Compta_Imports extends Compta
         $Formulaire = $_POST;
 
         $Files = $_FILES;
+        
+        $this->DataLog("Formulaire reçu", $Formulaire);
+        $this->DataLog("Fichiers reçus", $Files);
 
 
 
@@ -991,6 +1118,8 @@ class Compta_Imports extends Compta
 
         {
 
+            $this->InfoLog("ERREUR : Formulaire ou fichiers manquants");
+
             $answer['error_mess'] = 'Error : Les informations formulaire ne sont pas présente ...';
 
         }
@@ -998,6 +1127,8 @@ class Compta_Imports extends Compta
         elseif ( $Files['fileToUpload']['size'] <= 0 || $Files['fileToUpload']['error'] != 0 )
 
         {
+
+            $this->InfoLog("ERREUR : Fichier vide ou erreur de chargement (size=" . $Files['fileToUpload']['size'] . ", error=" . $Files['fileToUpload']['error'] . ")");
 
             $answer['error_mess'] = 'Error : Le fichier vide ou il y a eu un erreur de chargement ...';
 
@@ -1007,6 +1138,8 @@ class Compta_Imports extends Compta
 
         {
 
+            $this->InfoLog("ERREUR : Extension non autorisée (" . pathinfo($Files['fileToUpload']['name'], PATHINFO_EXTENSION) . ")");
+
             $answer['error_mess'] = 'Error : Extension non autorisée.';
 
         }
@@ -1015,15 +1148,25 @@ class Compta_Imports extends Compta
 
         {
 
+            $this->InfoLog("Fichier validé : " . $Files['fileToUpload']['name'] . " (" . $Files['fileToUpload']['size'] . " octets)");
+
+            $this->InfoLog("Période sélectionnée : " . $Formulaire['periode']);
+
+            
+
             // Creation Table et replissage
 
             if ( !$this->Create_PreImport_DB($Formulaire['periode'], $Files["fileToUpload"]["tmp_name"]) )
 
             {
 
+                $this->InfoLog("ERREUR Create_PreImport_DB : " . $this->erreurs);
+
                 return $this->get_error_mess('Error aqui : Create_PreImport_DB : ' . $this->erreurs );
 
             }
+            
+            $this->InfoLog("Table temporaire créée et remplie avec succès");
 
 
 
@@ -1185,6 +1328,10 @@ class Compta_Imports extends Compta
 
     {
 
+        $this->StepLog("DETECTION CONFLITS - Recherche lignes non reliées");
+
+        
+
         $answer = [];
 
         // Récupération de la totalité des lignes non relier (qui ont donc été déplacé)
@@ -1193,9 +1340,13 @@ class Compta_Imports extends Compta
 
         // VALUES ( :key_id, :num, :label, :info_id, :index );";
 
-        // $this->InfoLog('get_clonflits_compte :: sql : ' . print_r($sql,true) );
+        $this->SqlLog($sql);
 
-        $list_line_not_imported = $this->objdb->quicklyexec($sql);
+        
+
+        $list_line_not_imported = $this->objdb->ExecWithFetchAll($sql);
+        
+        $this->InfoLog("Nombre de lignes non reliées détectées : " . count($list_line_not_imported));
 
 
 
@@ -1352,12 +1503,27 @@ class Compta_Imports extends Compta
             
 
             // Formatage des sommes d'argent
+            $this->InfoLog('Create_PreImport_DB :: line_values[7] : ' . $line_values[7] );
+            try { $line_values[7] = str_replace([ ' ', ',', '€' ], [ '', '.', '' ], $line_values[7]); }
+            catch (Exception $e) {
+                $this->erreurs = "Formatage des montants colone 7 : " . $e->getMessage();
+                return false;
+            }
 
-            $line_values[7] = $this->format_montant_comptable($line_values[7]);
+            $this->InfoLog('Create_PreImport_DB :: line_values[8] : ' . $line_values[8] );
+            try { $line_values[8] = $this->format_montant_comptable($line_values[8]); }
+            catch (Exception $e) {
+                $this->erreurs = "Formatage des montants colone 8 : " . $e->getMessage();
+                return false;
+            }
+            
 
-            $line_values[8] = $this->format_montant_comptable($line_values[8]);
-
-            $line_values[9] = $this->format_montant_comptable($line_values[9]);
+            $this->InfoLog('Create_PreImport_DB :: line_values[9] : ' . $line_values[9] );
+            try { $line_values[9] = $this->format_montant_comptable($line_values[9]); }
+            catch (Exception $e) {
+                $this->erreurs = "Formatage des montants colone 9 : " . $e->getMessage();
+                return false;
+            }
 
 
 
@@ -2087,6 +2253,7 @@ class Compta_Imports extends Compta
 
         if (!is_numeric($val)) {
 
+            $this->InfoLog('format_montant_comptable :: is_numeric : ' . $val );
             return $val; // ou throw exception selon ton contexte
 
         }
@@ -2407,7 +2574,7 @@ class Compta_Imports extends Compta
 
         $sql .= ";"; 
 
-        return $this->objdb->quicklyexec($sql, $criteria);
+        return $this->objdb->ExecWithFetchAll($sql, $criteria);
 
     }
 
@@ -2469,7 +2636,7 @@ class Compta_Imports extends Compta
 
         $this->InfoLog( 'search_line_in_infos_for_comp :: sql : ' . $sql . "   --- data = " . print_r($params,true) );
 
-        return $this->objdb->quicklyexec($sql, $params);
+        return $this->objdb->ExecWithFetchAll($sql, $params);
 
     }
 
@@ -2491,6 +2658,27 @@ class Compta_Imports extends Compta
 
         $this->write_info($message);
 
+    }
+    
+    private function SqlLog($sql, $params = []): void
+    {
+        if ( $this->log === false ) return;
+        
+        $this->write_sql($sql, $params);
+    }
+    
+    private function DataLog($description, $data): void
+    {
+        if ( $this->log === false ) return;
+        
+        $this->write_data($description, $data);
+    }
+    
+    private function StepLog($step_name): void
+    {
+        if ( $this->log === false ) return;
+        
+        $this->write_step($step_name);
     }
 
 
@@ -2527,7 +2715,7 @@ class Syncho_import
 
         $this->log = $trace;
 
-        if ( $trace ) { $this->PrepareLog('Import'); }
+        if ( $trace ) { $this->PrepareLog('Import','d'); }
 
     }  
 

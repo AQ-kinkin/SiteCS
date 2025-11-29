@@ -192,7 +192,7 @@ class Database
 
 
 
-	public function quicklyexec($query, $params = null): array
+	public function ExecWithFetchAll($query, $params = null): array
 	{
 
 

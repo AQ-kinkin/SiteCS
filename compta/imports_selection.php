@@ -18,10 +18,7 @@ if (isset($_POST['step'])) {
 
 echo $objimport->ShowForm($step);
 
-// echo "\t<div id=\"imports-message\"></div>" . PHP_EOL;
-// echo "\t</div>" . PHP_EOL; // Fermeture imports-box
-// echo "</div>" . PHP_EOL; // Fermeture imports
-// echo "<div>" . PHP_EOL; // Fermeture imports
-// echo "import_selection.php : $step" . PHP_EOL; // Fermeture imports
-// echo "</div>" . PHP_EOL; // Fermeture imports
+echo "\t<div id=\"imports-message\"></div>" . PHP_EOL;
+echo "\t</div>" . PHP_EOL; // Fermeture imports-box
+echo "</div>" . PHP_EOL; // Fermeture imports
 ?>

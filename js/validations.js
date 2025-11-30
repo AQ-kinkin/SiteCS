@@ -795,18 +795,3 @@ function scrollFormIntoView(formElement) {
 
 }
 
-// Fonction pour basculer entre l'affichage et l'édition de la pièce jointe
-function toggleURLEdit(idLine) {
-    // Masquer l'affichage du lien
-    const display = document.getElementById('url_display_' + idLine);
-    if (display) {
-        display.style.display = 'none';
-    }
-    
-    // Afficher le champ d'édition
-    const edit = document.getElementById('url_edit_' + idLine);
-    if (edit) {
-        edit.style.display = 'block';
-    }
-}
-

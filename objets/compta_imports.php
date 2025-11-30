@@ -200,19 +200,144 @@ class Compta_Imports extends Compta
         }
 
         
+        // Résolution automatique des conflits avec boucle de relecture
+        $conflits = $this->resolve_conflicts_auto($conflits);
+        
+        // Affichage des conflits restants pour résolution manuelle
+        return $this->display_manual_conflicts($conflits);
+    }
 
+    /**
+     * Résout automatiquement les conflits détectables (1-to-1, x-to-0, 0-to-x)
+     * Boucle jusqu'à ce qu'il n'y ait plus de résolution automatique possible
+     * 
+     * @param array $conflits Liste des conflits détectés
+     * @return array Conflits restants nécessitant une résolution manuelle
+     */
+    private function resolve_conflicts_auto(array $conflits): array
+    {
+        $total_auto_resolved = 0;
+        
+        do {
+            $has_auto_resolved = false;
+            
+            foreach ($conflits as $conflit) {
+                // Recherche des éléments gauche et droite pour ce conflit
+                $elements_gauche = $this->search_line_in_tempo_for_comp($conflit);
+                $elements_droite = $this->search_line_in_lines_for_comp($conflit);
+                
+                $count_gauche = count($elements_gauche);
+                $count_droite = count($elements_droite);
+                
+                $this->InfoLog("✓ Counters:: Right : " . $count_droite . ", Left : " . $count_gauche . " (" . $conflit[':label'] . ")");
+
+                // Gestion des différents cas de résolution automatique
+                if ($count_gauche == 1 && $count_droite == 1) {
+                    // CAS 1-to-1 : Association automatique
+                    $left = $elements_gauche[0];
+                    $right = $elements_droite[0];
+                    
+                    // Mise à jour table tempo : line_id
+                    $sql_update_tempo = "UPDATE `" . $this->tables_name['tempo'] . "` 
+                                        SET `line_id` = :id_line 
+                                        WHERE `Index` = :index;";
+                    $params_tempo = [':id_line' => $right['id_line'], ':index' => $left['Index']];
+                    $this->objdb->exec($sql_update_tempo, $params_tempo);
+                    
+                    // Mise à jour table lines : import
+                    $sql_update_lines = "UPDATE `" . $this->tables_name['lines'] . "` 
+                                        SET `import` = :index 
+                                        WHERE `id_line` = :id_line;";
+                    $params_lines = [':index' => $left['Index'], ':id_line' => $right['id_line']];
+                    $this->objdb->exec($sql_update_lines, $params_lines);
+                    
+                    $this->InfoLog("✓ Association automatique 1-to-1 : Index " . $left['Index'] . 
+                                " → id_line " . $right['id_line'] . 
+                                " (" . $conflit[':label'] . ")");
+                    
+                    $has_auto_resolved = true;
+                    $total_auto_resolved++;
+                    break; // Sortir et relire les conflits
+                }
+                elseif ($count_gauche > 0 && $count_droite == 0) {
+                    // CAS x-to-0 : Nouvelles lignes à créer (split de ligne ou nouvelle facture)
+                    // TODO: Implémenter la création automatique des lignes
+                    // Pour chaque ligne LEFT dans $elements_gauche :
+                    //   1. Récupérer les données de la ligne (key_id, num_account, label_account)
+                    //   2. Récupérer l'info_id correspondant (via search_id_in_info avec $conflit)
+                    //   3. Appeler add_entree_Line() pour créer la ligne dans _lines
+                    //   4. Mettre à jour line_id dans la table tempo
+                    
+                    $this->InfoLog("⚠ TODO: Création automatique nécessaire (x-to-0) : " . 
+                                $count_gauche . " ligne(s) à créer (" . $conflit[':label'] . ")");
+                    
+                    // Temporairement, ne rien faire (pas de résolution auto)
+                    // Ces conflits seront affichés pour résolution manuelle
+                }
+                elseif ($count_gauche == 0 && $count_droite > 0) {
+                    // CAS 0-to-x : Aucune ligne LEFT, mais lignes RIGHT existent
+                    // Normalement impossible car on part des lignes LEFT (table tempo)
+                    // Si ça arrive : supprimer les lignes RIGHT (facture supprimée de l'import)
+                    
+                    $this->InfoLog("⚠ CAS ANORMAL (0-to-" . $count_droite . ") : Suppression des lignes RIGHT (" . 
+                                $conflit[':label'] . ")");
+                    
+                    foreach ($elements_droite as $right) {
+                        $sql_delete = "DELETE FROM `" . $this->tables_name['lines'] . "` 
+                                      WHERE `id_line` = :id_line;";
+                        $this->objdb->exec($sql_delete, [':id_line' => $right['id_line']]);
+                        $this->InfoLog("✓ Ligne supprimée : id_line " . $right['id_line']);
+                    }
+                    
+                    $has_auto_resolved = true;
+                    $total_auto_resolved++;
+                    break; // Sortir et relire les conflits
+                }
+            }
+            
+            if ($has_auto_resolved) {
+                // Relire les conflits après résolution automatique
+                try {
+                    $conflits = $this->get_clonflits_compte();
+                } catch (Exception $e) {
+                    $this->InfoLog("Erreur lors de la relecture des conflits : " . $e->getMessage());
+                    break;
+                }
+            }
+            
+        } while ($has_auto_resolved);
+        
+        if ($total_auto_resolved > 0) {
+            $this->InfoLog("Résolutions automatiques totales : " . $total_auto_resolved);
+        }
+        
+        return $conflits;
+    }
+
+    /**
+     * Affiche le formulaire pour la résolution manuelle des conflits
+     * 
+     * @param array $conflits Liste des conflits à afficher
+     * @return string HTML du formulaire
+     */
+    private function display_manual_conflicts(array $conflits): string
+    {
         $answer = "\t\t<h2 class=\"imports-box-title\">Gestion des conflit d'import</h2>" . PHP_EOL;
-
-
 
         $answer .= "\t\t<form method=\"post\" enctype=\"multipart/form-data\" id=\"form_imports\">" . PHP_EOL;
 
-
-
+        $count_manual_conflicts = 0;
+        
         foreach ($conflits as $conflit) {
-
+            // Afficher uniquement les conflits nécessitant une résolution manuelle
             $answer .= $this->get_element_conflit($conflit) . PHP_EOL;
-
+            $count_manual_conflicts++;
+        }
+        
+        if ($count_manual_conflicts > 0) {
+            $this->InfoLog("Conflits manuels à résoudre : " . $count_manual_conflicts);
+        } else {
+            $this->InfoLog("✓ Aucun conflit manuel à résoudre");
         }
 
         
@@ -1375,28 +1500,6 @@ class Compta_Imports extends Compta
             $answer[] = $criteria;
 
         }
-
-
-
-
-
-
-
-            //         $sql_selinfo = "SELECT id_info FROM `" . $this->tables_name['infos'] . "` where LabelFact = :label and NumPiece = :voucher and NameFournisseur = :Fournisseur and DateOpe = :Date and  Tva = :Tva and  Charges = :Charges and  MontantTTC = :Ttc;";
-
-            // // $
-
-            //         $this->InfoLog('add_entree_Line :: params : ' . print_r([ ':key_id' => $entry_line['key_id'], ':num' => $entry_line['num'], ':label' => $entry_line['label'], ':info_id' => $entry_line['info_id'], ':index' => $index ],true) );
-
-            //         $answer = $this->objdb->exec($sql, [ ':key_id' => $entry_line['key_id'], ':num' => $entry_line['num'], ':label' => $entry_line['label'], ':info_id' => $entry_line['info_id'] , ':index' => $index ], true );
-
-            //         if ( $answer > 0 )
-
-            //         {
-
-            //             $this->InfoLog('add_entree_Line :: Update entry : id_line=' . $answer . '   --- index=' . $index  . '   --- ' . $sql );
-
-            //             $this->objdb->exec('update `' . $this->tables_name['tempo'] . "` set `line_id` = :id where `Index` = :index;", [ ':id' => $answer, ':index' => $index ] );
 
         
 

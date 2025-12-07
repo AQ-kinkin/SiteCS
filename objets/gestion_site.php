@@ -158,10 +158,13 @@ class Site
 
 
     public function connection($ident, $passwd)
-    {
-        $answer = $this->session->connection($ident, $passwd);
-
-        return $answer;
+    {   
+        // Vérifier que l'identifiant n'est pas vide ou null (accepte '0')
+        if ($ident === null || $ident === '') {
+            return false;
+        }
+        
+        return $this->session->connection($ident, $passwd);
     }
 
 }

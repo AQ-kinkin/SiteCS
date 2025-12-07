@@ -60,24 +60,15 @@ class Compta_Validations extends Compta
 
         $this->setKeyValidation();
 
-
-
         $list_elements_select = "<select name=\"statut\" id=\"id_statut_" . $index . "\" onchange=\"toggleBySelect(this,'" . $index . "')\">" . PHP_EOL;
-
         foreach ($_SESSION['ArrayValidation'] as $selectInfo) {
-
             if ($info_validation !== null) {
-
                 $list_elements_select .= "<option value=\"" . $selectInfo['numkey'] . "\" " . (($info_validation['num_state'] == $selectInfo['numkey']) ? 'selected="selected"' : '') . '>' . $selectInfo['namekey'] . "</option>" . PHP_EOL;
             } else {
-
                 $list_elements_select .= "<option value=\"" . $selectInfo['numkey'] . "\" " . ($selectInfo['default'] ? 'selected="selected"' : '') . '>' . $selectInfo['namekey'] . "</option>" . PHP_EOL;
             }
         }
-
         $list_elements_select .= "</select>";
-
-
 
         return $list_elements_select;
     }
@@ -85,100 +76,63 @@ class Compta_Validations extends Compta
 
 
     private function setselectedyear(): void
-
     {
-
         // $this->InfoLog('setselectedyear :: periode ' . $periode );
-
         // $this->InfoLog('setselectedyear :: Post ' . $_POST['periode'] );
-
         $_SESSION['selectedyear'] = $_POST['periode']; // On stocke la période sélectionnée dans la session
-
     }
 
 
 
     private function showlistfacture(): string
-
     {
 
         $html_data = '';
 
-
-
         // $this->InfoLog('showlistfacture :: Post ' . print_r($_POST, true) );
 
-
-
         if (!isset($_SESSION['selectedyear']) || empty($_SESSION['selectedyear'])) {
-
             // $this->InfoLog('showlistfacture :: Aucune période sélectionnée.');
-
             http_response_code(400);
-
             return 'showlistfacture :: Aucune période sélectionnée.';
         }
 
-
-
         if (!isset($_POST['cle']) || empty($_POST['cle'])) {
-
-            // $this->InfoLog('showlistfacture :: Aucune clé sélectionnée.');
-
             http_response_code(400);
-
+            // $this->InfoLog('showlistfacture :: Aucune clé sélectionnée.');
             return 'showlistfacture :: Aucune clé sélectionnée.';
         }
 
 
 
         if (!isset($_POST['titre']) || empty($_POST['titre'])) {
-
             // $this->InfoLog('showlistfacture :: Aucune titre sélectionnée.');
-
             http_response_code(400);
-
             return 'showlistfacture :: Aucune titre sélectionnée.';
         }
 
 
 
         $html_data .= "<div class=\"titreSC\">" . $_POST['titre'] . "</div>" . PHP_EOL;
-
         $html_data .= "<div class=\"entries\">" . PHP_EOL;
 
-
-
         $this->get_infos_keys();
-
         if (empty($this->SousCategorie)) {
-
             $html_data .= "<div class=\"SCvide\">Pas de factures présente dans cette clé de répartition ...</div>" . PHP_EOL;
         } else {
-
             // $this->InfoLog('showlistfacture :: SousCategorie already set.');
-
             foreach ($this->SousCategorie as $cat => $data) {
-
                 $id_category_div = "_" . $_POST['cle'] . "_" . $cat;
-
                 $html_data .= "<div class=\"SC\" onclick=\"toggleVisibility('" . $id_category_div . "')\">" . $cat . " : " . $data['libelle'] . "</div>\n";
-
                 $html_data .= "<div class=\"factures\" id=\"" . $id_category_div . "\">\n";
-
                 foreach ($data['lignes'] as $ligne) {
-
                     $html_data .= $this->showfacture($ligne, $id_category_div);
                 }
-
                 $html_data .= "</div> <!-- Fin div : Factures -->\n"; // fin div Factures
-
             }
         }
 
         $html_data .= "</div>" . PHP_EOL; // fin div entries
-
-
 
         return $html_data;
     }
@@ -592,43 +546,41 @@ class Compta_Validations extends Compta
         $change_cat_textarea = htmlspecialchars("{\n\t\"categorie\":\"61100000\",\n\t\"cause\":\"parce que\"\n}");
 
 
-
         if ($info_validation != null) {
 
             $this->InfoLog('showDetailsPb :: info_validation : ' . var_export($info_validation, true));
 
             switch ($info_validation['num_state']) {
 
+                case '001':
+                case '002':
+
+                    $CauseInfo = $info_validation['info']->cause;
+                    $this->InfoLog('showDetailsPb :: info_validation : 002&001 = ' . $reafectation_textarea);
+                    break;
+
                 case '003':
 
                     $reafectation_textarea = htmlspecialchars(json_encode($info_validation['info'], JSON_PRETTY_PRINT));
-
-                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $reafectation_textarea);
-
+                    $this->InfoLog('showDetailsPb :: info_validation : 003 = ' . $reafectation_textarea);
                     break;
 
                 case '004':
 
                     $this->InfoLog('showDetailsPb :: info_validation : 004');
-
                     $regle_textarea = $info_validation['info']->regle;
-
                     break;
 
                 case '005':
 
                     $repart_textarea = htmlspecialchars(json_encode($info_validation['info'], JSON_PRETTY_PRINT));
-
                     $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $repart_textarea);
-
                     break;
 
                 case '006':
 
                     $change_cat_textarea = htmlspecialchars(json_encode($info_validation['info'], JSON_PRETTY_PRINT));
-
-                    $this->InfoLog('showDetailsPb :: info_validation : 005 = ' . $change_cat_textarea);
-
+                    $this->InfoLog('showDetailsPb :: info_validation : 006 = ' . $change_cat_textarea);
                     break;
 
                 default:

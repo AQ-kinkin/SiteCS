@@ -121,6 +121,7 @@ class Session implements SessionHandlerInterface
             return false;
         }
     }
+    
     public function destroy($id): bool
     {
         // Debug Log avec utilisateur si activé
@@ -184,16 +185,22 @@ class Session implements SessionHandlerInterface
         }
         $answer = false;
 
-        $sql = "SELECT `id_user`,`user_type`,`passwd` FROM `connexion` WHERE ident = LOWER('$ident') AND passwd='$passwd';";
-        $result = $this->objdb->execonerow($sql);
-        if ( isset( $result['passwd'] ) )
+        $sql = "SELECT `id_user`,`type_acteur`,`passwd` FROM `acteurs` WHERE ident = LOWER(:ident);";
+        $params = [':ident' => $ident];
+        $result = $this->objdb->execonerow($sql, $params);
+        
+        if ( isset( $result['passwd'] ) && !empty($result['passwd']) )
         {
-            if ( str_contains($passwd, $result['passwd']) )
+            // Vérifier le mot de passe avec password_verify (pour les hash)
+            if ( password_verify($passwd, $result['passwd']) )
             {
                 $_SESSION['user_id'] = $result['id_user'];
-                $_SESSION['user_type'] = $result['user_type'];
+                $_SESSION['user_type'] = $result['type_acteur'];
+                $_SESSION['user_name'] = $ident;
                 $answer = true;
-                // $this->write_info("Connection SUCCESS: user_id=" . $result['id_user'] . ", user_type=" . $result['user_type']);
+                if ($this->log) {
+                    $this->write_info("Connection SUCCESS: user=$ident, user_id=" . $result['id_user']);
+                }
             } else {
                 // Debug Log si activé
                 if ($this->log) {
@@ -209,5 +216,6 @@ class Session implements SessionHandlerInterface
 
         return $answer;
     }
+
 }	
 ?>

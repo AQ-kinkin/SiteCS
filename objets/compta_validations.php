@@ -113,7 +113,10 @@ class Compta_Validations extends Compta
 
 
 
-        $html_data .= "<div class=\"titreSC\">" . $_POST['titre'] . "</div>" . PHP_EOL;
+        $html_data .= "<div class=\"title-with-refresh\">" . PHP_EOL;
+        $html_data .= "<div class=\"titreSC\"><span>" . $_POST['titre'] . "</span></div>" . PHP_EOL;
+        $html_data .= "<button id=\"refreshButton\" title=\"Recharger\"><img src=\"./icons/refresh-30x30.png\" alt=\"Refresh\" width=\"33\" height=\"30\"></button>" . PHP_EOL;
+        $html_data .= "</div>" . PHP_EOL;
         $html_data .= "<div class=\"entries\">" . PHP_EOL;
 
         $this->get_infos_keys();
@@ -321,7 +324,30 @@ class Compta_Validations extends Compta
         $sql .= "INNER JOIN `" . $this->getNameTableInfos($_SESSION['selectedyear']) . "` ON info_id = id_info ";
         $sql .= "LEFT JOIN `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` ON validation_id = id_validation ";
         $sql .= "LEFT JOIN `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` ON voucher_id = id_voucher ";
-        $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']) . ";";
+        $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']);
+        
+        // Ajout du filtrage selon le paramètre filtre
+        if (isset($_POST['filtre']) && $_POST['filtre'] !== '0') {
+            $this->InfoLog('get_infos_keys :: filtre => ' . $_POST['filtre']);
+            switch ($_POST['filtre']) {
+                case '1': // À saisir (sans validation)
+                    $sql .= " AND validation_id IS NULL";
+                    $this->InfoLog('get_infos_keys :: Filtre À saisir appliqué');
+                    break;
+                case '2': // À vérifier (state_id = 3)
+                    $sql .= " AND state_id = 3";
+                    $this->InfoLog('get_infos_keys :: Filtre À vérifier appliqué');
+                    break;
+                case '3': // Not OK (tous sauf state_id = 1 qui est OK)
+                    $sql .= " AND validation_id IS NOT NULL AND state_id != 1";
+                    $this->InfoLog('get_infos_keys :: Filtre Not OK appliqué');
+                    break;
+            }
+        } else {
+            $this->InfoLog('get_infos_keys :: Aucun filtre appliqué');
+        }
+        
+        $sql .= ";";
         $this->InfoLog('get_infos_keys :: SQL => ' . $sql);
 
         $this->objdb->query($sql);

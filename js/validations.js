@@ -1,7 +1,7 @@
 var div_contenu_key = null;
 var div_contenu_year = null;
 var div_form_validation = [];
-
+var currentContext = {cle: null, titre: null, filtre: 0};
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -9,9 +9,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     div_contenu_year = document.getElementById("periode");
 
+    // Event listener pour le rafraîchissement automatique au changement de filtre
+    const filtreSelect = document.getElementById('filtre_etat');
+    if (filtreSelect) {
+        filtreSelect.addEventListener('change', function() {
+            // Si une clé est actuellement affichée
+            if (currentContext.cle && currentContext.titre) {
+                // Mettre à jour le filtre dans le contexte et recharger
+                currentContext.filtre = this.value;
+                showKey(currentContext.cle, currentContext.titre, this.value);
+            }
+        });
+    }
+
 });
-
-
 
 function toggleVisibility(id) {
 
@@ -35,7 +46,6 @@ function toggleVisibility(id) {
 
 }
 
-
 function clear_unhiden_element(elems) {
 
     elems.forEach(function(elem) {
@@ -48,7 +58,6 @@ function clear_unhiden_element(elems) {
 
 }
 
-
 function hiden_element(elems, elem) {
 
      elem.style.display = 'block';
@@ -56,7 +65,6 @@ function hiden_element(elems, elem) {
      elems.push(elem);
 
 }
-
 
 function toggleBySelect(theSelect, IndexStr) {
 
@@ -206,8 +214,6 @@ function toggleBySelect(theSelect, IndexStr) {
 
 }
 
-
-
 // function showKey_sav(key)
 
 // {    
@@ -314,147 +320,96 @@ function toggleBySelect(theSelect, IndexStr) {
 
 // }
 
-
-
-function showKey(cle, titre)
-
+function showKey(cle, titre, filtre = null)
 {
+    // Si filtre non fourni, lire depuis le select
+    if (filtre === null) {
+        const filtreSelect = document.getElementById('filtre_etat');
+        filtre = filtreSelect ? filtreSelect.value : '0';
+    }
 
-    console.log("Entry in showkey : " + cle + " - " + titre );
+    // Stocker le contexte actuel
+    currentContext.cle = cle;
+    currentContext.titre = titre;
+    currentContext.filtre = filtre;
 
-
+    console.log("Entry in showkey : " + cle + " - " + titre + " - filtre: " + filtre);
 
     if (div_contenu_key === null) {
-
         div_contenu_key = document.getElementById("validations-key");
-
     }
-
-
 
     if (div_contenu_key != null) {
-
         div_contenu_key.innerHTML = "<h1>Chargement en cours...</h1>";
-
         div_contenu_key.style.display = "flex";
-
     }
 
-
-
     let bodyParams = new URLSearchParams();
-
     bodyParams.append("cle", cle);
-
     bodyParams.append("titre", titre);
-
     bodyParams.append("action", "show");
-
-
+    bodyParams.append("filtre", filtre);
 
     fetch('compta/load_info_validation.php', {
-
         method: 'POST',
-
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-
         body: bodyParams.toString()
-
     })
-
     .then(response => {
-
         return response.text().then(text => {
-
             if (!response.ok) {
-
                 // Si session expirée (401), rediriger vers page de déconnexion
-
                 if (response.status === 401) {
-
                     try {
-
                         const data = JSON.parse(text);
-
                         if (data.redirect) {
-
                             window.location.href = data.redirect;
-
                         }
-
                     } catch (e) {
-
                         // Si pas de JSON, redirection par défaut
-
                         window.location.href = '/?page=Disconnect&reason=expired';
-
                     }
-
                     // Retourner une promesse rejetée pour stopper la chaîne
-
                     return Promise.reject('Session expirée - redirection en cours');
-
                 }
-
                 throw new Error("Erreur HTTP : " + response.status + " — " + text);
-
             }
 
             return text;
-
         });
-
     })
-
     .then(html => {
-
         if (!html) return; // Ne rien faire si pas de contenu
-
         div_contenu_key.innerHTML = html;
 
-
-
         // Maintenant que les formulaires sont dans le DOM, on peut les détecter
-
         div_contenu_key.querySelectorAll('.formfacture').forEach(form => {
-
             form.addEventListener('submit', event => {
-
                 event.preventDefault();
-
                 // Mettre à jour uniquement cette facture
-
                 updateFacture(cle, titre, form, event.submitter ? event.submitter.name : null);
-
             });
-
         });
 
+        // Attacher l'event listener au bouton refresh
+        const refreshBtn = document.getElementById('refreshButton');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', refreshCurrentKey);
+        }
     })
-
     .catch(error => {
-
         // Ne pas afficher d'erreur si c'est une redirection de session
-
         if (error && error.toString().includes('Session expirée')) {
-
             console.log("Redirection vers page de déconnexion...");
-
             return;
-
         }
 
         div_contenu_key.innerHTML = "<p>Erreur lors du chargement des données.<br/>" + error + "</p>";
-
         console.error("Erreur fetch : ", error);
-
     });
 
     console.log("Fin showkey");
-
 }
-
-
 
 function updateFacture(cle, titre, form, buttonname = null)
 {
@@ -464,53 +419,32 @@ function updateFacture(cle, titre, form, buttonname = null)
     const id_line = formdata.get('id_line');
 
     if (!id_line) {
-
         console.error("updateFacture :: id_line manquant");
         return;
     }
 
     let bodyParams = new URLSearchParams();
-
     bodyParams.append("cle", cle);
-
     bodyParams.append("titre", titre);
 
-    
-
     // Déterminer l'action selon le bouton cliqué
-
     if (buttonname === 'reopen') {
-
         bodyParams.append("action", "reopen");
-
     } else {
-
         bodyParams.append("action", "update");
-
     }
-
-    
 
     // Ajouter toutes les données du formulaire
 
     for (let [key, value] of formdata.entries()) {
-
         bodyParams.append(key, value);
-
     }
 
-    
-
     fetch('compta/load_info_validation.php', {
-
         method: 'POST',
-
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-
         body: bodyParams.toString()
-
     })
-
     .then(response => {
 
         return response.text().then(text => {
@@ -628,8 +562,6 @@ function updateFacture(cle, titre, form, buttonname = null)
     console.log("Fin updateFacture");
 
 }
-
-
 
 function updateYear()
 
@@ -751,8 +683,6 @@ function updateYear()
 
 }
 
-
-
 function scrollFormIntoView(formElement) {
 
         
@@ -792,6 +722,26 @@ function scrollFormIntoView(formElement) {
         behavior: 'smooth'
 
     });
+
+}
+
+function refreshCurrentKey() {
+
+    console.log("refreshCurrentKey :: Entry");
+
+    
+
+    if (currentContext.cle && currentContext.titre) {
+
+        console.log("refreshCurrentKey :: Recharging key", currentContext);
+
+        showKey(currentContext.cle, currentContext.titre, currentContext.filtre);
+
+    } else {
+
+        console.warn("refreshCurrentKey :: Aucune clé active à recharger");
+
+    }
 
 }
 

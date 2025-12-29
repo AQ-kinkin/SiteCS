@@ -6,7 +6,7 @@
 
         <?php
 
-            if($objsite->IsAsPriv(3))
+            if($objsite->IsAsPriv(Site::CS))
 
             {
 

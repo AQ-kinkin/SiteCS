@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../objets/gestion_site.php';
 
-$objsite->requireAuth(Site::DROIT_CS);
+$objsite->requireAuth(Site::CS);
 
 require_once __DIR__ . '/../objets/compta_rapport.php';
 

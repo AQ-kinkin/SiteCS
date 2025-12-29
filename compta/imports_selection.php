@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../objets/gestion_site.php';
 // require __DIR__ . '/../vendor/autoload.php';
 
-$objsite->requireAuth(Site::DROIT_CS);
+$objsite->requireAuth(Site::CS);
 
 require_once __DIR__ . '/../objets/compta_imports.php';
 

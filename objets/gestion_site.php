@@ -5,10 +5,14 @@ require_once('/home/csresip/www/objets/database.class.php');
 
 class Site
 {
-    public const DROIT_INVITE    = 0;
-    public const DROIT_LOCATAIRE = 1;
-    public const DROIT_PROPRIO   = 2;
-    public const DROIT_CS        = 3;
+    // Constantes de types d'acteurs (bitmask)
+    public const LOCAT = 1;      // Locataire
+    public const PROPRIO = 2;    // Propriétaire
+    public const CS = 4;         // Conseil Syndical
+    public const SYNDIC = 8;     // Syndic de copropriété
+    public const AGENCE = 16;    // Agence de gérance
+    public const SCT = 32;       // Société
+    public const ACTIO = 64;     // Représentant de société
 
     private Session $session;
     private Database $objdb;
@@ -66,13 +70,37 @@ class Site
 
 
 
-    public function IsAsPriv(int $niv_req): bool
+    /**
+     * Vérifie si l'utilisateur possède au moins un des privilèges requis
+     * Supporte plusieurs formats :
+     *   - IsAsPriv(Site::CS)                    // Un seul rôle
+     *   - IsAsPriv(Site::CS, Site::SYNDIC)     // Plusieurs rôles (OR)
+     *   - IsAsPriv([Site::CS, Site::SYNDIC])   // Tableau de rôles (OR)
+     * 
+     * @param int|array ...$required_types Un ou plusieurs types requis
+     * @return bool True si l'utilisateur a au moins un des rôles
+     */
+    public function IsAsPriv(int|array ...$required_types): bool
     {
-        if (isset($_SESSION['user_type'])) {
-            return ((int)$_SESSION['user_type'] >= $niv_req);
+        if (!isset($_SESSION['user_type'])) {
+            return false;
         }
-
-        return false;
+        
+        $userType = (int)$_SESSION['user_type'];
+        
+        // Cas 1 : Appelé avec un tableau : IsAsPriv([Site::CS, Site::SYNDIC])
+        if (count($required_types) === 1 && is_array($required_types[0])) {
+            $required_types = $required_types[0];
+        }
+        
+        // Tester chaque type requis avec OR logique (masque binaire)
+        foreach ($required_types as $requiredType) {
+            if (($userType & $requiredType) !== 0) {
+                return true; // Au moins un match
+            }
+        }
+        
+        return false; // Aucun match
     }
 
     /**
@@ -150,7 +178,8 @@ class Site
                 '/',
                 '',
                 isset($_SERVER['HTTPS']),
-                true
+                true,
+                'Strict'
             );
             $_SESSION['last_activity'] = $now;
         }

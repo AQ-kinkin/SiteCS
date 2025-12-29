@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../objets/gestion_site.php';
 
-$objsite->requireAuth(Site::DROIT_CS);
+$objsite->requireAuth(Site::CS);
 
 require_once __DIR__ . '/../objets/compta_validations.php';
 
@@ -18,11 +18,17 @@ echo "\t<div class=\"validations-box\" id=\"validations-box\">" . PHP_EOL;
 
 
 
-echo "<div id=\"year_selection\">" . PHP_EOL;
+echo "<div class=\"filters-row\">" . PHP_EOL;
 
-echo $objimport->getYearSelection();
+    echo "<div id=\"year_selection\">" . PHP_EOL;
+    echo $objimport->getYearSelection();
+    echo "</div>" . PHP_EOL; // Fermeture year_selection
 
-echo "</div>" . PHP_EOL; // Fermeture year_selection
+    echo "<div>" . PHP_EOL;
+    echo $objimport->getFiltrageValidation();
+    echo "</div>" . PHP_EOL; // Fermeture year_selection
+
+echo "</div>" . PHP_EOL;
 
 
 

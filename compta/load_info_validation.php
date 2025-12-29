@@ -8,7 +8,7 @@
     $objsite->open();
     
     // Vérification de l'authentification (mode AJAX)
-    $objsite->requireAuth(Site::DROIT_CS, true);
+    $objsite->requireAuth(Site::CS, true);
     
     require_once __DIR__ . '/../objets/compta_validations.php';
 

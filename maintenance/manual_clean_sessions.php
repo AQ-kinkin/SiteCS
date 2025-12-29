@@ -61,7 +61,7 @@ try {
     echo "[2/5] Vérification des droits d'accès...\n";
     if ($output_html) {
         // Si via navigateur, vérifier authentification
-        $objsite->requireAuth(Site::DROIT_CS, false);
+        $objsite->requireAuth(Site::CS, false);
         echo "      ✓ Droits vérifiés (utilisateur authentifié)\n\n";
     } else {
         // Si via CLI, pas de vérification

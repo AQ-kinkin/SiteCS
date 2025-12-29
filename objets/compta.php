@@ -79,7 +79,7 @@ class Compta
         $this->setKeyComptable();
 
         foreach ($_SESSION['ArrayKeyComptable'] as $data) {
-            $html_button_Lst .= "<button title=\"" . $data['namekey'] . "\" onclick=\"showKey('" . $data['typekey'] .  "', '" . $data['namekey'] .  "')\">" . $data['shortname'] . "</button>\n";
+            $html_button_Lst .= "<button title=\"" . $data['namekey'] . "\" onclick=\"showKey('" . $data['typekey'] .  "', '" . $data['namekey'] .  "', document.getElementById('filtre_etat').value)\">" . $data['shortname'] . "</button>\n";
         }
 
         return $html_button_Lst;
@@ -174,6 +174,22 @@ class Compta
         }
 
         // $html_select .= "\t<option value=\"2025_2026\">2025_2026</option>" . PHP_EOL; // DEBUG Test
+        $html_select .= "</select></span>" . PHP_EOL;
+       
+        return $html_select;
+    }
+    // ****************************************************************************
+
+    // ****************************************************************************
+    // Ajout du select de filtrage
+    // ****************************************************************************
+    public function getFiltrageValidation():string
+    {
+        $html_select = "<span><label>Filtrage :</label><select name=\"filtre_etat\" id=\"filtre_etat\">" . PHP_EOL;
+        $html_select .= "<option value=\"0\" selected=\"selected\">Aucun</option>" . PHP_EOL;
+        $html_select .= "<option value=\"1\">À saisir</option>" . PHP_EOL;
+        $html_select .= "<option value=\"2\">À vérifier</option>" . PHP_EOL;
+        $html_select .= "<option value=\"3\">Not OK</option>" . PHP_EOL;
         $html_select .= "</select></span>" . PHP_EOL;
 
         return $html_select;

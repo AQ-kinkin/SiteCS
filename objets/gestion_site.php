@@ -2,6 +2,10 @@
 
 require('/home/csresip/www/objets/mysql.sessions.php');
 require_once('/home/csresip/www/objets/database.class.php');
+require_once('/home/csresip/www/objets/types_acteur.php');
+require_once('/home/csresip/www/objets/types_lot.php');
+require_once('/home/csresip/www/objets/halls.php');
+require_once('/home/csresip/www/objets/user.php');
 
 class Site
 {
@@ -47,6 +51,88 @@ class Site
     public function getDB(): Database
     {
         return $this->objdb;
+    }
+
+    /**
+     * Méthode magique pour accéder aux propriétés dynamiques avec cache en session
+     * 
+     * Usage:
+     *   $objsite->typesActeur  // Retourne TypesActeur (cached)
+     *   $objsite->user          // Retourne User (cached)
+     */
+    public function __get(string $name)
+    {
+        switch ($name) {
+            case 'typesActeur':
+                // Vérifier si TypesActeur existe en session
+                if (!isset($_SESSION['__typesActeur'])) {
+                    $_SESSION['__typesActeur'] = new TypesActeur($this->objdb, true);
+                } else {
+                    // Réinjecter Database après désérialisation
+                    $typesActeur = $_SESSION['__typesActeur'];
+                    $reflection = new ReflectionClass($typesActeur);
+                    $property = $reflection->getProperty('db');
+                    $property->setAccessible(true);
+                    $property->setValue($typesActeur, $this->objdb);
+                    
+                    // Réinitialiser logsPath après désérialisation
+                    $typesActeur->reinitLogs();
+                }
+                return $_SESSION['__typesActeur'];
+            
+            case 'typesLot':
+                // Vérifier si TypesLot existe en session
+                if (!isset($_SESSION['__typesLot'])) {
+                    $_SESSION['__typesLot'] = new TypesLot($this->objdb, true);
+                } else {
+                    // Réinjecter Database après désérialisation
+                    $typesLot = $_SESSION['__typesLot'];
+                    $reflection = new ReflectionClass($typesLot);
+                    $property = $reflection->getProperty('db');
+                    $property->setAccessible(true);
+                    $property->setValue($typesLot, $this->objdb);
+                    
+                    // Réinitialiser logsPath après désérialisation
+                    $typesLot->reinitLogs();
+                }
+                return $_SESSION['__typesLot'];
+            
+            case 'halls':
+                // Vérifier si Halls existe en session
+                if (!isset($_SESSION['__halls'])) {
+                    $_SESSION['__halls'] = new Halls($this->objdb, true);
+                } else {
+                    // Réinjecter Database après désérialisation
+                    $halls = $_SESSION['__halls'];
+                    $reflection = new ReflectionClass($halls);
+                    $property = $reflection->getProperty('db');
+                    $property->setAccessible(true);
+                    $property->setValue($halls, $this->objdb);
+                    
+                    // Réinitialiser logsPath après désérialisation
+                    $halls->reinitLogs();
+                }
+                return $_SESSION['__halls'];
+            
+            case 'user':
+                // Vérifier si User existe en session
+                if (!isset($_SESSION['__user'])) {
+                    // Charger l'utilisateur uniquement si connecté
+                    if (isset($_SESSION['user_id'])) {
+                        $_SESSION['__user'] = User::loadById($this->objdb, (int)$_SESSION['user_id']);
+                    } else {
+                        return null;
+                    }
+                } else {
+                    // Réinjecter Database dans Lots après désérialisation
+                    $_SESSION['__user']->setDatabase($this->objdb);
+                }
+                return $_SESSION['__user'];
+            
+            default:
+                trigger_error("Property {$name} does not exist", E_USER_WARNING);
+                return null;
+        }
     }
 
     public function open()
@@ -108,7 +194,7 @@ class Site
      * @param int $niv_req Niveau de privilège requis
      * @param bool $is_ajax Si true, retourne une erreur HTTP 401 au lieu de rediriger
      */
-    public function requireAuth(int $niv_req = self::DROIT_CS, bool $is_ajax = false): void
+    public function requireAuth(int $niv_req = self::CS, bool $is_ajax = false): void
     {
         // Vérifier si la session existe
         $session_active = (session_status() === PHP_SESSION_ACTIVE);
@@ -174,12 +260,14 @@ class Site
             setcookie(
                 session_name(), 
                 session_id(), 
-                $now + $this->maxTimeSession,
-                '/',
-                '',
-                isset($_SERVER['HTTPS']),
-                true,
-                'Strict'
+                [
+                    'expires' => $now + $this->maxTimeSession,
+                    'path' => '/',
+                    'domain' => '',
+                    'secure' => isset($_SERVER['HTTPS']),
+                    'httponly' => true,
+                    'samesite' => 'Strict'
+                ]
             );
             $_SESSION['last_activity'] = $now;
         }

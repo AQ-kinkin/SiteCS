@@ -28,6 +28,35 @@
                     $PathIncludeCss = 'css/home.css';
                     $PathIncludePage = $pathHome . '/templates/home.html';
                     break;
+                case "User":
+                    if( isset($_GET['item']) )
+                    {
+                        switch($_GET['item'])
+                        {
+                            case "Infos":
+                                $PathIncludeCss = "css/principal.css";
+                                $PathIncludePage = $pathHome . '/principal/user_infos.php';
+                                break;
+                            case "Demande":
+                                $PathIncludeCss = "css/principal.css";
+                                $PathIncludePage = $pathHome . '/principal/send_formulaire.php';
+                                break;
+                            case "Anomalie":
+                                $PathIncludeCss = "css/principal.css";
+                                $PathIncludePage = $pathHome . '/principal/send_anomalie.php';
+                                break;
+                            default:
+                                $PathIncludeCss = 'css/error.css';
+                                $PathIncludePage = $pathHome . '/templates/error.html';
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        $PathIncludeCss = 'css/error.css';
+                        $PathIncludePage = $pathHome . '/templates/error.html';
+                    }
+                    break;
                 case "Compta":
                     if( isset($_GET['item']) )
                     {
@@ -145,7 +174,13 @@
 
             // <link rel="stylesheet" href="css/factures.css">
 
-            if ( $PathIncludeJs !== '' )
+            // Charger principal.js pour toutes les pages connectées (menu utilisateur)
+            if (isset($_SESSION['user_id'])) {
+                echo '<script src="js/principal.js"></script>' . "\n";
+            }
+            
+            // Charger le JS spécifique à la page
+            if ( $PathIncludeJs !== '' && $PathIncludeJs !== 'js/principal.js' )
 
             {
 
@@ -168,9 +203,12 @@
         <div class="container">
 
             <header>
-
-                <h1>Site du conseil syndical de la résidence courdimanche</h1>
-
+                <div class="headtitle">
+                    <h1>Site du conseil syndical de la résidence courdimanche</h1>
+                </div>
+                <?php if (isset($_SESSION['user_id']) && isset($_SESSION['user_name'])): ?>
+                    <?php include("templates/gestion_user.php"); ?>
+                <?php endif; ?>
             </header>
 
             <div class="content">
@@ -213,7 +251,10 @@
 
                             <td colspan="2"></td>
 
-                            <td colspan="2"><span class="personalisation"><address>Cr&eacute;&eacute; et administr&eacute; par <a href="mailto:alexandre.quinzin@free.fr">Alexandre QUINZIN</a>.</address></span></td>
+                            <td colspan="2"><span class="personalisation">
+                                <address>Cr&eacute;&eacute; et administr&eacute; par <a href="mailto:alexandre.quinzin@gmail.com">Alexandre QUINZIN</a>.</address>
+                                <address>App icon by <a href="https://icones8.fr/">icons8</a>.</address>
+                            </span></td>
 
                         </tr> <!-- colspan="2"  -->
 

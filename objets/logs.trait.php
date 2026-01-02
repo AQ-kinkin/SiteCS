@@ -34,6 +34,16 @@ trait Logs {
         file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
     }
     
+    protected function write_error($message): void
+    {
+        // Format du message (date + contenu)
+        $date = date('Y-m-d H:i:s');
+        $ligne = "[$date] [ERROR] $message\n";
+        
+        // Écriture dans le fichier (append)
+        file_put_contents($this->logsPath, $ligne, FILE_APPEND | LOCK_EX);
+    }
+    
     protected function write_sql($sql, $params = []): void
     {
         // Format du message SQL

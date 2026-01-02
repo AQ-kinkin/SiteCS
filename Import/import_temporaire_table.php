@@ -1,5 +1,5 @@
 <?php
-if ( !isset($objsite) || $objsite->IsAsPriv(gestion_site::DROIT_CS) ) {
+if ( !isset($objsite) || $objsite->IsAsPriv(Site::CS) ) {
     Header('Location:/');
 }
 require("ImportCtl.php");

@@ -3,7 +3,15 @@
     <ul>
 
         <li><a href="index.php?page=Home">Acceuil</a></li>
-
+        <?php if(isset($_SESSION['user_id'])) { ?>
+        <li><span>Mon espace</span>
+            <ul>
+                <li><a href="index.php?page=User&item=Infos">Mes infos</a></li>
+                <li><a href="index.php?page=User&item=Demande">Réaliser une demande</a></li>
+                <li><a href="index.php?page=User&item=Anomalie">Signaler un problème</a></li>
+            </ul>
+        </li>
+        <?php }  ?>
         <?php
 
             if($objsite->IsAsPriv(Site::CS))

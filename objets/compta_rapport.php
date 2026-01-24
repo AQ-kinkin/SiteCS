@@ -1,6 +1,5 @@
 <?php
-    $pathHome = '/home/csresip/www';
-	require_once( $pathHome . '/objets/compta.php');
+	require_once(PATH_HOME_CS . '/objets/compta.php');
 
 class Compta_Rapport extends Compta
 {
@@ -173,7 +172,7 @@ class Rapport_key_of_repartition
                 case '002':
                     $this->affectations[ $line['num_account'] ]->add( new Rapport_line_verified($line) );
                     break;
-                case '003':
+                case Compta::STATE_VALIDATION_AV:
                     $this->affectations[ $line['num_account'] ]->add( new Rapport_line_reafected($line) );
                     break;
                 case '004':

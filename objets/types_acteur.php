@@ -1,7 +1,7 @@
 <?php
 
-require_once('/home/csresip/www/objets/database.class.php');
-require_once('/home/csresip/www/objets/logs.trait.php');
+require_once(PATH_HOME_CS . '/objets/database.class.php');
+require_once(PATH_HOME_CS . '/objets/logs.trait.php');
 
 class TypesActeur
 {

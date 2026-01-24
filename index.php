@@ -1,10 +1,11 @@
 <?php
 
-    $pathHome = '/home/csresip/www';
-	require_once( $pathHome . '/objets/database.class.php');
-    require_once( $pathHome . '/objets/gestion_site.php');
+    require_once __DIR__ . '/../bootstrap.php';
+    $pathHome = PATH_HOME_CS;
+	require_once( PATH_HOME_CS .'/objets/database.class.php');
+    require_once( PATH_HOME_CS . '/objets/gestion_site.php');
 
-    $PathIncludeCss = 'css/authentication.css';
+    $PathIncludeCss = array('css/authentication.css');
     $PathIncludeJs = '';
     $PathIncludePage = $pathHome . '/templates/connection.html';
 
@@ -14,7 +15,7 @@
     // Gérer la déconnexion même sans session active
     if (isset($_GET['page']) && $_GET['page'] === 'Disconnect') {
         $objsite->close();
-        $PathIncludeCss = 'css/authentication.css';
+        $PathIncludeCss = array('css/authentication.css');
         $PathIncludePage = $pathHome . '/templates/disconnection.html';
     }
     elseif (isset($_SESSION['user_id']))
@@ -25,7 +26,7 @@
             {
                 case "Home":
                     // echo '<link href="css/Home.css" rel="stylesheet" type="text/css">' . "\n";
-                    $PathIncludeCss = 'css/home.css';
+                    $PathIncludeCss = array('css/home.css');
                     $PathIncludePage = $pathHome . '/templates/home.html';
                     break;
                 case "User":
@@ -34,30 +35,40 @@
                         switch($_GET['item'])
                         {
                             case "Infos":
-                                $PathIncludeCss = "css/principal.css";
+                                $PathIncludeCss = array("css/principal.css");
                                 $PathIncludePage = $pathHome . '/principal/user_infos.php';
                                 break;
-                            case "Demande":
-                                $PathIncludeCss = "css/principal.css";
+                             case "Demande":
+                                 $PathIncludeCss = array("css/principal.css");
                                 $PathIncludePage = $pathHome . '/principal/send_formulaire.php';
                                 break;
-                            case "Anomalie":
-                                $PathIncludeCss = "css/principal.css";
+                             case "Anomalie":
+                                 $PathIncludeCss = array("css/principal.css");
                                 $PathIncludePage = $pathHome . '/principal/send_anomalie.php';
                                 break;
+                            case "ChangePassword":
+                                $PathIncludeCss = array("css/authentication.css");
+                                $PathIncludePage = $pathHome . '/principal/change_password.php';
+                                break;
                             default:
-                                $PathIncludeCss = 'css/error.css';
+                                $PathIncludeCss = array('css/error.css');
                                 $PathIncludePage = $pathHome . '/templates/error.html';
                                 break;
                         }
                     }
                     else
-                    {
-                        $PathIncludeCss = 'css/error.css';
-                        $PathIncludePage = $pathHome . '/templates/error.html';
-                    }
+                     {
+                         $PathIncludeCss = array('css/error.css');
+                         $PathIncludePage = $pathHome . '/templates/error.html';
+                     }
                     break;
                 case "Compta":
+                    if (isset($_GET['menu']) && $_GET['menu'] == 'Lots' && isset($_GET['item']) && $_GET['item'] == 'Gestion') {
+                        $PathIncludeCss = array("css/maint_lots.css");
+                        $PathIncludeJs = "js/maint_lots.js";
+                        $PathIncludePage = $pathHome . '/maintenance/maint_lots.php';
+                        break;
+                    }
                     if( isset($_GET['item']) )
                     {
                         switch($_GET['item'])
@@ -65,51 +76,84 @@
                             case "Factures":
                                 // echo '<link href="css/Idees.css" rel="stylesheet" type="text/css">' . "\n";
                                 $PathIncludeJs = "js/factures.js";
-                                $PathIncludeCss = "css/factures.css";
+                                $PathIncludeCss = array("css/factures.css");
                                 $PathIncludePage = $pathHome . '/compta/factures.php';
                                 break;
                             case "Validations":
                                 // echo '<link href="css/Idees.css" rel="stylesheet" type="text/css">' . "\n";
                                 $PathIncludeJs = "js/validations.js";
-                                $PathIncludeCss = "css/validations.css";
+                                $PathIncludeCss = array("css/validations.css");
                                 $PathIncludePage = $pathHome . '/compta/validations_selection.php';
                                 break;
                             case "Imports":
                                 $PathIncludeJs = "js/imports.js";
-                                $PathIncludeCss = "css/imports.css";
+                                $PathIncludeCss = array("css/imports.css");
                                 $PathIncludePage = $pathHome . '/compta/imports_selection.php';
                                 break;
                             case "Rapports":
                                 $PathIncludeJs = "js/imports.js";
-                                $PathIncludeCss = "css/imports.css";
+                                $PathIncludeCss = array("css/imports.css");
                                 $PathIncludePage = $pathHome . '/compta/rapports_selection.php';
                                 break;
-                            // case "ImportsCtls":
-                            //     $PathIncludeJs = "js/imports.js";
-                            //     $PathIncludeCss = "css/imports.css";
-                            //     $PathIncludePage = $pathHome . '/compta/imports_control.php';
-                            //     break;
                             default:
-                                $PathIncludeCss = 'css/error.css';
+                                $PathIncludeCss = array('css/error.css');
                                 $PathIncludePage = $pathHome . '/templates/error.html';
                                 break;
                         }
                     }
                     else
+                     {
+                         $PathIncludeCss = array('css/error.css');
+                         $PathIncludePage = $pathHome . '/templates/error.html';
+                     }
+                    break;
+                case "BureauCS":
+                    if( isset($_GET['item']) )
                     {
-                        $PathIncludeCss = 'css/error.css';
-                        $PathIncludePage = $pathHome . '/templates/error.html';
+                        switch($_GET['item'])
+                        {
+                            case "Halls":
+                                $PathIncludeJs = "js/resident.js";
+                                $PathIncludeCss = array("css/principal.css","css/maint_lots.css");
+                                $PathIncludePage = $pathHome . '/bureau_cs/resident.php';
+                                break;
+                            case "Stocks":
+                                $PathIncludeCss = array("css/principal.css");
+                                $PathIncludePage = $pathHome . '/bureau_cs/stocks.php';
+                                break;
+                            case "SortieBadges":
+                                $PathIncludeCss = array("css/principal.css");
+                                $PathIncludePage = $pathHome . '/bureau_cs/sortie_badges.php';
+                                break;
+                            case "SortieTelecommande":
+                                $PathIncludeCss = array("css/principal.css");
+                                $PathIncludePage = $pathHome . '/bureau_cs/sortie_telecommande.php';
+                                break;
+                            case "GestionAcces":
+                                $PathIncludeCss = array("css/principal.css","css/authentication.css");
+                                $PathIncludePage = $pathHome . '/bureau_cs/gestion_acces.php';
+                                break;
+                            default:
+                                $PathIncludeCss = array('css/error.css');
+                                $PathIncludePage = $pathHome . '/templates/error.html';
+                                break;
+                        }
                     }
+                    else
+                     {
+                         $PathIncludeCss = array('css/error.css');
+                         $PathIncludePage = $pathHome . '/templates/error.html';
+                     }
                     break;
                 default:
-                    $PathIncludeCss = 'css/error.css';
+                    $PathIncludeCss = array('css/error.css');
                     $PathIncludePage = $pathHome . '/templates/error.html';
                     break;
             }
         }
         else
         {
-            $PathIncludeCss = 'css/home.css';
+            $PathIncludeCss = array('css/home.css');
             $PathIncludePage = $pathHome . '/templates/home.html';
         }
     }
@@ -130,7 +174,7 @@
 
                     {
 
-                        $PathIncludeCss = 'css/home.css';
+                        $PathIncludeCss = array('css/home.css');
 
                         $PathIncludePage = $pathHome . '/templates/home.html';
 
@@ -162,11 +206,17 @@
 
             // echo '<link href="css/Home.css" rel="stylesheet" type="text/css">' . "\n";
 
-            if ( $PathIncludeCss !== '' )
+            if (!empty($PathIncludeCss))
 
             {
 
-                echo '<link type="text/css" rel="stylesheet" href="' . $PathIncludeCss . '">' . "\n";
+                foreach ($PathIncludeCss as $css)
+
+                {
+
+                    echo '<link type="text/css" rel="stylesheet" href="' . $css . '">' . "\n";
+
+                }
 
             }
 

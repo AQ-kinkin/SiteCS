@@ -83,31 +83,18 @@ define("DB_NAME", "csresip1501");
 
 
 class Database
-
 {
-
 	// use Logs2;
 
-
-
 	private $host      = DB_HOST;
-
 	private $user      = DB_USER;
-
 	private $pass      = DB_PASS;
-
 	private $dbname    = DB_NAME;
-
 	private $dbh;
-
 	private $error;
-
 	private $stmt;
 
-
-
 	public function __construct()
-
 	{
 
 		// Set DSN
@@ -146,71 +133,49 @@ class Database
 		}
 	}
 
-
-
 	public function __destruct()
-
 	{
-
 		$this->close();
 	}
 
-
-
 	public function exec($query, $params = null, $getlastid = false): int|string
-
 	{
-
 		if (empty($params)) {
-
-			return $this->dbh->exec($query);
+			$affected =  $this->dbh->exec($query);
+			if ($affected === false) {
+				// Erreur SQL
+				return -1;
+			} else {
+				return $affected;
+			}
 		} else {
-
 			// $this->write_info('SQL : ' . $query);
-
 			// $this->write_info('params : ' . var_export($params, true));
-
 			$stmt_int = $this->dbh->prepare($query);
-
 			$affected = $stmt_int->execute($params);
 
 			if ($affected) {
-
-				if ($getlastid = true) {
-
+				if ($getlastid == true) {
 					return $this->lastInsertId();
 				} else {
-
 					return $stmt_int->rowCount();
 				}
 			} else {
-
 				return -1;
 			};
 		}
 	}
 
-
-
 	public function ExecWithFetchAll($query, $params = null): array
 	{
-
-
-
 		if (empty($params)) {
-
 			return $this->dbh->query($query)->fetchall();
 		} else {
-
 			$stmt_int = $this->dbh->prepare($query);
-
 			$stmt_int->execute($params);
-
 			return $stmt_int->fetchall();
 		}
 	}
-
-
 
 	public function execonerow($query, $params = null): array
 	{
@@ -224,28 +189,20 @@ class Database
 		}
 	}
 
-
-
 	public function query($query)
 	{
 
 		$this->stmt = $this->dbh->prepare($query);
 	}
 
-
-
 	public function execute($params = null)
 	{
-
 		if (empty($params)) {
-
 			return $this->stmt->execute();
 		}
 
 		#echo "add_import_line -1- ";
-
 		#print_r($params);
-
 		#echo "<br/>";
 
 		return $this->stmt->execute($params);

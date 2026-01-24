@@ -15,7 +15,7 @@ trait Logs {
             default => 'YmdH' // Année Mois Jour Heure (par défaut)
         };
         
-        $this->logsPath = '/home/csresip/www/logs/' . $identifiant . "_ " . date($dateFormat);
+        $this->logsPath = PATH_HOME_CS . '/logs/' . $identifiant . "_ " . date($dateFormat);
 
         // Créer le dossier s'il n'existe pas
         $dossier = dirname($this->logsPath);

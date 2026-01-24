@@ -1,10 +1,10 @@
 <?php
 
-require_once('/home/csresip/www/objets/database.class.php');
-require_once('/home/csresip/www/objets/logs.trait.php');
-require_once('/home/csresip/www/objets/appartement.php');
-require_once('/home/csresip/www/objets/cave.php');
-require_once('/home/csresip/www/objets/parking.php');
+require_once(PATH_HOME_CS . '/objets/database.class.php');
+require_once(PATH_HOME_CS . '/objets/logs.trait.php');
+require_once(PATH_HOME_CS . '/objets/appartement.php');
+require_once(PATH_HOME_CS . '/objets/cave.php');
+require_once(PATH_HOME_CS . '/objets/parking.php');
 
 /**
  * Collection de lots pour un utilisateur

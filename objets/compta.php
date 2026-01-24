@@ -2,14 +2,17 @@
 
 require_once(__DIR__ . '/logs.trait.php');
 
-class ComtabilityException extends Exception {}
-
-
+class CompatibilityException extends Exception {}
+class LeftColumnEmptyException extends CompatibilityException {}
+class RightColumnEmptyException extends CompatibilityException {}
 
 class Compta
 {
     public const MODE_INSERT = 0;
     public const MODE_UPDATE = 1;
+    
+    public const STATE_VALIDATION_AV = '002';
+    public const STATE_VALIDATION_AR = '003';
 
     use Logs;
 
@@ -62,15 +65,7 @@ class Compta
         }
     }
 
-    protected function resetImport($periode): bool
-    {
-        if ( !empty( $periode ) ) {
-            $this->objdb->exec( "update `Compta_years` set `state_compte` = 0 where `periode` = :periode;", [ ':periode' => $periode ] );
-            return true;
-        }
-
-        return false;
-    }
+    
 
     public function getKeySelection():string
     {
@@ -105,7 +100,7 @@ class Compta
     }
 
     // ****************************************************************************
-    // élément de validation : OK, Rejeté, A vérifier, ...
+    // élément de Comtabilité : 
     // ****************************************************************************
     protected function find_id_key($key): string
     {
@@ -120,6 +115,39 @@ class Compta
         }
 
         return $id_key;
+    }
+
+    // ****************************************************************************
+    // élément de validation : OK, Rejeté, A vérifier, ...
+    // ****************************************************************************
+    protected function get_id_validation_with_key($key): string
+    {
+        $this->setKeyValidation();
+
+        $id_key = '-1';
+        foreach ($_SESSION['ArrayValidation'] as $data) {
+            if ($data['numkey'] === $key) {
+                $id_key = $data['id_state'];
+                break;
+            }
+        }
+
+        return $id_key;
+    }
+
+    protected function get_validation_label($id_state): string
+    {
+        $this->setKeyValidation();
+
+        $label = '';
+        foreach ($_SESSION['ArrayValidation'] as $data) {
+            if ($data['id_state'] === $id_state) {
+                $label = $data['namekey'];
+                break;
+            }
+        }
+
+        return $label;
     }
     // ****************************************************************************
 

@@ -1,0 +1,3703 @@
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] get_infos_keys :: $_POST => Array
+(
+    [cle] => 001
+    [titre] => 1 Charges communes générales
+    [action] => show
+    [filtre] => 0
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] get_infos_keys :: Aucun filtre appliqué
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] get_infos_keys :: SQL => SELECT id_line, key_id, num_account, label_account , validation_id, voucher_id, nom, url, LabelFact, NumPiece, NameFournisseur, DateOpe, Tva, Charges, MontantTTC, state_id, infos, commentaire FROM `Compta_factures_2025_2026_lines` INNER JOIN `Compta_factures_2025_2026_infos` ON info_id = id_info LEFT JOIN `Compta_factures_2025_2026_validations` ON validation_id = id_validation LEFT JOIN `Compta_factures_2025_2026_vouchers` ON voucher_id = id_voucher WHERE `Key_id` = 1;
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 1
+    [0] => 1
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60200000
+    [2] => 60200000
+    [label_account] => Electricité
+    [3] => Electricité
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => EDF - 11/09/24 AU 10/03/25 - 1391 KWH 
+    [8] => EDF - 11/09/24 AU 10/03/25 - 1391 KWH 
+    [NumPiece] => 10222545198
+    [9] => 10222545198
+    [NameFournisseur] => EDF
+    [10] => EDF
+    [DateOpe] => 18/03/2025
+    [11] => 18/03/2025
+    [Tva] => 92,94
+    [12] => 92,94
+    [Charges] => 557,61
+    [13] => 557,61
+    [MontantTTC] => 557,61
+    [14] => 557,61
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 2
+    [0] => 2
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => MAISON ELECTRIQUE - ACHAT TOURNEVIS
+    [8] => MAISON ELECTRIQUE - ACHAT TOURNEVIS
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 16/04/2025
+    [11] => 16/04/2025
+    [Tva] => 2,45
+    [12] => 2,45
+    [Charges] => 14,72
+    [13] => 14,72
+    [MontantTTC] => 14,72
+    [14] => 14,72
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 3
+    [0] => 3
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => BUREAU VALLEE - ACHAT ETIQUETTES + PAPIERS A4
+    [8] => BUREAU VALLEE - ACHAT ETIQUETTES + PAPIERS A4
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 16/04/2025
+    [11] => 16/04/2025
+    [Tva] => 3,75
+    [12] => 3,75
+    [Charges] => 22,48
+    [13] => 22,48
+    [MontantTTC] => 22,48
+    [14] => 22,48
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 4
+    [0] => 4
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => TORDJMAN - CLE REAPPRO IX6
+    [8] => TORDJMAN - CLE REAPPRO IX6
+    [NumPiece] => RE23173827
+    [9] => RE23173827
+    [NameFournisseur] => TORDJMAN
+    [10] => TORDJMAN
+    [DateOpe] => 06/05/2025
+    [11] => 06/05/2025
+    [Tva] => 76,66
+    [12] => 76,66
+    [Charges] => 459,98
+    [13] => 459,98
+    [MontantTTC] => 459,98
+    [14] => 459,98
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 5
+    [0] => 5
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => LL Gestion - PRISE EN CHARGE SERRURES REELAX 
+    [8] => LL Gestion - PRISE EN CHARGE SERRURES REELAX 
+    [NumPiece] => FAC-S-2025-011267
+    [9] => FAC-S-2025-011267
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 26/05/2025
+    [11] => 26/05/2025
+    [Tva] => -76,66
+    [12] => -76,66
+    [Charges] => -459,98
+    [13] => -459,98
+    [MontantTTC] => -459,98
+    [14] => -459,98
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 12
+    [0] => 12
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => COPRO QUIZIN - CABLE USB
+    [8] => COPRO QUIZIN - CABLE USB
+    [NumPiece] => FSM2402400303030
+    [9] => FSM2402400303030
+    [NameFournisseur] => COPRO QUINZIN
+    [10] => COPRO QUINZIN
+    [DateOpe] => 02/10/2024
+    [11] => 02/10/2024
+    [Tva] => 3,33
+    [12] => 3,33
+    [Charges] => 19,99
+    [13] => 19,99
+    [MontantTTC] => 19,99
+    [14] => 19,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 23
+    [0] => 23
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => COPRO QUIZIN - CHARGEUR SECTEU USB-C
+    [8] => COPRO QUIZIN - CHARGEUR SECTEU USB-C
+    [NumPiece] => F905 HR59771-24/002
+    [9] => F905 HR59771-24/002
+    [NameFournisseur] => COPRO QUINZIN
+    [10] => COPRO QUINZIN
+    [DateOpe] => 09/10/2024
+    [11] => 09/10/2024
+    [Tva] => 3,33
+    [12] => 3,33
+    [Charges] => 19,99
+    [13] => 19,99
+    [MontantTTC] => 19,99
+    [14] => 19,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 34
+    [0] => 34
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => COPRO QUIZIN - CH3 SARLAM
+    [8] => COPRO QUIZIN - CH3 SARLAM
+    [NumPiece] => F006370616
+    [9] => F006370616
+    [NameFournisseur] => COPRO QUINZIN
+    [10] => COPRO QUINZIN
+    [DateOpe] => 24/10/2024
+    [11] => 24/10/2024
+    [Tva] => 6,94
+    [12] => 6,94
+    [Charges] => 41,66
+    [13] => 41,66
+    [MontantTTC] => 41,66
+    [14] => 41,66
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 45
+    [0] => 45
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => COPRO QUIZIN - MAS LEDTUBE
+    [8] => COPRO QUIZIN - MAS LEDTUBE
+    [NumPiece] => 2024096047
+    [9] => 2024096047
+    [NameFournisseur] => COPRO QUINZIN
+    [10] => COPRO QUINZIN
+    [DateOpe] => 08/11/2024
+    [11] => 08/11/2024
+    [Tva] => 43,58
+    [12] => 43,58
+    [Charges] => 261,48
+    [13] => 261,48
+    [MontantTTC] => 261,48
+    [14] => 261,48
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 67
+    [0] => 67
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => COPRO QUIZIN - 2 CLES PLATES
+    [8] => COPRO QUIZIN - 2 CLES PLATES
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => COPRO QUINZIN
+    [10] => COPRO QUINZIN
+    [DateOpe] => 30/11/2024
+    [11] => 30/11/2024
+    [Tva] => 2,50
+    [12] => 2,50
+    [Charges] => 15,00
+    [13] => 15,00
+    [MontantTTC] => 15,00
+    [14] => 15,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 78
+    [0] => 78
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => MICROSOFT - ACHAT PACK FAMILLE 2024
+    [8] => MICROSOFT - ACHAT PACK FAMILLE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 16/04/2025
+    [11] => 16/04/2025
+    [Tva] => 24,83
+    [12] => 24,83
+    [Charges] => 149,00
+    [13] => 149,00
+    [MontantTTC] => 149,00
+    [14] => 149,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 89
+    [0] => 89
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 60600000
+    [2] => 60600000
+    [label_account] => Fournitures
+    [3] => Fournitures
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => OFFICE TONER - ACHAT TONERS
+    [8] => OFFICE TONER - ACHAT TONERS
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 16/04/2025
+    [11] => 16/04/2025
+    [Tva] => 14,25
+    [12] => 14,25
+    [Charges] => 85,49
+    [13] => 85,49
+    [MontantTTC] => 85,49
+    [14] => 85,49
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 6
+    [0] => 6
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - OCTOBRE 2024
+    [8] => FREE - OCTOBRE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/10/2024
+    [11] => 01/10/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 7
+    [0] => 7
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - OCTOBRE 2024
+    [8] => FREE - OCTOBRE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/10/2024
+    [11] => 01/10/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 8
+    [0] => 8
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - NOVEMBRE 2024
+    [8] => FREE - NOVEMBRE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/11/2024
+    [11] => 01/11/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 9
+    [0] => 9
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - NOVEMBRE 2024
+    [8] => FREE - NOVEMBRE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/11/2024
+    [11] => 01/11/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 10
+    [0] => 10
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - DECEMBRE 2024
+    [8] => FREE - DECEMBRE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/12/2024
+    [11] => 01/12/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 11
+    [0] => 11
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - DECEMBRE 2024
+    [8] => FREE - DECEMBRE 2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/12/2024
+    [11] => 01/12/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 13
+    [0] => 13
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - JANVIER 2025
+    [8] => FREE - JANVIER 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/01/2025
+    [11] => 01/01/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 14
+    [0] => 14
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - JANVIER 2025
+    [8] => FREE - JANVIER 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/01/2025
+    [11] => 01/01/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 15
+    [0] => 15
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - FEVRIER 2025
+    [8] => FREE - FEVRIER 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/02/2025
+    [11] => 01/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 16
+    [0] => 16
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - FEVRIER 2025
+    [8] => FREE - FEVRIER 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/02/2025
+    [11] => 01/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 17
+    [0] => 17
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - MARS 2025
+    [8] => FREE - MARS 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/03/2025
+    [11] => 01/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 18
+    [0] => 18
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - MARS 2025
+    [8] => FREE - MARS 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/03/2025
+    [11] => 01/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 19
+    [0] => 19
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - AVRIL 2025
+    [8] => FREE - AVRIL 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/04/2025
+    [11] => 01/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 20
+    [0] => 20
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - AVRIL 2025
+    [8] => FREE - AVRIL 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/04/2025
+    [11] => 01/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 11,99
+    [13] => 11,99
+    [MontantTTC] => 11,99
+    [14] => 11,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 22
+    [0] => 22
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - MAI 2025
+    [8] => FREE - MAI 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/05/2025
+    [11] => 01/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 24
+    [0] => 24
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - JUIN 2025
+    [8] => FREE - JUIN 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/06/2025
+    [11] => 01/06/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 29,99
+    [13] => 29,99
+    [MontantTTC] => 29,99
+    [14] => 29,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 25
+    [0] => 25
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61450000
+    [2] => 61450000
+    [label_account] => Ligne ascenseur - parlophone - vidéophone
+    [3] => Ligne ascenseur - parlophone - vidéophone
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => FREE - JUIN 2025
+    [8] => FREE - JUIN 2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => FREE
+    [10] => FREE
+    [DateOpe] => 01/06/2025
+    [11] => 01/06/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 15,99
+    [13] => 15,99
+    [MontantTTC] => 15,99
+    [14] => 15,99
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 26
+    [0] => 26
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61500000
+    [2] => 61500000
+    [label_account] => Entretien et petites réparations
+    [3] => Entretien et petites réparations
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => DA SILVA RENOV - IMPLENTATION DU CHANTIER + PROTECTION + NETTOYAGE + CREATION D'UN MUR EN CARREAUX
+    [8] => DA SILVA RENOV - IMPLENTATION DU CHANTIER + PROTECTION + NETTOYAGE + CREATION D'UN MUR EN CARREAUX
+    [NumPiece] => FA465
+    [9] => FA465
+    [NameFournisseur] => DA SILVA RENOV 
+    [10] => DA SILVA RENOV 
+    [DateOpe] => 01/01/2025
+    [11] => 01/01/2025
+    [Tva] => 57,00
+    [12] => 57,00
+    [Charges] => 627,00
+    [13] => 627,00
+    [MontantTTC] => 627,00
+    [14] => 627,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 27
+    [0] => 27
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61500000
+    [2] => 61500000
+    [label_account] => Entretien et petites réparations
+    [3] => Entretien et petites réparations
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => DABAT HABITAT - TRAVAUX POUR RENFORCER PORTE DE LOCAL 
+    [8] => DABAT HABITAT - TRAVAUX POUR RENFORCER PORTE DE LOCAL 
+    [NumPiece] => F2025-0088
+    [9] => F2025-0088
+    [NameFournisseur] => DABAT HABITAT
+    [10] => DABAT HABITAT
+    [DateOpe] => 12/05/2025
+    [11] => 12/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 210,00
+    [13] => 210,00
+    [MontantTTC] => 210,00
+    [14] => 210,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 28
+    [0] => 28
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61540000
+    [2] => 61540000
+    [label_account] => Réparations portes, portails, et contrôle d'accès
+    [3] => Réparations portes, portails, et contrôle d'accès
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => ECOMELEC - PRISE EN CHARGE + LOGISTIQUE + DEPLACEMENT + PETIT FOURNITURES
+    [8] => ECOMELEC - PRISE EN CHARGE + LOGISTIQUE + DEPLACEMENT + PETIT FOURNITURES
+    [NumPiece] => 2230110
+    [9] => 2230110
+    [NameFournisseur] => ECOMELEC
+    [10] => ECOMELEC
+    [DateOpe] => 03/12/2024
+    [11] => 03/12/2024
+    [Tva] => 20,94
+    [12] => 20,94
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 230,30
+    [14] => 230,30
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 29
+    [0] => 29
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61570000
+    [2] => 61570000
+    [label_account] => Entretien et réparations plomberie
+    [3] => Entretien et réparations plomberie
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => LD PLOMB - INVESTIGATION + RECHERCHE DE FUITE SUR COLONNE 
+    [8] => LD PLOMB - INVESTIGATION + RECHERCHE DE FUITE SUR COLONNE 
+    [NumPiece] => F2024-0190
+    [9] => F2024-0190
+    [NameFournisseur] => LD PLOMB
+    [10] => LD PLOMB
+    [DateOpe] => 02/12/2024
+    [11] => 02/12/2024
+    [Tva] => 15,00
+    [12] => 15,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 165,00
+    [14] => 165,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 30
+    [0] => 30
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61570000
+    [2] => 61570000
+    [label_account] => Entretien et réparations plomberie
+    [3] => Entretien et réparations plomberie
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => LD PLOMB - REPARATION FUITE SUR COLONNE EAU USEE 
+    [8] => LD PLOMB - REPARATION FUITE SUR COLONNE EAU USEE 
+    [NumPiece] => F2025-0004
+    [9] => F2025-0004
+    [NameFournisseur] => LD PLOMB
+    [10] => LD PLOMB
+    [DateOpe] => 19/01/2025
+    [11] => 19/01/2025
+    [Tva] => 85,00
+    [12] => 85,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 935,00
+    [14] => 935,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 31
+    [0] => 31
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 61570000
+    [2] => 61570000
+    [label_account] => Entretien et réparations plomberie
+    [3] => Entretien et réparations plomberie
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => LD PLOMB - REMPLACEMENT RESEAU EP FUYARD 
+    [8] => LD PLOMB - REMPLACEMENT RESEAU EP FUYARD 
+    [NumPiece] => F2025-0010
+    [9] => F2025-0010
+    [NameFournisseur] => LD PLOMB
+    [10] => LD PLOMB
+    [DateOpe] => 20/01/2025
+    [11] => 20/01/2025
+    [Tva] => 390,00
+    [12] => 390,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 4290,00
+    [14] => 4290,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 32
+    [0] => 32
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62110000
+    [2] => 62110000
+    [label_account] => Rémunération du syndic
+    [3] => Rémunération du syndic
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Forfait du 01/10/2024 au 31/12/2024
+    [8] => Forfait du 01/10/2024 au 31/12/2024
+    [NumPiece] => FAC-S-2024-008613
+    [9] => FAC-S-2024-008613
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 01/10/2024
+    [11] => 01/10/2024
+    [Tva] => 950,00
+    [12] => 950,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 5700,00
+    [14] => 5700,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 33
+    [0] => 33
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62110000
+    [2] => 62110000
+    [label_account] => Rémunération du syndic
+    [3] => Rémunération du syndic
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Forfait du 01/01/2025 au 31/03/2025
+    [8] => Forfait du 01/01/2025 au 31/03/2025
+    [NumPiece] => FAC-S-2025-009635
+    [9] => FAC-S-2025-009635
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 01/01/2025
+    [11] => 01/01/2025
+    [Tva] => 950,00
+    [12] => 950,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 5700,00
+    [14] => 5700,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 35
+    [0] => 35
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62110000
+    [2] => 62110000
+    [label_account] => Rémunération du syndic
+    [3] => Rémunération du syndic
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Forfait du 01/04/2025 au 30/04/2025
+    [8] => Forfait du 01/04/2025 au 30/04/2025
+    [NumPiece] => FAC-S-2025-010826
+    [9] => FAC-S-2025-010826
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 13/04/2025
+    [11] => 13/04/2025
+    [Tva] => 316,67
+    [12] => 316,67
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1900,00
+    [14] => 1900,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 36
+    [0] => 36
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62110000
+    [2] => 62110000
+    [label_account] => Rémunération du syndic
+    [3] => Rémunération du syndic
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Forfait du 01/05/2025 au 31/05/2025
+    [8] => Forfait du 01/05/2025 au 31/05/2025
+    [NumPiece] => FAC-S-2025-011048
+    [9] => FAC-S-2025-011048
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 01/05/2025
+    [11] => 01/05/2025
+    [Tva] => 316,67
+    [12] => 316,67
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1900,00
+    [14] => 1900,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 37
+    [0] => 37
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62110000
+    [2] => 62110000
+    [label_account] => Rémunération du syndic
+    [3] => Rémunération du syndic
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Forfait du 01/06/2025 au 30/06/2025
+    [8] => Forfait du 01/06/2025 au 30/06/2025
+    [NumPiece] => FAC-S-2025-011357
+    [9] => FAC-S-2025-011357
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 01/06/2025
+    [11] => 01/06/2025
+    [Tva] => 316,67
+    [12] => 316,67
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1900,00
+    [14] => 1900,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 38
+    [0] => 38
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62110000
+    [2] => 62110000
+    [label_account] => Rémunération du syndic
+    [3] => Rémunération du syndic
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Forfait du 01/07/2025 au 31/07/2025
+    [8] => Forfait du 01/07/2025 au 31/07/2025
+    [NumPiece] => FAC-S-2025-011775
+    [9] => FAC-S-2025-011775
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 01/07/2025
+    [11] => 01/07/2025
+    [Tva] => 316,67
+    [12] => 316,67
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1900,00
+    [14] => 1900,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 39
+    [0] => 39
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62120000
+    [2] => 62120000
+    [label_account] => Débours
+    [3] => Débours
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Reliquat répartition 01/10/2023-30/09/2024
+    [8] => Reliquat répartition 01/10/2023-30/09/2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => Reliquat de répartition
+    [10] => Reliquat de répartition
+    [DateOpe] => 01/10/2024
+    [11] => 01/10/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => -3919,87
+    [14] => -3919,87
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 40
+    [0] => 40
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-008720
+    [9] => FAC-S-2024-008720
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 27/10/2024
+    [11] => 27/10/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,80
+    [14] => 1,80
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 41
+    [0] => 41
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-008740
+    [9] => FAC-S-2024-008740
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 27/10/2024
+    [11] => 27/10/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 6,62
+    [14] => 6,62
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 42
+    [0] => 42
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-008772
+    [9] => FAC-S-2024-008772
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 03/11/2024
+    [11] => 03/11/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 6,09
+    [14] => 6,09
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 43
+    [0] => 43
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-008892
+    [9] => FAC-S-2024-008892
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 29/11/2024
+    [11] => 29/11/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 12,96
+    [14] => 12,96
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 44
+    [0] => 44
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-009331
+    [9] => FAC-S-2024-009331
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 21/12/2024
+    [11] => 21/12/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 60,90
+    [14] => 60,90
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 46
+    [0] => 46
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-009366
+    [9] => FAC-S-2024-009366
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 22/12/2024
+    [11] => 22/12/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 48,60
+    [14] => 48,60
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 47
+    [0] => 47
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2024-009464
+    [9] => FAC-S-2024-009464
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 22/12/2024
+    [11] => 22/12/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 54,00
+    [14] => 54,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 48
+    [0] => 48
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-009845
+    [9] => FAC-S-2025-009845
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 08/02/2025
+    [11] => 08/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 21,24
+    [14] => 21,24
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 49
+    [0] => 49
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010002
+    [9] => FAC-S-2025-010002
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 16/02/2025
+    [11] => 16/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 656,87
+    [14] => 656,87
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 50
+    [0] => 50
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010008
+    [9] => FAC-S-2025-010008
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 16/02/2025
+    [11] => 16/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 501,09
+    [14] => 501,09
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 51
+    [0] => 51
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010020
+    [9] => FAC-S-2025-010020
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 23/02/2025
+    [11] => 23/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 28,68
+    [14] => 28,68
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 52
+    [0] => 52
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010021
+    [9] => FAC-S-2025-010021
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 23/02/2025
+    [11] => 23/02/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 41,96
+    [14] => 41,96
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 53
+    [0] => 53
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010389
+    [9] => FAC-S-2025-010389
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 08/03/2025
+    [11] => 08/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 38,64
+    [14] => 38,64
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 54
+    [0] => 54
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010493
+    [9] => FAC-S-2025-010493
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 22/03/2025
+    [11] => 22/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,97
+    [14] => 1,97
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 55
+    [0] => 55
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010595
+    [9] => FAC-S-2025-010595
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 30/03/2025
+    [11] => 30/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 296,36
+    [14] => 296,36
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 57
+    [0] => 57
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010746
+    [9] => FAC-S-2025-010746
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 05/04/2025
+    [11] => 05/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 358,34
+    [14] => 358,34
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 58
+    [0] => 58
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010884
+    [9] => FAC-S-2025-010884
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 20/04/2025
+    [11] => 20/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 48,38
+    [14] => 48,38
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 59
+    [0] => 59
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010932
+    [9] => FAC-S-2025-010932
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 20/04/2025
+    [11] => 20/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 60
+    [0] => 60
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-010986
+    [9] => FAC-S-2025-010986
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 26/04/2025
+    [11] => 26/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 2,87
+    [14] => 2,87
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 61
+    [0] => 61
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011065
+    [9] => FAC-S-2025-011065
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 05/05/2025
+    [11] => 05/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 62
+    [0] => 62
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011076
+    [9] => FAC-S-2025-011076
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 05/05/2025
+    [11] => 05/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 6,44
+    [14] => 6,44
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 63
+    [0] => 63
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011088
+    [9] => FAC-S-2025-011088
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 05/05/2025
+    [11] => 05/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 7,79
+    [14] => 7,79
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 64
+    [0] => 64
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011093
+    [9] => FAC-S-2025-011093
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 05/05/2025
+    [11] => 05/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 65
+    [0] => 65
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011201
+    [9] => FAC-S-2025-011201
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 17/05/2025
+    [11] => 17/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 66
+    [0] => 66
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011202
+    [9] => FAC-S-2025-011202
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 17/05/2025
+    [11] => 17/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 68
+    [0] => 68
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011203
+    [9] => FAC-S-2025-011203
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 17/05/2025
+    [11] => 17/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 69
+    [0] => 69
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011204
+    [9] => FAC-S-2025-011204
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 17/05/2025
+    [11] => 17/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 70
+    [0] => 70
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011205
+    [9] => FAC-S-2025-011205
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 17/05/2025
+    [11] => 17/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 71
+    [0] => 71
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011206
+    [9] => FAC-S-2025-011206
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 17/05/2025
+    [11] => 17/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 1,18
+    [14] => 1,18
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 72
+    [0] => 72
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62130000
+    [2] => 62130000
+    [label_account] => Frais postaux
+    [3] => Frais postaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => Frais postaux
+    [8] => Frais postaux
+    [NumPiece] => FAC-S-2025-011672
+    [9] => FAC-S-2025-011672
+    [NameFournisseur] => LL GESTION
+    [10] => LL GESTION
+    [DateOpe] => 28/06/2025
+    [11] => 28/06/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 48,38
+    [14] => 48,38
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 73
+    [0] => 73
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62300000
+    [2] => 62300000
+    [label_account] => Rémunérations de tiers intervenants
+    [3] => Rémunérations de tiers intervenants
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => PROARCHIVES - PRISE EN CHARGE + CONSERVATION ARCHIVES PHYSIQUE 2023
+    [8] => PROARCHIVES - PRISE EN CHARGE + CONSERVATION ARCHIVES PHYSIQUE 2023
+    [NumPiece] => 791285
+    [9] => 791285
+    [NameFournisseur] => PROARCHIVES
+    [10] => PROARCHIVES
+    [DateOpe] => 01/10/2024
+    [11] => 01/10/2024
+    [Tva] => 147,47
+    [12] => 147,47
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 884,82
+    [14] => 884,82
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 74
+    [0] => 74
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62300000
+    [2] => 62300000
+    [label_account] => Rémunérations de tiers intervenants
+    [3] => Rémunérations de tiers intervenants
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => PROARCHIVES - PRISE EN CHARGE + CONSERVATION ARCHIVES PHYSIQUE 2024
+    [8] => PROARCHIVES - PRISE EN CHARGE + CONSERVATION ARCHIVES PHYSIQUE 2024
+    [NumPiece] => 856322
+    [9] => 856322
+    [NameFournisseur] => PROARCHIVES
+    [10] => PROARCHIVES
+    [DateOpe] => 07/10/2024
+    [11] => 07/10/2024
+    [Tva] => 147,47
+    [12] => 147,47
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 884,82
+    [14] => 884,82
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 75
+    [0] => 75
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62310000
+    [2] => 62310000
+    [label_account] => Frais de procédure
+    [3] => Frais de procédure
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => LOSELET ET DAIGREMONT - COMMANDEMENT DE PAYER LES LOYERS VISANT LA CLAUSE RESOLUTOIRE 
+    [8] => LOSELET ET DAIGREMONT - COMMANDEMENT DE PAYER LES LOYERS VISANT LA CLAUSE RESOLUTOIRE 
+    [NumPiece] => 24.12.4964
+    [9] => 24.12.4964
+    [NameFournisseur] => LEXEC
+    [10] => LEXEC
+    [DateOpe] => 20/12/2024
+    [11] => 20/12/2024
+    [Tva] => 27,87
+    [12] => 27,87
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 174,29
+    [14] => 174,29
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 76
+    [0] => 76
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62310000
+    [2] => 62310000
+    [label_account] => Frais de procédure
+    [3] => Frais de procédure
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => DOCSYNDIC - CONVOCATION SANS DEPOT LOGE 
+    [8] => DOCSYNDIC - CONVOCATION SANS DEPOT LOGE 
+    [NumPiece] => FS2317474
+    [9] => FS2317474
+    [NameFournisseur] => DOC SYNDIC (DOCSYNDIC)
+    [10] => DOC SYNDIC (DOCSYNDIC)
+    [DateOpe] => 01/01/2025
+    [11] => 01/01/2025
+    [Tva] => 31,55
+    [12] => 31,55
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 189,31
+    [14] => 189,31
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 77
+    [0] => 77
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 62400000
+    [2] => 62400000
+    [label_account] => Frais du conseil syndical
+    [3] => Frais du conseil syndical
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => ARC - COTISATION 01/07/25 AU 30/06/26 
+    [8] => ARC - COTISATION 01/07/25 AU 30/06/26 
+    [NumPiece] => FA084124
+    [9] => FA084124
+    [NameFournisseur] => ARC
+    [10] => ARC
+    [DateOpe] => 29/04/2025
+    [11] => 29/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 711,00
+    [13] => 711,00
+    [MontantTTC] => 711,00
+    [14] => 711,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 79
+    [0] => 79
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 63300000
+    [2] => 63300000
+    [label_account] => Taxe foncière
+    [3] => Taxe foncière
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => SIP MASSY - TAXE FONCIERE 2024 
+    [8] => SIP MASSY - TAXE FONCIERE 2024 
+    [NumPiece] => 2491446807366 
+    [9] => 2491446807366 
+    [NameFournisseur] => SIP MASSY
+    [10] => SIP MASSY
+    [DateOpe] => 01/10/2024
+    [11] => 01/10/2024
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 8120,00
+    [13] => 8120,00
+    [MontantTTC] => 8120,00
+    [14] => 8120,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 80
+    [0] => 80
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 64110000
+    [2] => 64110000
+    [label_account] => Prélèvement à la source
+    [3] => Prélèvement à la source
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => PAS 02/2025
+    [8] => PAS 02/2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => SIP MASSY
+    [10] => SIP MASSY
+    [DateOpe] => 20/03/2025
+    [11] => 20/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 56,20
+    [13] => 56,20
+    [MontantTTC] => 56,20
+    [14] => 56,20
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 81
+    [0] => 81
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 64200000
+    [2] => 64200000
+    [label_account] => Charges sociales et organismes sociaux
+    [3] => Charges sociales et organismes sociaux
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => URSSAF 02/2025
+    [8] => URSSAF 02/2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => URSSAF
+    [10] => URSSAF
+    [DateOpe] => 20/03/2025
+    [11] => 20/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 728,00
+    [13] => 728,00
+    [MontantTTC] => 728,00
+    [14] => 728,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 82
+    [0] => 82
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 64210000
+    [2] => 64210000
+    [label_account] => Charges sociales et organismes sociaux HUMANIS
+    [3] => Charges sociales et organismes sociaux HUMANIS
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => HUMANIS RETRAITE - 02/2025
+    [8] => HUMANIS RETRAITE - 02/2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => HUMANIS
+    [10] => HUMANIS
+    [DateOpe] => 20/03/2025
+    [11] => 20/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 203,85
+    [13] => 203,85
+    [MontantTTC] => 203,85
+    [14] => 203,85
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 83
+    [0] => 83
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 64220000
+    [2] => 64220000
+    [label_account] => Charges sociales et organismes sociaux MUTUELLE
+    [3] => Charges sociales et organismes sociaux MUTUELLE
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => AXA - MUTUELLE 02/2025
+    [8] => AXA - MUTUELLE 02/2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => AXA ENTREPRISES (MUTUELLE)
+    [10] => AXA ENTREPRISES (MUTUELLE)
+    [DateOpe] => 20/03/2025
+    [11] => 20/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 34,20
+    [13] => 34,20
+    [MontantTTC] => 34,20
+    [14] => 34,20
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 84
+    [0] => 84
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 66200000
+    [2] => 66200000
+    [label_account] => Autres charges financières et agios
+    [3] => Autres charges financières et agios
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => CM - FRAIS REJET VIREMENT LD PLOMB
+    [8] => CM - FRAIS REJET VIREMENT LD PLOMB
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 13/01/2025
+    [11] => 13/01/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 2,00
+    [14] => 2,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 85
+    [0] => 85
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 66300000
+    [2] => 66300000
+    [label_account] => Frais bancaires
+    [3] => Frais bancaires
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => CM - 4T2024
+    [8] => CM - 4T2024
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 13/01/2025
+    [11] => 13/01/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 30,00
+    [14] => 30,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 86
+    [0] => 86
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 66300000
+    [2] => 66300000
+    [label_account] => Frais bancaires
+    [3] => Frais bancaires
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => CM - 1T2025
+    [8] => CM - 1T2025
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] =>  
+    [10] =>  
+    [DateOpe] => 11/04/2025
+    [11] => 11/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => 30,00
+    [14] => 30,00
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 87
+    [0] => 87
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 71300000
+    [2] => 71300000
+    [label_account] => Indemnités d'assurances
+    [3] => Indemnités d'assurances
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => DO 91066 - POMMIER
+    [8] => DO 91066 - POMMIER
+    [NumPiece] => 1710788
+    [9] => 1710788
+    [NameFournisseur] => Crédit Mutuel
+    [10] => Crédit Mutuel
+    [DateOpe] => 11/04/2025
+    [11] => 11/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => -2816,25
+    [14] => -2816,25
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 88
+    [0] => 88
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 71500000
+    [2] => 71500000
+    [label_account] => Loyers s/ parties communes
+    [3] => Loyers s/ parties communes
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => LOISELET - LOYERS LOGE
+    [8] => LOISELET - LOYERS LOGE
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => Crédit Mutuel
+    [10] => Crédit Mutuel
+    [DateOpe] => 04/03/2025
+    [11] => 04/03/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => -3573,53
+    [14] => -3573,53
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 90
+    [0] => 90
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 71500000
+    [2] => 71500000
+    [label_account] => Loyers s/ parties communes
+    [3] => Loyers s/ parties communes
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => VIRT
+    [8] => VIRT
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => Crédit Mutuel
+    [10] => Crédit Mutuel
+    [DateOpe] => 04/04/2025
+    [11] => 04/04/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => -660,91
+    [14] => -660,91
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 91
+    [0] => 91
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 71500000
+    [2] => 71500000
+    [label_account] => Loyers s/ parties communes
+    [3] => Loyers s/ parties communes
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => VIRT
+    [8] => VIRT
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => Crédit Mutuel
+    [10] => Crédit Mutuel
+    [DateOpe] => 06/05/2025
+    [11] => 06/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => -1167,68
+    [14] => -1167,68
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+
+[2026-01-09 21:04:54] [INFO] [2026-01-09 21:04:54] [Info] showfacture :: Affichage de la facture Array
+(
+    [id_line] => 92
+    [0] => 92
+    [key_id] => 1
+    [1] => 1
+    [num_account] => 71500000
+    [2] => 71500000
+    [label_account] => Loyers s/ parties communes
+    [3] => Loyers s/ parties communes
+    [validation_id] => 
+    [4] => 
+    [voucher_id] => 
+    [5] => 
+    [nom] => 
+    [6] => 
+    [url] => 
+    [7] => 
+    [LabelFact] => VIRT
+    [8] => VIRT
+    [NumPiece] =>  
+    [9] =>  
+    [NameFournisseur] => Crédit Mutuel
+    [10] => Crédit Mutuel
+    [DateOpe] => 20/05/2025
+    [11] => 20/05/2025
+    [Tva] => 0,00
+    [12] => 0,00
+    [Charges] => 0,00
+    [13] => 0,00
+    [MontantTTC] => -789,19
+    [14] => -789,19
+    [state_id] => 
+    [15] => 
+    [infos] => 
+    [16] => 
+    [commentaire] => 
+    [17] => 
+)
+
+

@@ -2,7 +2,7 @@
 
 /* Le container sidebare est définit dans deco.css */
 .sidebar1 ul{
-margin: 5px;
+margin: 4px;
 padding: 0;
 /* list-style-type: none; */
 width: 180px; /* Width of Menu Items */
@@ -14,5 +14,17 @@ width: 180px; /* Width of Menu Items */
     position: relative;
     margin-bottom: 10px;
     font-size: 16px;
+}
+
+.sidebar1 ul ul {
+    margin-left: 5px;
+    /* background-color: rgba(130, 168, 238, 0.95); */
+    border-left: 2px solid #5a7db8;
+    padding-left: 5px;
+    /* box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); */
+}
+
+.sidebar1 ul ul ul {
+    margin-left: 7px;
 }
 

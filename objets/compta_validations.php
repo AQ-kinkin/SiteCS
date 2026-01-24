@@ -1,6 +1,6 @@
 <?php
 
-require('/home/csresip/www/objets/compta.php');
+require(PATH_HOME_CS . '/objets/compta.php');
 
 class Compta_Validations extends Compta
 {
@@ -315,6 +315,7 @@ class Compta_Validations extends Compta
 
     private function get_infos_keys(): void
     {
+        $this->InfoLog('get_infos_keys :: $_POST => ' . print_r($_POST, true));
         // $this->InfoLog('get_infos_keys :: ArrayKeyComptable ' . print_r($_SESSION['ArrayKeyComptable'], true) );
         // $this->InfoLog('get_infos_keys :: key ' . $_POST['cle']);
         // $this->InfoLog('get_infos_keys :: key_id ' . $this->find_id_key($_POST['cle']) );
@@ -325,7 +326,7 @@ class Compta_Validations extends Compta
         $sql .= "LEFT JOIN `" . $this->getNameTableValidations($_SESSION['selectedyear']) . "` ON validation_id = id_validation ";
         $sql .= "LEFT JOIN `" . $this->getNameTableVouchers($_SESSION['selectedyear']) . "` ON voucher_id = id_voucher ";
         $sql .= "WHERE `Key_id` = " . $this->find_id_key($_POST['cle']);
-        
+
         // Ajout du filtrage selon le paramètre filtre
         if (isset($_POST['filtre']) && $_POST['filtre'] !== '0') {
             $this->InfoLog('get_infos_keys :: filtre => ' . $_POST['filtre']);

@@ -1,14 +1,16 @@
 <?php
 
-require('/home/csresip/www/objets/mysql.sessions.php');
-require_once('/home/csresip/www/objets/database.class.php');
-require_once('/home/csresip/www/objets/types_acteur.php');
-require_once('/home/csresip/www/objets/types_lot.php');
-require_once('/home/csresip/www/objets/halls.php');
-require_once('/home/csresip/www/objets/user.php');
+require(PATH_HOME_CS . '/objets/mysql.sessions.php');
+require_once(PATH_HOME_CS . '/objets/database.class.php');
+require_once(PATH_HOME_CS . '/objets/types_acteur.php');
+require_once(PATH_HOME_CS . '/objets/types_lot.php');
+require_once(PATH_HOME_CS . '/objets/halls.php');
+require_once(PATH_HOME_CS . '/objets/user.php');
 
 class Site
 {
+    use Logs;
+
     // Constantes de types d'acteurs (bitmask)
     public const LOCAT = 1;      // Locataire
     public const PROPRIO = 2;    // Propriétaire
@@ -20,7 +22,8 @@ class Site
 
     private Session $session;
     private Database $objdb;
-    
+    private bool $log = false;
+
     // Durées de gestion de session (lues depuis session.cookie_lifetime)
     private readonly int $maxTimeSession;      // Durée max d'inactivité
     private readonly int $refreshTimeSession;  // Intervalle de refresh du cookie (53% du max)
@@ -28,7 +31,8 @@ class Site
     public function __construct()
     {
         $this->objdb = new Database();
-        
+        $this->log = true;
+
         // Initialiser les durées depuis la config PHP
         $cookieLifetime = ini_get('session.cookie_lifetime');
         $this->maxTimeSession = (int)$cookieLifetime;
@@ -41,6 +45,9 @@ class Site
     {
         $this->session = new Session($this->objdb);
         session_set_save_handler($this->session, true);
+        if ( $this->log === true ) {
+            $this->PrepareLog('Site', 'd');
+        }
     }
 
     public function destroy()
@@ -275,13 +282,58 @@ class Site
 
 
     public function connection($ident, $passwd)
-    {   
+    {
         // Vérifier que l'identifiant n'est pas vide ou null (accepte '0')
         if ($ident === null || $ident === '') {
             return false;
         }
-        
+
         return $this->session->connection($ident, $passwd);
+    }
+
+    /**
+     * Met à jour le mot de passe d'un utilisateur
+     *
+     * @param string $ident Identifiant de l'utilisateur
+     * @param string $plainPassword Nouveau mot de passe en clair
+     * @return int 0=succès, 1=identifiant non trouvé, 2=erreur
+     */
+    public function updatePassword(string $ident, string $plainPassword): int
+    {
+        // Hacher le mot de passe
+        $hashedPassword = password_hash($plainPassword, PASSWORD_DEFAULT);
+        if ($hashedPassword === false) {
+            return 2; // Erreur de hachage
+        }
+        
+        // Étape 1 : Vérifier si l'identifiant existe
+        $sql = "SELECT id_user FROM acteurs WHERE LOWER(ident) = LOWER(?)";
+        $result = $this->objdb->execonerow($sql, [$ident]);
+        
+        if (empty($result)) {
+            return 1; // Identifiant non trouvé
+        }
+        
+        $this->InfoLog("result : " . print_r($result ,true));
+        // Étape 2 : Mettre à jour le mot de passe
+        $sql = "UPDATE acteurs SET passwd = ? WHERE id_user = ?";
+        $affected = $this->objdb->exec($sql, [$hashedPassword, $result['id_user']]);
+        $this->InfoLog( "affected = " . $affected );
+        if ($affected > 0) {
+            return 0; // Succès
+        } else {
+            return 2; // Erreur DB
+        }
+    }
+
+    /**
+     * Wrapper conditionnel pour les logs
+     */
+    private function InfoLog(string $message): void
+    {
+        if ($this->log === false) return;
+        
+        $this->write_info($message);
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 
-require_once('/home/csresip/www/objets/database.class.php');
-require_once('/home/csresip/www/objets/logs.trait.php');
+require_once(PATH_HOME_CS . '/objets/database.class.php');
+require_once(PATH_HOME_CS . '/objets/logs.trait.php');
 
 class Halls
 {
@@ -115,9 +115,54 @@ class Halls
      * Méthode magique appelée lors de la désérialisation
      * Restaure Database depuis Site global
      */
-    public function __wakeup(): void
-    {
-        // db sera réinitialisé via gestion_site __get()
-        // log garde son état sérialisé
-    }
-}
+     public function __wakeup(): void
+     {
+         // db sera réinitialisé via gestion_site __get()
+         // log garde son état sérialisé
+     }
+
+     /**
+      * Retourne un tableau de tableaux associatifs avec les clés : mark, name, floor pour un hall donné
+      * @param int $id_hall L'ID du hall
+      * @return array Tableau des données des appartements du hall
+      */
+     public function get_page_hall(int $id_hall): array
+     {
+         $this->InfoLog("Récupération des données pour le hall $id_hall");
+
+         $sql = "
+             SELECT
+                 `lots`.`repere` AS mark,
+                 `appartements`.`Labelhall` AS name,
+                 CONCAT(
+                     IF(`appartements`.`etage` = 0, 'RC', `appartements`.`etage`),
+                     ' ',
+                     `appartements`.`position`
+                 ) AS floor
+             FROM `appartements`
+             JOIN `lots` ON `appartements`.`lot` = `lots`.`lot`
+             WHERE `lots`.`position_id` = ?
+             ORDER BY `appartements`.`etage` DESC;
+         ";
+
+         $this->InfoLog("Requête SQL : $sql avec paramètre $id_hall");
+
+         try {
+             $rows = $this->db->ExecWithFetchAll($sql, [$id_hall]);
+             $this->InfoLog("Données récupérées : " . count($rows) . " entrées");
+             return $rows;
+         } catch (Exception $e) {
+             $this->InfoLog("ERREUR : " . $e->getMessage());
+             return [];
+         }
+     }
+
+     /**
+      * Retourne un tableau simple contenant tous les id_hall disponibles
+      * @return array Liste des ID des halls
+      */
+     public function get_name_halls(): array
+     {
+         return array_keys($this->data);
+     }
+ }

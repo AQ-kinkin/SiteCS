@@ -133,56 +133,100 @@ class ConflitHandler {
    
 
    clearAll() {
-
+       console.log("Entry in clearAll");
        this.selectedLeft = null;
-
        this.svg.innerHTML = '';
-
        this.associations.length = 0;
-
        this.element.querySelectorAll('.item').forEach(i => i.classList.remove('selected'));
-
    }
 
-   
+    handleForced() {
+        console.log("Entry in handleForced");
+        const id_conflit = this.element.dataset.id;
+        
+        const itemsGauche = this.element.querySelectorAll('.col.gauche .item');
+        const itemsDroite = this.element.querySelectorAll('.col.droite .item');
+    
+        if (itemsDroite.length > 0) {
+            alert("La colonne droite n'est pas vide ! Utilisez le bouton Valider.");
+            return;
+        }
+        
+        if (itemsGauche.length === 0) {
+            alert("Aucune ligne à forcer !");
+            return;
+        }
+
+        //if (!confirm("Êtes-vous sûr de vouloir forcer cette ligne ?")) {
+        //    return;
+        //}
+
+        const form = document.getElementById('form_imports');
+        const step = form ? form.querySelector('input[name="step"]').value : '';
+
+        const formData = new FormData();
+        formData.append('form_num', 11);
+        formData.append('action', 'forced');
+        formData.append('step', step);
+        
+        var count=0;
+            itemsGauche.forEach(item => {
+            const index = item.dataset.index;
+            if (index) {
+                formData.append('index' + count++, index);
+            }
+        });
+
+        fetch("compta/import_excel.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => { 
+            if (!response.ok) throw new Error("Erreur HTTP");
+            return response.text();
+        })
+        .then(html => {
+            this.element.innerHTML = html;
+        })
+        .catch((err) => {
+            const mess = document.getElementById("imports-message");
+            if (mess) mess.innerHTML = "<p style='color:red;'>Erreur : " + err + "</p>";
+        });
+        
+        console.log("Exit of handleForced");
+    } 
 
    setupEventListeners() {
 
        // Items click
-
        this.element.querySelectorAll('.item').forEach(item => {
-
            item.addEventListener('click', () => this.handleItemClick(item));
-
        });
-
-       
 
        // Cancel button
-
        this.element.querySelector('.clear-btn').addEventListener('click', (e) => {
-
            e.preventDefault();
-
            this.clearAll();
-
        });
-
-       
 
        // Valider button - retourne une Promise
-
        this.element.querySelector('.valider-btn').addEventListener('click', (e) => {
-
            e.preventDefault();
-
            this.handleValidation();
-
        });
+
+       const forcedBtn = this.element.querySelector('.forced-btn');
+        if (forcedBtn) {
+            forcedBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleForced();
+            });
+        } else {
+            console.log('⚠️ Bouton forced-btn non trouvé !');
+        }
 
    }
 
-   
 
    handleItemClick(item) {
 
@@ -233,91 +277,53 @@ class ConflitHandler {
    }
 
    
-
    handleValidation() {
 
+       console.log("Entry in handleValidation");
        const id_conflit = this.element.dataset.id;
 
-       
-
        if (this.associations.length === 0) {
-
            alert("Aucune association à valider !");
-
            return;
-
        }
-
        
-
-       // Retourne les données pour votre fetch principal
-
-       //    return {
-
-       //        id_conflit: id_conflit,
-
-       //        associations: this.associations,
-
-       //        element: this.element
-
-       //    };
-
-       
+       const form = document.getElementById('form_imports');
+       const step = form ? form.querySelector('input[name="step"]').value : '';
 
        console.log("association : ", this.associations);
-
-       
-
        const formData = new FormData();
 
-       formData.append('form_num', '10');
+       formData.append('form_num', 10);
+       formData.append('step', step);
+       // Identifiant du bloc (utile côté PHP pour router/diagnostiquer)
+       formData.append('id_conflit', id_conflit);
 
        var count=0;
-
        this.associations.forEach( line => {
-
          formData.append('data'+count++, 'left:' + line.left + ',right:' + line.right);
-
        });
 
-       //formData.append('data2', 'key3,Key4');
-
-    
 
        fetch("compta/import_excel.php", {
-
            method: "POST",
-
            body: formData
-
         })
-
         .then( response => { 
-
             if (!response.ok) throw new Error("Erreur HTTP");
-
             return response.text();
-
         })
-
         .then( html => {
-
             this.element.innerHTML = html;
-
         })
-
         .catch((err) => {
-
             if (mess) mess.innerHTML = "<p style='color:red;'>Erreur : " + err + "</p>";
-
         });
 
+       console.log("Exit of handleValidation");
    }
 
    
-
    // Méthode pour marquer comme résolu
-
    markAsResolved(id_conflit) {
 
        this.element.innerHTML = `<div class="resolved">✅ Conflit #${id_conflit} résolu</div>`;
@@ -339,8 +345,10 @@ function gestion_submit_form(e) {
     e.preventDefault(); 
 
     // *****************************
-
-   console.log("entry gestion_submit_form 2 -------"); 
+    console.log("========================================");
+    console.log("🔵 DÉBUT gestion_submit_form");
+    console.log("========================================");
+    // console.log("entry gestion_submit_form 2 -------"); 
 
     const form = e.target;
     const data = new FormData(form);
@@ -353,9 +361,11 @@ function gestion_submit_form(e) {
         section += '\t\t\t<div class="loader-message">Traitement en cours...</div>';
         section += '\t\t</div>';
         boxinfo.innerHTML = section;
-        console.log('imports-message found');
+        //console.log('imports-message found');
+        console.log('✅ Loader affiché');
     } else {
-        console.log('imports-message not found for Étape 2')
+        // console.log('imports-message not found for Étape 2')
+        console.log('❌ imports-box not found');
     }
 
     
@@ -363,75 +373,83 @@ function gestion_submit_form(e) {
     // Lecture des valeurs contenu dans le formulaire
 
     console.log("form_imports submi : ");
-
     for (let pair of data.entries()) {
-
         console.log(pair[0] + ': ' + pair[1]);
-
     }
 
-
-
     if ( !data.has("form_num") ) {
-
+        console.log("❌ ERREUR : form_num manquant");
         mess.innerHTML = "<p style='color:red;'>Erreur : manque le num du formulaire</p>";
-
         return false;
-
     }
 
     const value = data.get("form_num").trim();
-
     if ( value === "" ) {
-
+        console.log("❌ ERREUR : form_num vide");
         mess.innerHTML = "<p style='color:red;'>Erreur : Le num du formulaire est manquant</p>";
-
         return false;
-
     }
 
      
 
     // Envoi des données avec fetch vers le traitement PHP
-
+    console.log("🚀 Lancement fetch vers import_excel.php");
     fetch("compta/import_excel.php", {
         method: "POST",
         body: data
     })
-
     .then(response => { 
-
+        console.log("📥 Réponse reçue, status:", response.status);
         if (!response.ok) throw new Error("Erreur HTTP");
-
         return response.text();
-
         }
-
     )
-
     .then(html => {
-
-        // Étape 3 : afficher le résultat
-
-        // document.getElementById("imports-box").innerHTML = html;
+        console.log("📄 HTML reçu, longueur:", html.length);
+        console.log("📄 Début du HTML:", html.substring(0, 200));
 
         if (boxinfo) {
-
+            console.log("✅ Mise à jour de imports-box");
             boxinfo.innerHTML = html;
-            // console.log('imports-box found');a
+            
+            console.log("🔍 Recherche des .conflit...");
             const nouveauxConflits = document.querySelectorAll('.conflit');
+            console.log("📊 Nombre de conflits trouvés:", nouveauxConflits.length);
 
             if (nouveauxConflits.length > 0) {
-                nouveauxConflits.forEach(conflit => {
+                console.log("🎯 Initialisation des ConflitHandler:");
+                nouveauxConflits.forEach( (conflit, index) => {
+                    console.log("  - Conflit", index + 1, ":", conflit);
                     new ConflitHandler(conflit);
+                    console.log("  ✅ ConflitHandler initialisé pour conflit", index + 1);
                 });
+            } else {
+                console.log("⚠️ Aucun conflit à initialiser");
             }
-        } else {
-            console.log('imports-box not found for Étape 3');
+
+            console.log("🔗 Recherche du formulaire pour réattacher l'event listener...");
+            const newForm = document.getElementById('form_imports');
+            if (newForm) {
+                console.log("✅ Formulaire trouvé, réattachement de l'event listener");
+                newForm.removeEventListener('submit', gestion_submit_form);
+                newForm.addEventListener('submit', gestion_submit_form);
+                console.log("✅ Event listener réattaché !");
+            } else {
+                console.log("❌ ERREUR : Formulaire form_imports non trouvé !");
+            }
         }
+        else {
+            console.log('❌ imports-box not found après fetch');
         }
-    )
+
+        console.log("========================================");
+        console.log("🟢 FIN gestion_submit_form");
+        console.log("========================================");
+    })
     .catch((err) => {
+        console.log("========================================");
+        console.log("🔴 ERREUR dans fetch:", err);
+        console.log("========================================");
         if (mess) mess.innerHTML = "<p style='color:red;'>Erreur : " + err + "</p>";
         // if (!mess) console.log('imports-message not found for erreur message');
     });
@@ -443,16 +461,10 @@ function gestion_submit_form(e) {
 document.addEventListener('DOMContentLoaded', function () {
 
     const form = document.getElementById('form_imports');
-
     if (form) {
-
         form.addEventListener('submit', gestion_submit_form );
-
         console.log('DOMContentLoaded form_imports is load');
-
     }
-
-    
 
 });
 

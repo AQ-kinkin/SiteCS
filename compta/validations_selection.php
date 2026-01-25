@@ -1,15 +1,12 @@
 <?php
-
-require_once __DIR__ . '/../objets/gestion_site.php';
+require_once( PATH_HOME_CS .'/objets/gestion_site.php');
 
 $objsite->requireAuth(Site::CS);
 
-require_once __DIR__ . '/../objets/compta_validations.php';
-
+require_once PATH_HOME_CS . '/objets/compta_validations.php';
 
 
 $objimport = new compta_validations($objsite->getDB(), true);
-
 
 
 echo "<div class=\"validations\">" . PHP_EOL;

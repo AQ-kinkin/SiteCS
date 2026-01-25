@@ -1,7 +1,7 @@
 <?php
 
-require_once('/home/csresip/www/objets/lot.php');
-require_once('/home/csresip/www/objets/logs.trait.php');
+require_once(PATH_HOME_CS . '/objets/lot.php');
+require_once(PATH_HOME_CS . '/objets/logs.trait.php');
 
 /**
  * Classe représentant une cave

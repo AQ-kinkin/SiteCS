@@ -185,7 +185,7 @@ class Session implements SessionHandlerInterface
         }
         $answer = false;
 
-        $sql = "SELECT `id_user`,`type_acteur`,`passwd` FROM `acteurs` WHERE ident = LOWER(:ident);";
+        $sql = "SELECT `id_user`,`type_acteur`,`passwd` FROM `acteurs` WHERE LOWER(ident) = LOWER(:ident);";
         $params = [':ident' => $ident];
         $result = $this->objdb->execonerow($sql, $params);
         

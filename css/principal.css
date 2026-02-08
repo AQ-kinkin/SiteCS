@@ -240,9 +240,10 @@
 }
 
 .form-control:disabled {
-    background: #fafaf9;
+    background: #f5f5f4;
     border-color: #e7e5e4;
-    color: #1c1917;
+    /* color: #1c1917; */
+    color: #a8a29e;
 }
 
 textarea.form-control {

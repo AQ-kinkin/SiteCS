@@ -102,6 +102,7 @@ function submitLotForm(button) {
                 // Changer le bouton en "Modifier"
                 button.textContent = 'Modifier';
                 button.classList.add('btn-modify');
+                button.disabled = false;
                 // Rendre les champs readonly
                 const inputs = form.querySelectorAll('input, select');
                 inputs.forEach(input => {

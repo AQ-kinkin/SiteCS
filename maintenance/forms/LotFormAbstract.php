@@ -14,6 +14,7 @@ abstract class LotFormAbstract
     protected int $lotType;
     protected int $repere;
     protected int $positionId;
+    protected ?int $tantieme;
     protected bool $log = false;
     protected ?Database $db = null;
 
@@ -26,12 +27,13 @@ abstract class LotFormAbstract
      * @param Database $db Instance de base de données
      * @param bool $trace Active les logs de debug
      */
-    public function __construct(int $lotId, int $lotType, int $repere, int $positionId, Database $db, bool $trace = false)
+    public function __construct(int $lotId, int $lotType, int $repere, int $positionId, ?int $tantieme, Database $db, bool $trace = false)
     {
         $this->lotId = $lotId;
         $this->repere = $repere;
         $this->positionId = $positionId;
         $this->lotType = $lotType;
+        $this->tantieme = $tantieme;
         $this->db = $db;
         $this->log = $trace;
 

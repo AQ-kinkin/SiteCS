@@ -271,7 +271,7 @@ class MaintLotsPage
             foreach ($appartements as $lot) {
                 $html .= '        <div class="lot-card appartement-card">' . "\n";
                 $html .= '            <div class="lot-header">Lot ' . $lot['lot'] . '</div>' . "\n";
-                $appartementForm = new AppartementForm($lot['lot'], 1, $lot['repere'], $lot['position_id'], $this->db, $this->log);
+                $appartementForm = new AppartementForm($lot['lot'], 1, $lot['repere'], $lot['position_id'], $lot['tantieme'], $this->db, $this->log);
                 $formHtml = $appartementForm->render();
                 if ($lot['tantieme'] !== null) {
                     $formHtml = str_replace(
@@ -300,7 +300,7 @@ class MaintLotsPage
             foreach ($caves as $lot) {
                 $html .= '        <div class="lot-card cave-card">' . "\n";
                 $html .= '            <div class="lot-header">Lot ' . $lot['lot'] . '</div>' . "\n";
-                $caveForm = new CaveForm($lot['lot'], 2, $lot['repere'], $lot['position_id'], $this->db, $this->log);
+                $caveForm = new CaveForm($lot['lot'], 2, $lot['repere'], $lot['position_id'], $lot['tantieme'], $this->db, $this->log);
                 $formHtml = $caveForm->render();
                 if ($lot['tantieme'] !== null) {
                     $formHtml = str_replace(
@@ -329,7 +329,7 @@ class MaintLotsPage
             foreach ($parkings as $lot) {
                 $html .= '        <div class="lot-card parking-card">' . "\n";
                 $html .= '            <div class="lot-header">Lot ' . $lot['lot'] . '</div>' . "\n";
-                $parkingForm = new ParkingForm($lot['lot'], 3, $lot['repere'], $lot['position_id'], $this->db, $this->log);
+                $parkingForm = new ParkingForm($lot['lot'], 3, $lot['repere'], $lot['position_id'], $lot['tantieme'], $this->db, $this->log);
                 $formHtml = $parkingForm->render();
                 if ($lot['tantieme'] !== null) {
                     // Remplacer le bouton Valider par Modifier

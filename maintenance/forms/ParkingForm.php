@@ -17,9 +17,8 @@ class ParkingForm extends LotFormAbstract
         $this->InfoLog("renderSpecificFields(" . $place . ") pour ParkingForm");
 
         // Récupération du libelle actuel si positionId défini
-        $currentLibelle = '';
         if ($this->db && $this->positionId > 0) {
-            $current = $this->db->ExecWithFetchAll("SELECT libelle FROM def_parking WHERE niveau_id = ?", [$this->positionId]);
+            $current = $this->db->ExecWithFetchAll("SELECT `position_id` FROM `lots` WHERE `type_lot` = 3 AND `lot` = ?", [$this->positionId]);
             if (!empty($current)) {
                 $currentLibelle = $current[0]['libelle'];
             }
@@ -28,12 +27,17 @@ class ParkingForm extends LotFormAbstract
         // Récupération des options de parking depuis def_parking
         $parkingOptions = '';
         if ($this->db) {
-            $rows = $this->db->ExecWithFetchAll("SELECT libelle FROM def_parking ORDER BY niveau_id");
+            $rows = $this->db->ExecWithFetchAll("SELECT `niveau_id`,`libelle` FROM def_parking ORDER BY niveau_id");
             foreach ($rows as $row) {
                 $libelle = htmlspecialchars($row['libelle']);
-                $selected = ($libelle === $currentLibelle) ? ' selected' : '';
+                $selected = ($row['niveau_id'] === $this->positionId) ? ' selected' : '';
                 $parkingOptions .= '<option value="' . $libelle . '"' . $selected . '>' . $libelle . '</option>';
             }
+        }
+
+        $value_tantieme = '';
+        if (isset($this->tantieme)) {
+            $value_tantieme = ' value="'. $this->tantieme . '"';
         }
 
         return '
@@ -55,8 +59,9 @@ class ParkingForm extends LotFormAbstract
                 <label class="form-label">
                     <span>Tantième</span>
                 </label>
-                <input type="number" name="tantieme" class="form-control" min="0" max="99" required placeholder="Ex: 15">
+                <input type="number" name="tantieme" class="form-control" min="0" max="99" required placeholder="Ex: 15"' . $value_tantieme . '>
             </div>
         ';
     }
+
 }

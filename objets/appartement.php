@@ -15,9 +15,9 @@ class Appartement extends Lot
     private ?string $batiment_nom = null;        // Nom du bâtiment
 
     /**
-     * Constructeur
+     * Constructeurs
      */
-    public function __construct(Database $db, array $lotData, array $appartData = [], $trace = false)
+    public function __construct(Database $db, array $lotData = [], array $appartData = [], $trace = false)
     {
         parent::__construct($db, $lotData);
         
@@ -131,6 +131,74 @@ class Appartement extends Lot
                         </div>
                     </div>
 HTML;
+    }
+
+    /**
+     * Affiche le n° de lot
+     */
+    public function show_num_lot(): string
+    {
+        $message = '<div class="hall-content">';
+        $message .= '<h3>Lot ' . htmlspecialchars($this->lot) . '</h3>';
+        return $message . '</div>';
+    }
+
+    /**
+     * Affiche le n° de lot
+     */
+    public function show_entry_lot(): string
+    {
+        $message = '<div class="hall-content">';
+        $message .= '<h3>Lot ' . htmlspecialchars('r') . '</h3>';
+        return $message . '</div>';
+    }
+    
+    /**
+     * Affiche le n° de lot
+     */
+    public function show_boite_lot(): string
+    {
+        $message = '<div class="hall-content">';
+        $message .= '<h3>Lot ' . htmlspecialchars('f') . '</h3>';
+        return $message . '</div>';
+    }
+    
+    /**
+     * Affiche le n° de lot
+     */
+    public function show_proprio_lot(): string
+    {
+        $message = '<div class="hall-content">';
+        $message .= '<h3>Lot ' . htmlspecialchars('rr') . '</h3>';
+        return $message . '</div>';
+    }
+    
+    /**
+     * load data for form residant 
+     */
+    public function load_for_residant($lot)
+    {
+        $this->lot = $lot;
+    }
+
+    /**
+     * Retourne le HTML d'info d'un lot dans une div hall-content
+     */
+    public function get_html_info_lot(int $lot): string
+    {
+        $this->load_for_residant($lot);
+
+        $message = '<div class="hall-content">';
+
+        $message .= $this->show_num_lot();
+        $message .= $this->show_entry_lot();
+        $message .= $this->show_boite_lot();
+        $message .= $this->show_proprio_lot();
+        
+        $message .= '<div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Retour</button></div>';
+        $message .= '</div>';
+           
+        return $message;
     }
 
     /**

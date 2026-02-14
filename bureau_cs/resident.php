@@ -59,7 +59,7 @@ $halls_list = $halls->get_name_halls();
                                         </thead>
                                         <tbody>
                                             <?php foreach ($data as $row): ?>
-                                                <tr>
+                                                <tr onclick="show_appartement(<?php echo htmlspecialchars($row['lot'] ?? '' ); ?>, this)">
                                                     <td><?php echo htmlspecialchars($row['mark'] ?? ''); ?></td>
                                                     <td><?php echo htmlspecialchars($row['name'] ?? ''); ?></td>
                                                     <td><?php echo htmlspecialchars($row['floor'] ?? ''); ?></td>

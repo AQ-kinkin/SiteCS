@@ -2,7 +2,7 @@
  * Styles pour la page de maintenance des lots
  */
 .page {
-    width: 900px;
+    width: 1608px;
 }
 
 /* Conteneur principal des onglets */
@@ -50,6 +50,8 @@
 
 /* Contenu des onglets */
 .tabs-content {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 1.5rem;
 }
 
@@ -440,6 +442,7 @@
     font-size: 1.25rem;
     font-weight: 700;
     color: #1e293b;
+    text-align: center;
 }
 
 .appartements-table {
@@ -464,6 +467,35 @@
 .appartements-table tbody tr:hover {
     background: #f1f5f9;
 }
+
+.btn-retour {
+    padding: 0.875rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* background: #a1d5f9; */
+    background: linear-gradient(135deg, #a1d5ff 0%, #7ec0f4 100%);
+    color: white;
+    box-shadow: 0 4px 8px #a1d5f9;
+}
+
+.btn-retour:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px #a1d5ff;
+}
+
+.hall-content-nav {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-top: 1rem;
+    text-align: right;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {

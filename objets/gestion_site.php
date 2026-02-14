@@ -24,20 +24,37 @@ class Site
     private Database $objdb;
     private bool $log = false;
 
-    // Durées de gestion de session (lues depuis session.cookie_lifetime)
-    private readonly int $maxTimeSession;      // Durée max d'inactivité
-    private readonly int $refreshTimeSession;  // Intervalle de refresh du cookie (53% du max)
+    // Configuration session (définie dans le code, indépendante du php.ini/user.ini)
+    private const SESSION_LIFETIME = 1800;       // 30 min - durée du cookie
+    private const SESSION_GC_MAXLIFETIME = 2700; // 45 min - durée max côté serveur
+
+    private readonly int $maxTimeSession;        // Durée max d'inactivité
+    private readonly int $refreshTimeSession;    // Intervalle de refresh du cookie (53% du max)
 
     public function __construct()
     {
         $this->objdb = new Database();
         $this->log = true;
 
-        // Initialiser les durées depuis la config PHP
-        $cookieLifetime = ini_get('session.cookie_lifetime');
-        $this->maxTimeSession = (int)$cookieLifetime;
+        // Appliquer la config PHP via le code (fonctionne avec mod_php ET php-fpm)
+        // Session
+        ini_set('session.gc_maxlifetime', (string)self::SESSION_GC_MAXLIFETIME);
+        ini_set('session.cookie_lifetime', (string)self::SESSION_LIFETIME);
+        ini_set('session.cookie_httponly', '1');
+        ini_set('session.cookie_samesite', 'Strict');
+        // Affichage des erreurs
+        ini_set('display_errors', '1');
+        ini_set('display_startup_errors', '1');
+        error_reporting(E_ALL);
+        // Opcache
+        ini_set('opcache.enable', '0');
+        ini_set('opcache.revalidate_freq', '0');
+        // Fuseau horaire
+        date_default_timezone_set('Europe/Paris');
+
+        $this->maxTimeSession = self::SESSION_LIFETIME;
         $this->refreshTimeSession = (int)($this->maxTimeSession * 0.53);
-        
+
         $this->init();
     }
 

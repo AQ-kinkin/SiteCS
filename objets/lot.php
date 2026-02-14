@@ -27,19 +27,21 @@ abstract class Lot
     /**
      * Constructeur protégé (utilisé par les classes filles)
      */
-    protected function __construct(Database $db, array $data)
+    protected function __construct(Database $db, array $data = [])
     {
         $this->db = $db;
-        $this->lot = (int)$data['lot'];
-        $this->typeLot = (int)$data['type_lot'];
-        $this->positionId = (int)$data['position_id'];
-        $this->proprietaire = isset($data['proprio']) ? (int)$data['proprio'] : null;
-        $this->repere = isset($data['repere']) ? (int)$data['repere'] : null;
-        $this->commentaire = $data['commentaire'] ?? null;
-        $this->tantieme = isset($data['tantieme']) ? (int)$data['tantieme'] : null;
-        
-        // Stocker les données enrichies
-        $this->labelTypeLot = $data['Label_Type_Lot'] ?? null;
+        if (!empty($data)) {
+            $this->lot = (int)$data['lot'];
+            $this->typeLot = (int)$data['type_lot'];
+            $this->positionId = (int)$data['position_id'];
+            $this->proprietaire = isset($data['proprio']) ? (int)$data['proprio'] : null;
+            $this->repere = isset($data['repere']) ? (int)$data['repere'] : null;
+            $this->commentaire = $data['commentaire'] ?? null;
+            $this->tantieme = isset($data['tantieme']) ? (int)$data['tantieme'] : null;
+            
+            // Stocker les données enrichies
+            $this->labelTypeLot = $data['Label_Type_Lot'] ?? null;
+        }
     }
 
     // Getters communs

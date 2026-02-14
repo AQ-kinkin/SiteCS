@@ -16,6 +16,7 @@ class Database
     private $dbname    = DB_NAME;
     private $dbh;
     private $error;
+    private $logsPath;
     private $stmt;
 
     public function __construct()

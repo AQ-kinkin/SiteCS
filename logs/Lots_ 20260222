@@ -1,0 +1,24 @@
+[2026-02-22 16:39:19] [INFO] Début chargement lots pour user_id=1
+[2026-02-22 16:39:19] [INFO] Exécution requête SQL
+[2026-02-22 16:39:19] [SQL] 
+            WITH halls_enrichis AS (
+                SELECT `halls`.id_hall, concat(`batiment`.`nom`, ' ', `halls`.esc) as nom_bat
+                FROM `halls`
+                LEFT JOIN `batiment` ON `halls`.bat = `batiment`.id_batiment
+            )
+            SELECT lots.lot, lots.type_lot, lots.position_id, lots.proprio, lots.repere, lots.commentaire, lots.tantieme, appartements.etage, appartements.type_appartement, appartements.position, types_lot.libelle as Label_Type_Lot, types_lot.code As Code_Type_Lot, def_parking.libelle as park_position, def_parking.code as park_position_code, halls_enrichis.nom_bat
+            FROM gerants
+            INNER JOIN lots ON gerants.lot = lots.lot
+            INNER JOIN types_lot ON lots.type_lot = types_lot.id_type_lot
+            LEFT JOIN appartements ON lots.lot = appartements.lot AND lots.type_lot = 1
+            LEFT JOIN def_parking ON lots.position_id = def_parking.niveau_id AND lots.type_lot = 3
+            LEFT JOIN halls_enrichis ON `lots`.position_id = halls_enrichis.id_hall AND `lots`.type_lot in (1,2)
+            WHERE gerants.user_id = ?
+            ORDER BY lots.type_lot, lots.lot
+        
+[2026-02-22 16:39:19] [SQL_PARAMS] [1]
+[2026-02-22 16:39:19] [INFO] Requête réussie : 3 ligne(s) retournée(s)
+[2026-02-22 16:39:19] [INFO] Lot créé : type=1, lot=154
+[2026-02-22 16:39:19] [INFO] Lot créé : type=2, lot=168
+[2026-02-22 16:39:19] [INFO] Lot créé : type=3, lot=393
+[2026-02-22 16:39:19] [INFO] Chargement terminé : 3 lot(s) chargé(s)

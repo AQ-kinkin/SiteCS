@@ -94,43 +94,43 @@ class Appartement extends Lot
         $tantieme = $this->tantieme ? htmlspecialchars($this->tantieme) : 'N/A';
         
         return <<<HTML
-                    <div class="lot-card appartement">
-                        <div class="lot-header">
-                            <div class="lot-icon-wrapper">
-                                <div class="lot-icon appartement">
-                                    <img src="/icons/appartement-24x24.png" alt="A">
-                                </div>
-                                <div class="lot-title">
-                                    <h3>{$typeLabel}</h3>
-                                    <div class="lot-reference">{$repereValue}</div>
-                                </div>
-                            </div>
-                            <div class="lot-id">{$lotNumber}</div>
+            <div class="lot-card appartement">
+                <div class="lot-header">
+                    <div class="lot-icon-wrapper">
+                        <div class="lot-icon appartement">
+                            <img src="/icons/appartement-24x24.png" alt="A">
                         </div>
-                        <div class="lot-details">
-                            <div class="lot-detail">
-                                <span class="lot-detail-label">Bâtiment:</span>
-                                <span class="lot-detail-value">{$batiment}</span>
-                            </div>
-                            <div class="lot-detail">
-                                <span class="lot-detail-label">Hall:</span>
-                                <span class="lot-detail-value">{$this->getHall()}</span>
-                            </div>
-                            <div class="lot-detail">
-                                <span class="lot-detail-label">Étage:</span>
-                                <span class="lot-detail-value">{$etageText}</span>
-                            </div>
-                            <div class="lot-detail">
-                                <span class="lot-detail-label">Type:</span>
-                                <span class="lot-detail-value">{$typeText}</span>
-                            </div>
-                            <div class="lot-detail">
-                                <span class="lot-detail-label">Tantième:</span>
-                                <span class="lot-detail-value">{$tantieme}</span>
-                            </div>
+                        <div class="lot-title">
+                            <h3>{$typeLabel}</h3>
+                            <div class="lot-reference">{$repereValue}</div>
                         </div>
                     </div>
-HTML;
+                    <div class="lot-id">{$lotNumber}</div>
+                </div>
+                <div class="lot-details">
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Bâtiment:</span>
+                        <span class="lot-detail-value">{$batiment}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Hall:</span>
+                        <span class="lot-detail-value">{$this->getHall()}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Étage:</span>
+                        <span class="lot-detail-value">{$etageText}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Type:</span>
+                        <span class="lot-detail-value">{$typeText}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Tantième:</span>
+                        <span class="lot-detail-value">{$tantieme}</span>
+                    </div>
+                </div>
+            </div>
+        HTML;
     }
 
     /**
@@ -141,6 +141,35 @@ HTML;
         $message = '<div class="hall-content">';
         $message .= '<h3>Lot ' . htmlspecialchars($this->lot) . '</h3>';
         return $message . '</div>';
+        $typeLabel = "Affichage Hall";
+        $ligne = "Ligne Saisie";
+
+        $message = '<div class="hall-content">';
+        $message .= <<<HTML
+            <div class="lot-card appartement">
+                <div class="lot-header">
+                    <div class="lot-icon-wrapper">
+                        <div class="lot-icon appartement">
+                            <img src="/icons/list-24x24.png" alt="L">
+                        </div>
+                        <div class="lot-title">
+                            <h3>{$typeLabel}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="lot-details">
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Affichage:</span>
+                        <span class="lot-edit">{$ligne}</span>
+                        <div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Retour</button></div>
+                    </div>
+                </div>
+
+            </div>
+        HTML;
+
+        return $message . '</div>';
+        
     }
 
     /**
@@ -148,8 +177,32 @@ HTML;
      */
     public function show_entry_lot(): string
     {
+        $typeLabel = "Affichage Hall";
+        $ligne = "Ligne Saisie";
+
         $message = '<div class="hall-content">';
-        $message .= '<h3>Lot ' . htmlspecialchars('r') . '</h3>';
+        $message .= <<<HTML
+            <div class="lot-card appartement">
+                <div class="lot-header">
+                    <div class="lot-icon-wrapper">
+                        <div class="lot-icon appartement">
+                            <img src="/icons/list-24x24.png" alt="L">
+                        </div>
+                        <div class="lot-title">
+                            <h3>{$typeLabel}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="lot-details">
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Affichage:</span>
+                        <span class="lot-edit">{$ligne}</span>
+                        <div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Modifier</button></div>
+                    </div>
+                </div>
+            </div>
+        HTML;
+
         return $message . '</div>';
     }
     
@@ -158,8 +211,41 @@ HTML;
      */
     public function show_boite_lot(): string
     {
+        $typeLabel = "Boîte aux lettres";
+        $ligne1 = "Premère Ligne";
+        $ligne2 = "Deuxième Ligne";
+
         $message = '<div class="hall-content">';
-        $message .= '<h3>Lot ' . htmlspecialchars('f') . '</h3>';
+        $message .= <<<HTML
+            <div class="lot-card appartement">
+                <div class="lot-header">
+                    <div class="lot-icon-wrapper">
+                        <div class="lot-icon appartement">
+                            <img src="/icons/boites-aux-lettres-24x24.png" alt="B">
+                        </div>
+                        <div class="lot-title">
+                            <h3>{$typeLabel}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="lot-details">
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Ligne 1:</span>
+                        <span class="lot-edit">{$ligne1}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Ligne 2:</span>
+                        <span class="lot-edit">{$ligne2}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Modifier</button></div>
+                    </div>
+                </div>
+
+            </div>
+        HTML;
+
+
         return $message . '</div>';
     }
     
@@ -169,7 +255,43 @@ HTML;
     public function show_proprio_lot(): string
     {
         $message = '<div class="hall-content">';
-        $message .= '<h3>Lot ' . htmlspecialchars('rr') . '</h3>';
+        $message .= <<<HTML
+            <div class="lot-card appartement">
+                <div class="lot-header">
+                    <div class="lot-icon-wrapper">
+                        <div class="lot-icon appartement">
+                            <img src="/icons/propriétaire-24x24.png" alt="L">
+                        </div>
+                        <div class="lot-title">
+                            <h3>Propriétaire</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="lot-details">
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Fixe:</span>
+                        <span class="lot-detail-value">{$fix}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Portable:</span>
+                        <span class="lot-detail-value">{$port}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">email:</span>
+                        <span class="lot-detail-value">{$mail}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Addresse:</span>
+                        <span class="lot-detail-value">{$adresse}</span>
+                    </div>
+                    <div class="lot-detail">
+                        <span class="lot-detail-label">Tantième:</span>
+                        <span class="lot-detail-value">{$tantieme}</span>
+                    </div>
+                </div>
+            </div>
+        HTML;
+        
         return $message . '</div>';
     }
     

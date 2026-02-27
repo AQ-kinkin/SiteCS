@@ -23,10 +23,14 @@ $halls_list = $halls->get_name_halls();
 <body>
     <div class="page">
         <div class="header-card">
-            <h1>Gestion des halls et appartements
-                <button class="btn-retour" onclick="window.open('prints/Hall_Entry.php', '_blank')">&#128424; Form</button>
-            </h1>
-            <p>Affichage des appartements par hall</p>
+            <table><th>
+                <td width="81%">
+                    <h1>Gestion des halls et appartements</h1>
+                    <p>Affichage des appartements par hall</p>
+                </td>
+                <td width="8%">&nbsp;</td>
+                <td><button class="btn-retour" onclick="window.open('prints/Entry_Form.php', '_blank')">&#128424; Form</button></td>
+            </th></table>
         </div>
 
         <?php if (empty($halls_list)): ?>
@@ -47,9 +51,7 @@ $halls_list = $halls->get_name_halls();
                             $data = $halls->get_page_hall($id_hall);
                             ?>
                             <div class="hall-content">
-                                <h3>Appartements du Hall <?php echo $id_hall; ?>
-                                    <button class="btn-retour" onclick="window.open('prints/Entry_Form.php?hall=<?php echo $id_hall; ?>', '_blank')">&#128424; Entry</button>
-                                </h3>
+                                <table class="table-center"><tr><td><h3>Appartements du Hall <?php echo $id_hall; ?></h3></td><td width="50">&nbsp;</td><td><button class="btn-retour" onclick="window.open('prints/Hall_Entry.php?hall=<?php echo $id_hall; ?>', '_blank')">&#128424; Entry</button></td></tr></table>
                                 <?php if (empty($data)): ?>
                                     <p class="no-data">Aucun appartement trouvé pour ce hall</p>
                                 <?php else: ?>

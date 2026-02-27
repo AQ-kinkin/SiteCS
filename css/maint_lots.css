@@ -437,6 +437,10 @@
     margin-top: 1rem;
 }
 
+.table-center {
+    margin: 0 auto;
+}
+
 .hall-content h3 {
     margin: 0 0 1rem 0;
     font-size: 1.25rem;
@@ -496,6 +500,65 @@
     text-align: right;
 }
 
+.btn-modif {
+    padding: 0.875rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, #a1d5ff 0%, #7ec0f4 100%);
+    color: white;
+    box-shadow: 0 4px 8px #a1d5f9;
+}
+
+.btn-modif:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px #a1d5ff;
+}
+
+/* Ligne côte à côte pour deux lot-card */
+.hall-content-row {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 1rem auto;
+    display: flex;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.hall-content-row > .lot-card {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.hall-content-row > .lot-card > .lot-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.lot-card.def-appartement {
+    width: 500px;
+    border-left: 4px solid #64748b;
+    border-color: #cbd5e1;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.lot-card.def-appartement h3 {
+    color: #475569;
+}
+
+.button-on-card {
+    text-align: right;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

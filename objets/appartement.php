@@ -180,9 +180,8 @@ class Appartement extends Lot
         $typeLabel = "Affichage Hall";
         $ligne = "Ligne Saisie";
 
-        $message = '<div class="hall-content">';
-        $message .= <<<HTML
-            <div class="lot-card appartement">
+        return <<<HTML
+            <div class="lot-card def-appartement">
                 <div class="lot-header">
                     <div class="lot-icon-wrapper">
                         <div class="lot-icon appartement">
@@ -197,15 +196,15 @@ class Appartement extends Lot
                     <div class="lot-detail">
                         <span class="lot-detail-label">Affichage:</span>
                         <span class="lot-edit">{$ligne}</span>
-                        <div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Modifier</button></div>
+                    </div>
+                    <div class="button-on-card">
+                        <button class="btn-modif" onclick="retour_hall(this)">Modifier</button>
                     </div>
                 </div>
             </div>
         HTML;
-
-        return $message . '</div>';
     }
-    
+
     /**
      * Affiche le n° de lot
      */
@@ -215,9 +214,8 @@ class Appartement extends Lot
         $ligne1 = "Premère Ligne";
         $ligne2 = "Deuxième Ligne";
 
-        $message = '<div class="hall-content">';
-        $message .= <<<HTML
-            <div class="lot-card appartement">
+        return <<<HTML
+            <div class="lot-card def-appartement">
                 <div class="lot-header">
                     <div class="lot-icon-wrapper">
                         <div class="lot-icon appartement">
@@ -237,30 +235,27 @@ class Appartement extends Lot
                         <span class="lot-detail-label">Ligne 2:</span>
                         <span class="lot-edit">{$ligne2}</span>
                     </div>
-                    <div class="lot-detail">
-                        <div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Modifier</button></div>
+                    <div class="button-on-card">
+                        <button class="btn-modif" onclick="retour_hall(this)">Modifier</button>
                     </div>
                 </div>
-
             </div>
         HTML;
-
-
-        return $message . '</div>';
     }
     
     /**
      * Affiche le n° de lot
      */
-    public function show_proprio_lot(): string
+    public function show_proprio_lot(string $nom_gestionaire = ''): string
     {
-        $message = '<div class="hall-content">';
-        $message .= <<<HTML
-            <div class="lot-card appartement">
+        $nom = htmlspecialchars($nom_gestionaire);
+
+        return <<<HTML
+            <div class="lot-card def-appartement">
                 <div class="lot-header">
                     <div class="lot-icon-wrapper">
                         <div class="lot-icon appartement">
-                            <img src="/icons/propriétaire-24x24.png" alt="L">
+                            <img src="/icons/propriétaire-24x24.png" alt="P">
                         </div>
                         <div class="lot-title">
                             <h3>Propriétaire</h3>
@@ -269,30 +264,46 @@ class Appartement extends Lot
                 </div>
                 <div class="lot-details">
                     <div class="lot-detail">
-                        <span class="lot-detail-label">Fixe:</span>
-                        <span class="lot-detail-value">{$fix}</span>
-                    </div>
-                    <div class="lot-detail">
-                        <span class="lot-detail-label">Portable:</span>
-                        <span class="lot-detail-value">{$port}</span>
-                    </div>
-                    <div class="lot-detail">
-                        <span class="lot-detail-label">email:</span>
-                        <span class="lot-detail-value">{$mail}</span>
-                    </div>
-                    <div class="lot-detail">
-                        <span class="lot-detail-label">Addresse:</span>
-                        <span class="lot-detail-value">{$adresse}</span>
-                    </div>
-                    <div class="lot-detail">
-                        <span class="lot-detail-label">Tantième:</span>
-                        <span class="lot-detail-value">{$tantieme}</span>
+                        <span class="lot-detail-label">Gestionnaire:</span>
+                        <span class="lot-detail-value">{$nom}</span>
                     </div>
                 </div>
             </div>
         HTML;
-        
-        return $message . '</div>';
+    }
+
+    /**
+     * Affiche la liste des locataires du lot
+     */
+    public function show_locataire_lot(array $list_locataire = []): string
+    {
+        $lignes = '';
+        foreach ($list_locataire as $locataire) {
+            $nomLoc = htmlspecialchars($locataire);
+            $lignes .= '<div class="lot-detail"><span class="lot-detail-value">' . $nomLoc . '</span></div>';
+        }
+
+        if (empty($lignes)) {
+            $lignes = '<div class="lot-detail"><span class="lot-detail-value">Aucun locataire</span></div>';
+        }
+
+        return <<<HTML
+            <div class="lot-card def-appartement">
+                <div class="lot-header">
+                    <div class="lot-icon-wrapper">
+                        <div class="lot-icon appartement">
+                            <img src="/icons/locataire-24x24.png" alt="L">
+                        </div>
+                        <div class="lot-title">
+                            <h3>Locataires</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="lot-details">
+                    {$lignes}
+                </div>
+            </div>
+        HTML;
     }
     
     /**
@@ -306,20 +317,29 @@ class Appartement extends Lot
     /**
      * Retourne le HTML d'info d'un lot dans une div hall-content
      */
-    public function get_html_info_lot(int $lot): string
+    public function get_html_info_lot(int $lot, string $nom_gestionaire = '', array $list_locataire = []): string
     {
         $this->load_for_residant($lot);
 
         $message = '<div class="hall-content">';
 
         $message .= $this->show_num_lot();
+
+        // Affichage Hall + Boîte aux lettres côte à côte
+        $message .= '<div class="hall-content-row">';
         $message .= $this->show_entry_lot();
         $message .= $this->show_boite_lot();
-        $message .= $this->show_proprio_lot();
-        
+        $message .= '</div>';
+
+        // Propriétaire + Locataires côte à côte
+        $message .= '<div class="hall-content-row">';
+        $message .= $this->show_proprio_lot($nom_gestionaire);
+        $message .= $this->show_locataire_lot($list_locataire);
+        $message .= '</div>';
+
         $message .= '<div class="hall-content-nav"><button class="btn-retour" onclick="retour_hall(this)">Retour</button></div>';
         $message .= '</div>';
-           
+
         return $message;
     }
 

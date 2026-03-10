@@ -132,6 +132,7 @@ class Halls
 
          $sql = "
              SELECT
+                 `lots`.`lot`,
                  `lots`.`repere` AS mark,
                  `appartements`.`Labelhall` AS name,
                  CONCAT(
